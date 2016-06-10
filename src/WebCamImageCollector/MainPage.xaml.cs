@@ -31,7 +31,6 @@ namespace WebCamImageCollector
     {
         private MediaCapture mediaCapture;
         private StorageFile photoFile;
-        private readonly string PHOTO_FILE_NAME = "photo.jpg";
         private bool isPreviewing;
         private bool isRecording;
 
@@ -42,6 +41,7 @@ namespace WebCamImageCollector
             Enable,
             Disable
         }
+
         /// <summary>
         /// Helper function to enable or disable Initialization buttons
         /// </summary>
@@ -198,8 +198,7 @@ namespace WebCamImageCollector
                 takePeriodicPhoto.IsEnabled = false;
                 captureImage.Source = null;
 
-                photoFile = await KnownFolders.PicturesLibrary.CreateFileAsync(
-                    PHOTO_FILE_NAME, CreationCollisionOption.GenerateUniqueName);
+                photoFile = await KnownFolders.PicturesLibrary.CreateFileAsync($"{System.DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")}.jpg", CreationCollisionOption.GenerateUniqueName);
                 ImageEncodingProperties imageProperties = ImageEncodingProperties.CreateJpeg();
                 await mediaCapture.CapturePhotoToStorageFileAsync(imageProperties, photoFile);
                 takePhoto.IsEnabled = true;
