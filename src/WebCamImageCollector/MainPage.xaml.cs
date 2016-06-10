@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -29,11 +31,7 @@ namespace WebCamImageCollector
     {
         private MediaCapture mediaCapture;
         private StorageFile photoFile;
-        private StorageFile recordStorageFile;
-        private StorageFile audioFile;
         private readonly string PHOTO_FILE_NAME = "photo.jpg";
-        private readonly string VIDEO_FILE_NAME = "video.mp4";
-        private readonly string AUDIO_FILE_NAME = "audio.mp3";
         private bool isPreviewing;
         private bool isRecording;
 
@@ -69,12 +67,16 @@ namespace WebCamImageCollector
             if (action == Action.Enable)
             {
                 takePhoto.IsEnabled = true;
+                takePeriodicPhoto.IsEnabled = true;
                 takePhoto.Visibility = Visibility.Visible;
+                takePeriodicPhoto.Visibility = Visibility.Visible;
             }
             else
             {
                 takePhoto.IsEnabled = false;
+                takePeriodicPhoto.IsEnabled = false;
                 takePhoto.Visibility = Visibility.Collapsed;
+                takePeriodicPhoto.Visibility = Visibility.Collapsed;
             }
         }
         
@@ -158,8 +160,7 @@ namespace WebCamImageCollector
 
                 // Set callbacks for failure and recording limit exceeded
                 status.Text = "Device successfully initialized for video recording!";
-                mediaCapture.Failed += new MediaCaptureFailedEventHandler(mediaCapture_Failed);
-                mediaCapture.RecordLimitationExceeded += new RecordLimitationExceededEventHandler(mediaCapture_RecordLimitExceeded);
+                mediaCapture.Failed += mediaCapture_Failed;
 
                 // Start Preview                
                 previewElement.Source = mediaCapture;
@@ -194,6 +195,7 @@ namespace WebCamImageCollector
             try
             {
                 takePhoto.IsEnabled = false;
+                takePeriodicPhoto.IsEnabled = false;
                 captureImage.Source = null;
 
                 photoFile = await KnownFolders.PicturesLibrary.CreateFileAsync(
@@ -201,6 +203,7 @@ namespace WebCamImageCollector
                 ImageEncodingProperties imageProperties = ImageEncodingProperties.CreateJpeg();
                 await mediaCapture.CapturePhotoToStorageFileAsync(imageProperties, photoFile);
                 takePhoto.IsEnabled = true;
+                takePeriodicPhoto.IsEnabled = true;
                 status.Text = "Take Photo succeeded: " + photoFile.Path;
 
                 IRandomAccessStream photoStream = await photoFile.OpenReadAsync();
@@ -216,6 +219,7 @@ namespace WebCamImageCollector
             finally
             {
                 takePhoto.IsEnabled = true;
+                takePeriodicPhoto.IsEnabled = true;
             }
         }
         
@@ -226,7 +230,7 @@ namespace WebCamImageCollector
         /// <param name="currentFailure"></param>
         private async void mediaCapture_Failed(MediaCapture currentCaptureObject, MediaCaptureFailedEventArgs currentFailure)
         {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 try
                 {
@@ -250,43 +254,26 @@ namespace WebCamImageCollector
             });
         }
 
-        /// <summary>
-        /// Callback function if Recording Limit Exceeded
-        /// </summary>
-        /// <param name="currentCaptureObject"></param>
-        public async void mediaCapture_RecordLimitExceeded(Windows.Media.Capture.MediaCapture currentCaptureObject)
+        private Timer _timer;
+
+        private void takePeriodicPhoto_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if(_timer == null)
             {
-                if (isRecording)
-                {
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
-                    {
-                        try
-                        {
-                            status.Text = "Stopping Record on exceeding max record duration";
-                            await mediaCapture.StopRecordAsync();
-                            isRecording = false;
-                            if (mediaCapture.MediaCaptureSettings.StreamingCaptureMode == StreamingCaptureMode.Audio)
-                            {
-                                status.Text = "Stopped record on exceeding max record duration: " + audioFile.Path;
-                            }
-                            else
-                            {
-                                status.Text = "Stopped record on exceeding max record duration: " + recordStorageFile.Path;
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            status.Text = e.Message;
-                        }
-                    });
-                }
+                _timer = new Timer(OnPeriodicPhotoTimer, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+                takePeriodicPhoto.Content = "Stop";
             }
-            catch (Exception e)
+            else
             {
-                status.Text = e.Message;
+                _timer.Dispose();
+                _timer = null;
+                takePeriodicPhoto.Content = "Take Photo every 1min";
             }
+        }
+
+        private async void OnPeriodicPhotoTimer(object state)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => takePhoto_Click(null, null));
         }
     }
 }

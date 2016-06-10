@@ -31,6 +31,7 @@
 
         <StackPanel Grid.Row="2" x:Name="ContentRootActions" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Margin="12,0,12,0">
             <Button x:Name="takePhoto" Content="Take Photo" Click="takePhoto_Click" Margin="0,0,30,0" Width="120" IsEnabled="False" Visibility="Collapsed"/>
+            <Button x:Name="takePeriodicPhoto" Content="Take Photo every 1min" Click="takePeriodicPhoto_Click" Margin="0,0,30,0" IsEnabled="False" Visibility="Collapsed"/>
         </StackPanel>
 
         <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Margin="0,0,0,10">
