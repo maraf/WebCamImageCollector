@@ -159,7 +159,7 @@ namespace WebCamImageCollector
                 // Set callbacks for failure and recording limit exceeded
                 status.Text = "Device successfully initialized for video recording!";
                 mediaCapture.Failed += new MediaCaptureFailedEventHandler(mediaCapture_Failed);
-                mediaCapture.RecordLimitationExceeded += new Windows.Media.Capture.RecordLimitationExceededEventHandler(mediaCapture_RecordLimitExceeded);
+                mediaCapture.RecordLimitationExceeded += new RecordLimitationExceededEventHandler(mediaCapture_RecordLimitExceeded);
 
                 // Start Preview                
                 previewElement.Source = mediaCapture;
