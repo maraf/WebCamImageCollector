@@ -26,6 +26,9 @@ namespace WebCamImageCollector.Background
 
             if (_timer == null)
                 _timer = new Timer(OnPeriodicPhotoTimer, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+
+            WebServer server = new WebServer();
+            server.Start().Wait();
         }
 
         private void OnPeriodicPhotoTimer(object state)
