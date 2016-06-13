@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="5f422c88-fb2d-4d65-8a20-2c79e35fa3ee" Publisher="CN=Marek" Version="1.0.0.0" />
+  <Identity Name="WebCamImageCollector" Publisher="CN=Marek" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="5f422c88-fb2d-4d65-8a20-2c79e35fa3ee" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>WebCamImageCollector</DisplayName>
