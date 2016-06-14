@@ -45,7 +45,12 @@ namespace WebCamImageCollector.Background
                 mediaCapture = new MediaCapture();
                 await mediaCapture.InitializeAsync();
 
-                StorageFile photoFile = await KnownFolders.PicturesLibrary.CreateFileAsync($"{System.DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")}.jpg", CreationCollisionOption.GenerateUniqueName);
+                StorageFolder folder = await KnownFolders.PicturesLibrary.GetFolderAsync(System.DateTime.Now.ToString("yyyy-MM-dd"));
+                if (folder == null)
+                    folder = await KnownFolders.PicturesLibrary.CreateFolderAsync(System.DateTime.Now.ToString("yyyy-MM-dd"));
+
+                StorageFile photoFile = await folder.CreateFileAsync($"{System.DateTime.Now.ToString("HH-mm-ss")}.jpg", CreationCollisionOption.GenerateUniqueName);
+
                 ImageEncodingProperties imageProperties = ImageEncodingProperties.CreateJpeg();
                 await mediaCapture.CapturePhotoToStorageFileAsync(imageProperties, photoFile);
             }
