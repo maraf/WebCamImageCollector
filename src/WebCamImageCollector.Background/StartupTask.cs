@@ -10,31 +10,50 @@ using Windows.Media.Capture;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Threading;
+using System.Threading.Tasks;
+using Windows.Foundation;
 
 // The Background Application template is documented at http://go.microsoft.com/fwlink/?LinkID=533884&clcid=0x409
 
 namespace WebCamImageCollector.Background
 {
-    public sealed class StartupTask : IBackgroundTask
+    public sealed class StartupTask : IBackgroundTask, ICaptureService
     {
         private BackgroundTaskDeferral deferral;
-        private Timer _timer;
+        private WebServer server;
+        private Timer timer;
 
-        public void Run(IBackgroundTaskInstance taskInstance)
+        public bool IsRunning
+        {
+            get { return timer != null; }
+        }
+
+        public void Start()
+        {
+            if (timer == null)
+                timer = new Timer(OnPeriodicPhotoTimer, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+        }
+
+        public void Stop()
+        {
+            if (timer != null)
+            {
+                timer.Dispose();
+                timer = null;
+            }
+        }
+
+        public async void Run(IBackgroundTaskInstance taskInstance)
         {
             deferral = taskInstance.GetDeferral();
 
-            if (_timer == null)
-                _timer = new Timer(OnPeriodicPhotoTimer, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
-
-            WebServer server = new WebServer();
-            server.Start().Wait();
+            server = new WebServer(this, "abcdef");
+            await server.StartAsync(8000);
         }
 
         private void OnPeriodicPhotoTimer(object state)
         {
             TakePhoto();
-            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => takePhoto_Click(null, null));
         }
 
         private async void TakePhoto()
@@ -45,11 +64,15 @@ namespace WebCamImageCollector.Background
                 mediaCapture = new MediaCapture();
                 await mediaCapture.InitializeAsync();
 
-                StorageFolder folder = await KnownFolders.PicturesLibrary.GetFolderAsync(System.DateTime.Now.ToString("yyyy-MM-dd"));
+                string folderName = DateTime.Now.ToString("yyyy-MM-dd");
+                StorageFolder folder = await FindFolderAsync(KnownFolders.PicturesLibrary, folderName);
                 if (folder == null)
-                    folder = await KnownFolders.PicturesLibrary.CreateFolderAsync(System.DateTime.Now.ToString("yyyy-MM-dd"));
+                    folder = await KnownFolders.PicturesLibrary.CreateFolderAsync(folderName);
 
-                StorageFile photoFile = await folder.CreateFileAsync($"{System.DateTime.Now.ToString("HH-mm-ss")}.jpg", CreationCollisionOption.GenerateUniqueName);
+                StorageFile photoFile = await folder.CreateFileAsync(
+                    $"{DateTime.Now.ToString("HH-mm-ss")}.jpg", 
+                    CreationCollisionOption.GenerateUniqueName
+                );
 
                 ImageEncodingProperties imageProperties = ImageEncodingProperties.CreateJpeg();
                 await mediaCapture.CapturePhotoToStorageFileAsync(imageProperties, photoFile);
@@ -57,15 +80,29 @@ namespace WebCamImageCollector.Background
             catch (Exception ex)
             {
                 deferral.Complete();
+                server.Dispose();
             }
             finally
             {
                 if (mediaCapture != null)
                 {
-                    //await mediaCapture.StopPreviewAsync();
                     mediaCapture.Dispose();
                     mediaCapture = null;
                 }
+            }
+        }
+
+        private async Task<StorageFolder> FindFolderAsync(StorageFolder parent, string folderName)
+        {
+            try
+            {
+                StorageFolder item = await parent.TryGetItemAsync(folderName) as StorageFolder;
+                return item;
+            }
+            catch (Exception)
+            {
+                // Should never get here 
+                return null;
             }
         }
     }
