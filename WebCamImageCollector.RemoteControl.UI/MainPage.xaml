@@ -6,6 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Name="btnStart" Content="Start" />
+            <AppBarButton x:Name="btnStop" Content="Stop" />
+            <AppBarButton x:Name="btnStatus" Content="Update status" />
+        </CommandBar>
+    </Page.BottomAppBar>
 
     <Grid>
         <ScrollViewer x:Name="Scrollster" ZoomMode="Enabled" MinZoomFactor="1" MaxZoomFactor="4" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ManipulationMode="All">
@@ -17,16 +24,10 @@
                 </Image.RenderTransform>
             </Image>
         </ScrollViewer>
-        
+
 
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Padding="5">
             <TextBlock x:Name="tblMessage" />
-        </StackPanel>
-        
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="5">
-            <Button x:Name="btnStart" Content="Start" Click="btnStart_Click" Margin="5" Width="110" HorizontalAlignment="Stretch" />
-            <Button x:Name="btnStop" Content="Stop" Click="btnStop_Click" Margin="5" Width="110" />
-            <Button x:Name="btnStatus" Content="Update status" Click="btnStatus_Click" Margin="5" Width="110" />
         </StackPanel>
     </Grid>
 </Page>
