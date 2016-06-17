@@ -30,7 +30,7 @@ namespace WebCamImageCollector.RemoteControl.UI
 
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private async void btnStart_Click(object sender, RoutedEventArgs e)
@@ -96,12 +96,6 @@ namespace WebCamImageCollector.RemoteControl.UI
         }
 
 
-        //void Img_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-        //{
-        //    // dim the image while panning
-        //    imgBackground.Opacity = 0.4;
-        //}
-
         private void imgBackground_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             Transform.TranslateX += e.Delta.Translation.X;
@@ -111,18 +105,18 @@ namespace WebCamImageCollector.RemoteControl.UI
             if (image != null)
             {
                 double width = image.PixelWidth - Scrollster.ActualWidth;
-                double height = image.PixelHeight - Scrollster.ActualHeight;
                 if (Transform.TranslateX > 0)
                     Transform.TranslateX = 0;
                 else if (Transform.TranslateX < -width)
                     Transform.TranslateX = -width;
-
-                if (Transform.TranslateY > 0)
-                    Transform.TranslateY = 0;
-                else if (Transform.TranslateY < -height)
-                    Transform.TranslateY = -height;
             }
         }
+
+        //void Img_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        //{
+        //    // dim the image while panning
+        //    imgBackground.Opacity = 0.4;
+        //}
 
         //void Img_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         //{
