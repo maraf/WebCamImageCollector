@@ -91,14 +91,27 @@ namespace WebCamImageCollector.RemoteControl.UI
             }
         }
 
+        private async void btnDownload_Click(object sender, RoutedEventArgs e)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUri);
+                client.DefaultRequestHeaders.Add("X-Authentication-Token", authenticationToken);
+                HttpResponseMessage response = await client.PostAsync("/latest", new StringContent(String.Empty));
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Stream imageStream = await response.Content.ReadAsStreamAsync();
+                    BitmapImage image = new BitmapImage();
+                    await image.SetSourceAsync(imageStream.AsRandomAccessStream());
+                    imgBackground.Source = image;
+                }
+            }
+        }
+
         public void SetMessage(string message)
         {
             tblMessage.Text = message;
-        }
-
-        private void btnDownload_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
