@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using System.IO;
+using Windows.Storage.Search;
 
 // The Background Application template is documented at http://go.microsoft.com/fwlink/?LinkID=533884&clcid=0x409
 
@@ -104,6 +106,36 @@ namespace WebCamImageCollector.Background
                 // Should never get here 
                 return null;
             }
+        }
+
+        public IAsyncOperation<FileModel> FindLatestImageAsync()
+        {
+            return FindLatestImageInternalAsync().AsAsyncOperation();
+        }
+
+        private async Task<FileModel> FindLatestImageInternalAsync()
+        {
+            StorageFile latestFile = await FindLatestImage();
+            if (latestFile == null)
+                return null;
+
+            return new FileModel(
+                await latestFile.OpenSequentialReadAsync(),
+                (long)(await latestFile.GetBasicPropertiesAsync()).Size
+            );
+        }
+
+        private async Task<StorageFile> FindLatestImage()
+        {
+            IReadOnlyList<StorageFolder> folders = await KnownFolders.PicturesLibrary.GetFoldersAsync();
+            StorageFolder latestFolder = folders.OrderBy(f => f.Name).LastOrDefault();
+            if (latestFolder == null)
+                return null;
+
+            IReadOnlyList<StorageFile> files = await latestFolder.GetFilesAsync();
+            StorageFile latestFile = files.OrderBy(f => f.DateCreated).LastOrDefault();
+
+            return latestFile;
         }
     }
 }

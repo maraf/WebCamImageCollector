@@ -97,17 +97,24 @@ namespace WebCamImageCollector.Background
                     using (var bodyStream = new MemoryStream())
                     using (var streamWriter = new StreamWriter(bodyStream))
                     {
-                        int statusCode = HandleRequest(method, host, path, headers, streamWriter);
+                        NameValueCollection responseHeaders = new NameValueCollection();
+                        int statusCode = await HandleRequest(method, host, path, headers, responseHeaders, streamWriter);
                         string statusText = GetStatusText(statusCode);
                         await streamWriter.FlushAsync();
                         bodyStream.Seek(0, SeekOrigin.Begin);
 
-                        var header = $"HTTP/1.1 {statusCode} {statusText}\r\n" 
-                            + $"Content-Length: {bodyStream.Length}\r\n" 
-                            + "Connection: close\r\n\r\n";
+                        StringBuilder responseHttpHeader = new StringBuilder();
+                        responseHttpHeader.AppendLine($"HTTP/1.1 {statusCode} {statusText}");
+                        responseHttpHeader.AppendLine($"Content-Length: {bodyStream.Length}");
 
-                        byte[] headerArray = Encoding.UTF8.GetBytes(header);
-                        await response.WriteAsync(headerArray, 0, headerArray.Length);
+                        foreach (string key in responseHeaders.Keys)
+                            responseHttpHeader.AppendLine(key + ": " + responseHeaders[key]);
+
+                        responseHttpHeader.AppendLine("Connection: close");
+                        responseHttpHeader.AppendLine();
+
+                        byte[] outputBytes = Encoding.UTF8.GetBytes(responseHttpHeader.ToString());
+                        await response.WriteAsync(outputBytes, 0, outputBytes.Length);
                         await bodyStream.CopyToAsync(response);
                         await response.FlushAsync();
                     }
@@ -131,11 +138,11 @@ namespace WebCamImageCollector.Background
             }
         }
 
-        private int HandleRequest(string method, string host, string path, NameValueCollection headers, StreamWriter response)
+        private async Task<int> HandleRequest(string method, string host, string path, NameValueCollection requestHeaders, NameValueCollection responseHeaders, StreamWriter response)
         {
             if (method == "POST")
             {
-                string authenticationToken = headers["X-Authentication-Token"];
+                string authenticationToken = requestHeaders["X-Authentication-Token"];
                 if (String.IsNullOrEmpty(authenticationToken) || this.authenticationToken != authenticationToken)
                 {
                     return 401;
@@ -146,14 +153,24 @@ namespace WebCamImageCollector.Background
                     service.Start();
                     return 200;
                 }
-                else if(path == "/stop")
+                else if (path == "/stop")
                 {
                     service.Stop();
                     return 200;
                 }
-                else if(path == "/status")
+                else if (path == "/status")
                 {
                     response.WriteLine("{ running: " + (service.IsRunning ? "true" : "false") + " }");
+                    return 200;
+                }
+                else if(path == "/latest")
+                {
+                    FileModel file = await service.FindLatestImageAsync();
+                    if (file == null)
+                        return 404;
+
+                    responseHeaders["Content-Type"] = "image/jpeg";
+                    file.Content.AsStreamForRead().CopyTo(response.BaseStream);
                     return 200;
                 }
             }
