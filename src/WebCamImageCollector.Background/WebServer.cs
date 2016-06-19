@@ -171,6 +171,7 @@ namespace WebCamImageCollector.Background
 
                     responseHeaders["Content-Type"] = "image/jpeg";
                     file.Content.AsStreamForRead().CopyTo(response.BaseStream);
+                    file.Content.Dispose();
                     return 200;
                 }
             }

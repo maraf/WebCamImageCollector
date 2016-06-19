@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using System.IO;
 using Windows.Storage.Search;
+using System.IO.IsolatedStorage;
 
 // The Background Application template is documented at http://go.microsoft.com/fwlink/?LinkID=533884&clcid=0x409
 
@@ -21,6 +22,8 @@ namespace WebCamImageCollector.Background
 {
     public sealed class StartupTask : IBackgroundTask, ICaptureService
     {
+        private const string stateFileName = "{653AC3C8-82D1-4474-A12B-13834A44CBD4}.tmp";
+
         private BackgroundTaskDeferral deferral;
         private WebServer server;
         private Timer timer;
@@ -32,12 +35,20 @@ namespace WebCamImageCollector.Background
 
         public void Start()
         {
+            IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
+            if (!storage.FileExists(stateFileName))
+                storage.CreateFile(stateFileName);
+
             if (timer == null)
                 timer = new Timer(OnPeriodicPhotoTimer, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
         }
 
         public void Stop()
         {
+            IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
+            if (storage.FileExists(stateFileName))
+                storage.DeleteFile(stateFileName);
+
             if (timer != null)
             {
                 timer.Dispose();
@@ -51,16 +62,22 @@ namespace WebCamImageCollector.Background
 
             server = new WebServer(this, "{3FFF8234-F0B4-4DEB-AB91-75C98ECE550D}");
             await server.StartAsync(8000);
+
+            IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
+            if (storage.FileExists(stateFileName))
+                Start();
         }
 
         private void OnPeriodicPhotoTimer(object state)
         {
-            TakePhoto();
+            if (mediaCapture == null)
+                TakePhoto();
         }
+
+        private MediaCapture mediaCapture = null;
 
         private async void TakePhoto()
         {
-            MediaCapture mediaCapture = null;
             try
             {
                 mediaCapture = new MediaCapture();
@@ -81,8 +98,8 @@ namespace WebCamImageCollector.Background
             }
             catch (Exception ex)
             {
-                deferral.Complete();
                 server.Dispose();
+                deferral.Complete();
             }
             finally
             {
