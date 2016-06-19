@@ -36,7 +36,7 @@
          HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" 
          HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"
          HorizontalAlignment="Left">
-            <Image x:Name="imgBackground" Source="/Assets/08-47-20.jpg" />
+            <Image x:Name="imgBackground" />
         </ScrollViewer>
 
 
