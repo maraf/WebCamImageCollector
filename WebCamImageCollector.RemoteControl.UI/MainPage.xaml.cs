@@ -26,7 +26,7 @@ namespace WebCamImageCollector.RemoteControl.UI
     public sealed partial class MainPage : Page
     {
         private const string baseUri = "http://m10pi2:8000";
-        private const string authenticationToken = "abcdef";
+        private const string authenticationToken = "{3FFF8234-F0B4-4DEB-AB91-75C98ECE550D}";
 
         public MainPage()
         {

@@ -49,7 +49,7 @@ namespace WebCamImageCollector.Background
         {
             deferral = taskInstance.GetDeferral();
 
-            server = new WebServer(this, "abcdef");
+            server = new WebServer(this, "{3FFF8234-F0B4-4DEB-AB91-75C98ECE550D}");
             await server.StartAsync(8000);
         }
 
