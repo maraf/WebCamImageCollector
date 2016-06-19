@@ -8,21 +8,35 @@
     mc:Ignorable="d">
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="btnStart" Label="Start" Click="btnStart_Click" />
-            <AppBarButton x:Name="btnStop" Label="Stop" Click="btnStop_Click" />
-            <AppBarButton x:Name="btnStatus" Label="Update status" Click="btnStatus_Click" />
+            <AppBarButton x:Name="btnStart" Label="Start" Click="btnStart_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE768;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="btnStop" Label="Stop" Click="btnStop_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE769;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="btnStatus" Label="Update status" Click="btnStatus_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE72C;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="btnDownload" Label="Download latest" Click="btnDownload_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE896;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
 
     <Grid>
-        <ScrollViewer x:Name="Scrollster" ZoomMode="Enabled" MinZoomFactor="1" MaxZoomFactor="4" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" ManipulationMode="All">
-            <Image x:Name="imgBackground" Source="/Assets/08-47-20.jpg" Stretch="UniformToFill" 
-             ManipulationMode="TranslateX"
-             ManipulationDelta="imgBackground_ManipulationDelta">
-                <Image.RenderTransform>
-                    <CompositeTransform x:Name="Transform" />
-                </Image.RenderTransform>
-            </Image>
+        <ScrollViewer x:Name="Scrollster" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" 
+         HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" 
+         HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"
+         HorizontalAlignment="Left">
+            <Image x:Name="imgBackground" Source="/Assets/08-47-20.jpg" />
         </ScrollViewer>
 
 
