@@ -28,6 +28,9 @@
                     <FontIcon Glyph="&#xE896;" />
                 </AppBarButton.Icon>
             </AppBarButton>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="btnClearImage" Label="Clear image" Click="btnClearImage_Click" />
+            </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
 

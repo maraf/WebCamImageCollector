@@ -108,7 +108,7 @@ namespace WebCamImageCollector.RemoteControl.UI
         {
             MainPage mainPage = Window.Current.Content as MainPage;
             if (mainPage != null)
-                mainPage.SetMessage(e.Exception.ToString());
+                mainPage.ShowMessage(e.Exception.ToString());
         }
     }
 }

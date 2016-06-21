@@ -108,21 +108,38 @@ namespace WebCamImageCollector.RemoteControl.UI
 
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
         {
+            ShowMessage("Downloading image...");
             await SendRequest("/latest", String.Empty, async response =>
             {
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
+                    ShowMessage("Reading content...");
+
                     Stream imageStream = await response.Content.ReadAsStreamAsync();
                     BitmapImage image = new BitmapImage();
                     await image.SetSourceAsync(imageStream.AsRandomAccessStream());
                     imgBackground.Source = image;
+
+                    btnClearImage.IsEnabled = true;
+                    ClearMessage();
                 }
             });
         }
 
-        public void SetMessage(string message)
+        private void btnClearImage_Click(object sender, RoutedEventArgs e)
+        {
+            imgBackground.Source = null;
+            btnClearImage.IsEnabled = false;
+        }
+
+        public void ShowMessage(string message)
         {
             tblMessage.Text = message;
+        }
+
+        private void ClearMessage()
+        {
+            tblMessage.Text = String.Empty;
         }
     }
 }
