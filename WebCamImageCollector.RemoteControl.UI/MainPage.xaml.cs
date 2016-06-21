@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -34,48 +35,62 @@ namespace WebCamImageCollector.RemoteControl.UI
             btnStatus_Click(null, null);
         }
 
+        private void OnNetworkError(HttpRequestException e)
+        {
+            btnDownload.IsEnabled = false;
+            btnStart.IsEnabled = false;
+            btnStop.IsEnabled = false;
+        }
+
+        private async Task SendRequest(string url, string content, Action<HttpResponseMessage> onResponse)
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(baseUri);
+                    client.DefaultRequestHeaders.Add("X-Authentication-Token", authenticationToken);
+                    onResponse(await client.PostAsync(url, new StringContent(content)));
+                }
+            }
+            catch (HttpRequestException e)
+            {
+                OnNetworkError(e);
+            }
+        }
+
         private async void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            using (HttpClient client = new HttpClient())
+            await SendRequest("/start", String.Empty, response =>
             {
-                client.BaseAddress = new Uri(baseUri);
-                client.DefaultRequestHeaders.Add("X-Authentication-Token", authenticationToken);
-                HttpResponseMessage response = await client.PostAsync("/start", new StringContent(String.Empty));
-
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     btnStart.IsEnabled = false;
                     btnStop.IsEnabled = true;
                 }
-            }
+            });
         }
 
         private async void btnStop_Click(object sender, RoutedEventArgs e)
         {
-            using (HttpClient client = new HttpClient())
+            await SendRequest("/stop", String.Empty, response =>
             {
-                client.BaseAddress = new Uri(baseUri);
-                client.DefaultRequestHeaders.Add("X-Authentication-Token", authenticationToken);
-                HttpResponseMessage response = await client.PostAsync("/stop", new StringContent(String.Empty));
-
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     btnStart.IsEnabled = true;
                     btnStop.IsEnabled = false;
                 }
-            }
+            });
         }
 
         private async void btnStatus_Click(object sender, RoutedEventArgs e)
         {
-            using (HttpClient client = new HttpClient())
+            await SendRequest("/status", String.Empty, async response =>
             {
-                client.BaseAddress = new Uri(baseUri);
-                client.DefaultRequestHeaders.Add("X-Authentication-Token", authenticationToken);
-                HttpResponseMessage response = await client.PostAsync("/status", new StringContent(String.Empty));
-
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
+                    btnDownload.IsEnabled = true;
+
                     string responseText = await response.Content.ReadAsStringAsync();
                     if (responseText.Contains("true"))
                     {
@@ -88,17 +103,13 @@ namespace WebCamImageCollector.RemoteControl.UI
                         btnStop.IsEnabled = false;
                     }
                 }
-            }
+            });
         }
 
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
         {
-            using (HttpClient client = new HttpClient())
+            await SendRequest("/latest", String.Empty, async response =>
             {
-                client.BaseAddress = new Uri(baseUri);
-                client.DefaultRequestHeaders.Add("X-Authentication-Token", authenticationToken);
-                HttpResponseMessage response = await client.PostAsync("/latest", new StringContent(String.Empty));
-
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     Stream imageStream = await response.Content.ReadAsStreamAsync();
@@ -106,7 +117,7 @@ namespace WebCamImageCollector.RemoteControl.UI
                     await image.SetSourceAsync(imageStream.AsRandomAccessStream());
                     imgBackground.Source = image;
                 }
-            }
+            });
         }
 
         public void SetMessage(string message)
