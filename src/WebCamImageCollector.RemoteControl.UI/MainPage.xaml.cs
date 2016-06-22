@@ -26,9 +26,6 @@ namespace WebCamImageCollector.RemoteControl.UI
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private const string baseUri = "http://m10pi2:8000";
-        private const string authenticationToken = "{3FFF8234-F0B4-4DEB-AB91-75C98ECE550D}";
-
         public MainPage()
         {
             InitializeComponent();
@@ -48,8 +45,8 @@ namespace WebCamImageCollector.RemoteControl.UI
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(baseUri);
-                    client.DefaultRequestHeaders.Add("X-Authentication-Token", authenticationToken);
+                    client.BaseAddress = new Uri(LocalSettings.Url);
+                    client.DefaultRequestHeaders.Add("X-Authentication-Token", LocalSettings.AuthenticationToken);
                     onResponse(await client.PostAsync(url, new StringContent(content)));
                 }
             }
