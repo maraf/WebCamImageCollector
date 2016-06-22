@@ -120,7 +120,6 @@ namespace WebCamImageCollector.RemoteControl.UI
                     await image.SetSourceAsync(imageStream.AsRandomAccessStream());
                     imgBackground.Source = image;
 
-                    btnClearImage.IsEnabled = true;
                     ClearMessage();
                 }
             });
@@ -129,7 +128,6 @@ namespace WebCamImageCollector.RemoteControl.UI
         private void btnClearImage_Click(object sender, RoutedEventArgs e)
         {
             imgBackground.Source = null;
-            btnClearImage.IsEnabled = false;
         }
 
         public void ShowMessage(string message)

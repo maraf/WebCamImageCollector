@@ -5,7 +5,11 @@
     xmlns:local="using:WebCamImageCollector.RemoteControl.UI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:WebCamImageCollector.RemoteControl.UI.Data"
     mc:Ignorable="d">
+    <Page.Resources>
+        <data:NullToBoolConverter x:Key="notNullToBool" IsInverted="True" />
+    </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton x:Name="btnStart" Label="Start" Click="btnStart_Click">
@@ -29,7 +33,7 @@
                 </AppBarButton.Icon>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
-                <AppBarButton x:Name="btnClearImage" Label="Clear image" Click="btnClearImage_Click" />
+                <AppBarButton x:Name="btnClearImage" Label="Clear image" Click="btnClearImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource notNullToBool}, Mode=OneWay}" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
