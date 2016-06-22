@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCamImageCollector", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCamImageCollector.Background", "src\WebCamImageCollector.Background\WebCamImageCollector.Background.csproj", "{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCamImageCollector.RemoteControl.UI", "WebCamImageCollector.RemoteControl.UI\WebCamImageCollector.RemoteControl.UI.csproj", "{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCamImageCollector.RemoteControl.UI", "src\WebCamImageCollector.RemoteControl.UI\WebCamImageCollector.RemoteControl.UI.csproj", "{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
