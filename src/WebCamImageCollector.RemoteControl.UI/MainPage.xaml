@@ -52,7 +52,7 @@
         </ScrollViewer>
 
 
-        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Padding="5">
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Padding="5,15">
             <TextBlock x:Name="tblMessage" />
         </StackPanel>
     </Grid>

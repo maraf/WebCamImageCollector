@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -36,7 +37,7 @@ namespace WebCamImageCollector.RemoteControl.UI
         private void OnNetworkError(HttpRequestException e)
         {
             DisableButtons();
-            ShowMessage(e.Message);
+            ShowMessage(e.Message, true);
         }
 
         private void DisableButtons()
@@ -145,8 +146,9 @@ namespace WebCamImageCollector.RemoteControl.UI
             Frame.Navigate(typeof(SettingsPage));
         }
 
-        public void ShowMessage(string message)
+        public void ShowMessage(string message, bool isError = false)
         {
+            tblMessage.Foreground = new SolidColorBrush(isError ? Colors.Red : Colors.White);
             tblMessage.Text = message;
         }
 
