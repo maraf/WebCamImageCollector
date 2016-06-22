@@ -95,6 +95,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\NullToBoolConverter.cs" />
+    <Compile Include="Data\NullToVisibilityConverter.cs" />
     <Compile Include="LocalSettings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

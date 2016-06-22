@@ -10,6 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <data:NullToBoolConverter x:Key="notNullToBool" IsInverted="True" />
+        <data:NullToVisibilityConverter x:Key="notNullToVisibility" IsInverted="True" />
     </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
@@ -45,10 +46,10 @@
     </Page.BottomAppBar>
 
     <Grid>
-        <ScrollViewer x:Name="Scrollster" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" 
+        <ScrollViewer x:Name="Scrollster" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" Visibility="{x:Bind imgBackground.Source, Converter={StaticResource notNullToVisibility}, Mode=OneWay}"
          HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" 
-         HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"
-         HorizontalAlignment="Left">
+         HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+         HorizontalAlignment="Center">
             <Image x:Name="imgBackground" />
         </ScrollViewer>
 
