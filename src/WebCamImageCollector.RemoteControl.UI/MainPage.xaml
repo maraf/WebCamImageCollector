@@ -34,6 +34,11 @@
             </AppBarButton>
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Name="btnClearImage" Label="Clear image" Click="btnClearImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource notNullToBool}, Mode=OneWay}" />
+                <AppBarButton x:Name="btnSettings" Label="Settings" Click="btnSettings_Click" >
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#x713;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

@@ -29,14 +29,44 @@ namespace WebCamImageCollector.RemoteControl.UI
         public MainPage()
         {
             InitializeComponent();
-            btnStatus_Click(null, null);
+            DisableButtons();
+            UpdateState();
         }
 
         private void OnNetworkError(HttpRequestException e)
         {
+            DisableButtons();
+            ShowMessage(e.Message);
+        }
+
+        private void DisableButtons()
+        {
             btnDownload.IsEnabled = false;
             btnStart.IsEnabled = false;
             btnStop.IsEnabled = false;
+        }
+
+        private async Task UpdateState()
+        {
+            await SendRequest("/status", String.Empty, async response =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    btnDownload.IsEnabled = true;
+
+                    string responseText = await response.Content.ReadAsStringAsync();
+                    if (responseText.Contains("true"))
+                    {
+                        btnStart.IsEnabled = false;
+                        btnStop.IsEnabled = true;
+                    }
+                    else if (responseText.Contains("false"))
+                    {
+                        btnStart.IsEnabled = true;
+                        btnStop.IsEnabled = false;
+                    }
+                }
+            });
         }
 
         private async Task SendRequest(string url, string content, Action<HttpResponseMessage> onResponse)
@@ -82,25 +112,8 @@ namespace WebCamImageCollector.RemoteControl.UI
 
         private async void btnStatus_Click(object sender, RoutedEventArgs e)
         {
-            await SendRequest("/status", String.Empty, async response =>
-            {
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    btnDownload.IsEnabled = true;
-
-                    string responseText = await response.Content.ReadAsStringAsync();
-                    if (responseText.Contains("true"))
-                    {
-                        btnStart.IsEnabled = false;
-                        btnStop.IsEnabled = true;
-                    }
-                    else if (responseText.Contains("false"))
-                    {
-                        btnStart.IsEnabled = true;
-                        btnStop.IsEnabled = false;
-                    }
-                }
-            });
+            ClearMessage();
+            await UpdateState();
         }
 
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
@@ -125,6 +138,11 @@ namespace WebCamImageCollector.RemoteControl.UI
         private void btnClearImage_Click(object sender, RoutedEventArgs e)
         {
             imgBackground.Source = null;
+        }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsPage));
         }
 
         public void ShowMessage(string message)
