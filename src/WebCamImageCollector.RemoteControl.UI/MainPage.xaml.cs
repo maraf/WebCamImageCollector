@@ -34,6 +34,17 @@ namespace WebCamImageCollector.RemoteControl.UI
             UpdateState();
         }
 
+        public void ShowMessage(string message, bool isError = false)
+        {
+            tblMessage.Foreground = new SolidColorBrush(isError ? Colors.Red : Colors.White);
+            tblMessage.Text = message;
+        }
+
+        private void ClearMessage()
+        {
+            tblMessage.Text = String.Empty;
+        }
+
         private void OnNetworkError(HttpRequestException e)
         {
             DisableButtons();
@@ -49,10 +60,12 @@ namespace WebCamImageCollector.RemoteControl.UI
 
         private async Task UpdateState()
         {
+            ShowMessage("Checking status...");
             await SendRequest("/status", String.Empty, async response =>
             {
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
+                    ClearMessage();
                     btnDownload.IsEnabled = true;
 
                     string responseText = await response.Content.ReadAsStringAsync();
@@ -67,6 +80,10 @@ namespace WebCamImageCollector.RemoteControl.UI
                         btnStop.IsEnabled = false;
                     }
                 }
+                else
+                {
+                    ShowMessage("Server not available", true);
+                }
             });
         }
 
@@ -78,7 +95,17 @@ namespace WebCamImageCollector.RemoteControl.UI
                 {
                     client.BaseAddress = new Uri(LocalSettings.Url);
                     client.DefaultRequestHeaders.Add("X-Authentication-Token", LocalSettings.AuthenticationToken);
-                    onResponse(await client.PostAsync(url, new StringContent(content)));
+
+                    HttpResponseMessage response = await client.PostAsync(url, new StringContent(content));
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        ClearMessage();
+                        onResponse(response);
+                    }
+                    else
+                    {
+                        ShowMessage("Server not responded correctly.", true);
+                    }
                 }
             }
             catch (HttpRequestException e)
@@ -89,13 +116,11 @@ namespace WebCamImageCollector.RemoteControl.UI
 
         private async void btnStart_Click(object sender, RoutedEventArgs e)
         {
+            ShowMessage("Starting server...");
             await SendRequest("/start", String.Empty, response =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    btnStart.IsEnabled = false;
-                    btnStop.IsEnabled = true;
-                }
+                btnStart.IsEnabled = false;
+                btnStop.IsEnabled = true;
             });
         }
 
@@ -103,11 +128,8 @@ namespace WebCamImageCollector.RemoteControl.UI
         {
             await SendRequest("/stop", String.Empty, response =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    btnStart.IsEnabled = true;
-                    btnStop.IsEnabled = false;
-                }
+                btnStart.IsEnabled = true;
+                btnStop.IsEnabled = false;
             });
         }
 
@@ -122,17 +144,14 @@ namespace WebCamImageCollector.RemoteControl.UI
             ShowMessage("Downloading image...");
             await SendRequest("/latest", String.Empty, async response =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    ShowMessage("Reading content...");
+                ShowMessage("Reading content...");
 
-                    Stream imageStream = await response.Content.ReadAsStreamAsync();
-                    BitmapImage image = new BitmapImage();
-                    await image.SetSourceAsync(imageStream.AsRandomAccessStream());
-                    imgBackground.Source = image;
+                Stream imageStream = await response.Content.ReadAsStreamAsync();
+                BitmapImage image = new BitmapImage();
+                await image.SetSourceAsync(imageStream.AsRandomAccessStream());
+                imgBackground.Source = image;
 
-                    ClearMessage();
-                }
+                ClearMessage();
             });
         }
 
@@ -144,17 +163,6 @@ namespace WebCamImageCollector.RemoteControl.UI
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SettingsPage));
-        }
-
-        public void ShowMessage(string message, bool isError = false)
-        {
-            tblMessage.Foreground = new SolidColorBrush(isError ? Colors.Red : Colors.White);
-            tblMessage.Text = message;
-        }
-
-        private void ClearMessage()
-        {
-            tblMessage.Text = String.Empty;
         }
     }
 }
