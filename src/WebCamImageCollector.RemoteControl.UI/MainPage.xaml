@@ -8,10 +8,6 @@
     xmlns:data="using:WebCamImageCollector.RemoteControl.UI.Data"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Page.Resources>
-        <data:NullToBoolConverter x:Key="notNullToBool" IsInverted="True" />
-        <data:NullToVisibilityConverter x:Key="notNullToVisibility" IsInverted="True" />
-    </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton x:Name="btnStart" Label="Start" Click="btnStart_Click">
@@ -46,6 +42,8 @@
     </Page.BottomAppBar>
 
     <Grid>
+        <local:Menu />
+
         <ScrollViewer x:Name="Scrollster" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" Visibility="{x:Bind imgBackground.Source, Converter={StaticResource notNullToVisibility}, Mode=OneWay}"
          HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" 
          HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
