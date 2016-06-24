@@ -30,9 +30,9 @@
 
             <Setter Property="FontWeight" Value="Normal" />
             <Setter Property="FontSize" Value="20" />
-            <Setter Property="Template" Value="{StaticResource MenuButtonTemplate}" />
+            <Setter Property="Template" Value="{StaticResource FlatButtonTemplate}" />
         </Style>
-        <ControlTemplate x:Key="MenuButtonTemplate" TargetType="ToggleButton">
+        <ControlTemplate x:Key="FlatButtonTemplate" TargetType="ButtonBase">
             <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup x:Name="CommonStates">

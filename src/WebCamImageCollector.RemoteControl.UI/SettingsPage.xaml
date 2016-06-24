@@ -11,6 +11,9 @@
         <Style TargetType="StackPanel">
             <Setter Property="Margin" Value="5,10,5,10" />
         </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,0,0,4" />
+        </Style>
     </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
@@ -28,11 +31,11 @@
     </Page.BottomAppBar>
     <StackPanel Margin="0,50,0,0">
         <StackPanel>
-            <TextBlock Text="URL:" />
+            <TextBlock Text="URL" />
             <TextBox x:Name="tbxUrl" />
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="Authentication token:" />
+            <TextBlock Text="Authentication token" />
             <TextBox x:Name="tbxAuthenticationToken" />
         </StackPanel>
     </StackPanel>
