@@ -1,0 +1,50 @@
+﻿<Page
+    x:Class="WebCamImageCollector.RemoteControl.UI.ContentPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WebCamImageCollector.RemoteControl.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Name="btnStart" Label="Start" Click="btnStart_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE768;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="btnStop" Label="Stop" Click="btnStop_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE769;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="btnStatus" Label="Update status" Click="btnStatus_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE72C;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="btnDownload" Label="Download latest" Click="btnDownload_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE896;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="btnClearImage" Label="Clear image" Click="btnClearImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource notNullToBool}, Mode=OneWay}" />
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid>
+        <ScrollViewer x:Name="Scrollster" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" Visibility="{x:Bind imgBackground.Source, Converter={StaticResource notNullToVisibility}, Mode=OneWay}"
+         HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" 
+         HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+         HorizontalAlignment="Center">
+            <Image x:Name="imgBackground" />
+        </ScrollViewer>
+
+
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Padding="5,15">
+            <TextBlock x:Name="tblMessage" />
+        </StackPanel>
+    </Grid>
+</Page>

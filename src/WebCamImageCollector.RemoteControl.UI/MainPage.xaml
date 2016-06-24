@@ -8,52 +8,31 @@
     xmlns:data="using:WebCamImageCollector.RemoteControl.UI.Data"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Page.BottomAppBar>
-        <CommandBar>
-            <AppBarButton x:Name="btnStart" Label="Start" Click="btnStart_Click">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE768;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton x:Name="btnStop" Label="Stop" Click="btnStop_Click">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE769;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton x:Name="btnStatus" Label="Update status" Click="btnStatus_Click">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE72C;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton x:Name="btnDownload" Label="Download latest" Click="btnDownload_Click">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE896;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton x:Name="btnClearImage" Label="Clear image" Click="btnClearImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource notNullToBool}, Mode=OneWay}" />
-                <AppBarButton x:Name="btnSettings" Label="Settings" Click="btnSettings_Click" >
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#x713;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-            </CommandBar.SecondaryCommands>
-        </CommandBar>
-    </Page.BottomAppBar>
-
+    <Page.Resources>
+        <Style x:Key="FlatButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Padding" Value="12" />
+        </Style>
+    </Page.Resources>
     <Grid>
-        <local:Menu />
-
-        <ScrollViewer x:Name="Scrollster" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" Visibility="{x:Bind imgBackground.Source, Converter={StaticResource notNullToVisibility}, Mode=OneWay}"
-         HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" 
-         HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
-         HorizontalAlignment="Center">
-            <Image x:Name="imgBackground" />
-        </ScrollViewer>
-
-
-        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Padding="5,15">
-            <TextBlock x:Name="tblMessage" />
-        </StackPanel>
+        <SplitView x:Name="rootSplitView" DisplayMode="Overlay" IsPaneOpen="{x:Bind btnMenu.IsChecked, Mode=TwoWay, Converter={StaticResource nullableBoolToBool}}">
+            <SplitView.Pane>
+                <StackPanel Margin="0,50,0,0">
+                    <StackPanel>
+                        <Button x:Name="btnHome" Content="Simple control" Click="btnHome_Click" Style="{StaticResource FlatButtonStyle}" />
+                        <Button x:Name="btnSettings" Content="Settings" Click="btnSettings_Click" Style="{StaticResource FlatButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+            </SplitView.Pane>
+            <Frame x:Name="frmRoot" />
+        </SplitView>
+        <ToggleButton x:Name="btnMenu" Style="{StaticResource MenuButtonStyle}" />
     </Grid>
 </Page>
