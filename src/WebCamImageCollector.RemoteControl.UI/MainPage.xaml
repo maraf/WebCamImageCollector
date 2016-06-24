@@ -16,13 +16,6 @@
             <Setter Property="Padding" Value="12" />
             <Setter Property="Background" Value="Transparent" />
         </Style>
-        <Style x:Key="HeaderStyle" TargetType="StackPanel">
-            <Setter Property="Height" Value="48" />
-            <Setter Property="Margin" Value="56,0,0,0" />
-        </Style>
-        <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
     </Page.Resources>
     <Grid>
         <SplitView x:Name="rootSplitView" DisplayMode="Overlay" IsPaneOpen="{x:Bind btnMenu.IsChecked, Mode=TwoWay, Converter={StaticResource nullableBoolToBool}}">

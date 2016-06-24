@@ -10,6 +10,13 @@
         <data:NullToVisibilityConverter x:Key="notNullToVisibility" IsInverted="True" />
         <data:NullableBoolToBoolConverter x:Key="nullableBoolToBool" />
 
+        <Style x:Key="HeaderStyle" TargetType="StackPanel">
+            <Setter Property="Height" Value="48" />
+            <Setter Property="Margin" Value="56,0,0,0" />
+        </Style>
+        <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
 
         <Style x:Key="MenuButtonStyle" TargetType="ToggleButton">
             <Setter Property="Background" Value="Transparent" />

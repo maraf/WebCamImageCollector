@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <Style TargetType="StackPanel">
-            <Setter Property="Margin" Value="5,10,5,10" />
+            <Setter Property="Margin" Value="12" />
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="0,0,0,4" />
@@ -29,14 +29,19 @@
             </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
-    <StackPanel Margin="0,50,0,0">
-        <StackPanel>
-            <TextBlock Text="URL" />
-            <TextBox x:Name="tbxUrl" />
+    <Grid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Style="{StaticResource HeaderStyle}">
+            <TextBlock Text="Settings" Style="{StaticResource HeaderTextStyle}" />
         </StackPanel>
-        <StackPanel>
-            <TextBlock Text="Authentication token" />
-            <TextBox x:Name="tbxAuthenticationToken" />
+        <StackPanel Margin="0,50,0,0">
+            <StackPanel>
+                <TextBlock Text="URL" />
+                <TextBox x:Name="tbxUrl" />
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Authentication token" />
+                <TextBox x:Name="tbxAuthenticationToken" />
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+    </Grid>
 </Page>
