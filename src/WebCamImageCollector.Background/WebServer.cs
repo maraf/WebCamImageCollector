@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Graphics.Imaging;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 
@@ -32,7 +33,7 @@ namespace WebCamImageCollector.Background
         {
             return listener.BindServiceNameAsync(port.ToString());
         }
-        
+
         private async void OnConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs e)
         {
             StringBuilder request = new StringBuilder();
@@ -52,16 +53,32 @@ namespace WebCamImageCollector.Background
             string host = null;
             string path = null;
             string method = null;
+            NameValueCollection queryString = new NameValueCollection();
             NameValueCollection headers = new NameValueCollection();
 
-            string[] lines = request.ToString().Split(new [] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            if(lines.Length > 0)
+            string[] lines = request.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            if (lines.Length > 0)
             {
                 string[] parts = lines[0].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length == 3)
                 {
                     method = parts[0];
                     path = parts[1];
+
+                    int indexOfQuery = path.IndexOf('?');
+                    if (indexOfQuery > 0)
+                    {
+                        string query = path.Substring(indexOfQuery + 1);
+                        path = path.Substring(0, indexOfQuery);
+
+                        string[] parameters = query.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (string parameter in parameters)
+                        {
+                            string[] keyValue = parameter.Split(new[] { '=' });
+                            if (keyValue.Length == 2)
+                                queryString[keyValue[0].ToLowerInvariant()] = keyValue[1];
+                        }
+                    }
                 }
                 else
                 {
