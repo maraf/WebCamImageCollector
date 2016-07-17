@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -39,42 +40,48 @@ namespace WebCamImageCollector.Background
             HttpRequest request = await TryParseRequest(e.Socket);
             if (request == null)
                 return;
-
-            using (IOutputStream output = e.Socket.OutputStream)
+            try
             {
-                using (Stream responseOutput = output.AsStreamForWrite())
+                using (IOutputStream output = e.Socket.OutputStream)
                 {
-                    using (var bodyStream = new MemoryStream())
-                    using (var streamWriter = new StreamWriter(bodyStream))
+                    using (Stream responseOutput = output.AsStreamForWrite())
                     {
-                        HttpResponse response = new HttpResponse()
+                        using (var bodyStream = new MemoryStream())
+                        using (var streamWriter = new StreamWriter(bodyStream))
                         {
-                            Output = streamWriter,
-                            Headers = new NameValueCollection()
-                        };
+                            HttpResponse response = new HttpResponse()
+                            {
+                                Output = streamWriter,
+                                Headers = new NameValueCollection()
+                            };
 
-                        int statusCode = await HandleRequest(request, response);
-                        string statusText = GetStatusText(statusCode);
-                        await streamWriter.FlushAsync();
-                        bodyStream.Seek(0, SeekOrigin.Begin);
+                            int statusCode = await HandleRequest(request, response);
+                            string statusText = GetStatusText(statusCode);
+                            await streamWriter.FlushAsync();
+                            bodyStream.Seek(0, SeekOrigin.Begin);
 
-                        StringBuilder responseHttpHeader = new StringBuilder();
-                        responseHttpHeader.AppendLine($"HTTP/1.1 {statusCode} {statusText}");
-                        responseHttpHeader.AppendLine($"Content-Length: {bodyStream.Length}");
+                            StringBuilder responseHttpHeader = new StringBuilder();
+                            responseHttpHeader.AppendLine($"HTTP/1.1 {statusCode} {statusText}");
+                            responseHttpHeader.AppendLine($"Content-Length: {bodyStream.Length}");
 
-                        foreach (string key in response.Headers.Keys)
-                            responseHttpHeader.AppendLine(key + ": " + response.Headers[key]);
+                            foreach (string key in response.Headers.Keys)
+                                responseHttpHeader.AppendLine(key + ": " + response.Headers[key]);
 
-                        responseHttpHeader.AppendLine("Connection: close");
-                        responseHttpHeader.AppendLine();
+                            responseHttpHeader.AppendLine("Connection: close");
+                            responseHttpHeader.AppendLine();
 
-                        byte[] outputBytes = Encoding.UTF8.GetBytes(responseHttpHeader.ToString());
-                        await responseOutput.WriteAsync(outputBytes, 0, outputBytes.Length);
-                        await bodyStream.CopyToAsync(responseOutput);
-                        await responseOutput.FlushAsync();
+                            byte[] outputBytes = Encoding.UTF8.GetBytes(responseHttpHeader.ToString());
+                            await responseOutput.WriteAsync(outputBytes, 0, outputBytes.Length);
+                            await bodyStream.CopyToAsync(responseOutput);
+                            await responseOutput.FlushAsync();
+                        }
+
                     }
-
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
             }
         }
 
