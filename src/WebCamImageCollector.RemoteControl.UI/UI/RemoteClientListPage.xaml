@@ -16,6 +16,15 @@
         </CommandBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView ItemsSource="{Binding}" />
+        <ItemsControl x:Name="lvwClients" ItemsSource="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="btnControl" Content="{Binding Url}" Click="btnControl_Click" Tag="{Binding}" Style="{StaticResource FlatButtonStyle}" />
+                        <Button x:Name="btnEdit" Content="Edit" Click="btnEdit_Click" Tag="{Binding}" Style="{StaticResource FlatButtonStyle}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Page>

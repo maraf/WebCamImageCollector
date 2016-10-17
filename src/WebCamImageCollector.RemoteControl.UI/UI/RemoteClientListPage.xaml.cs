@@ -30,12 +30,15 @@ namespace WebCamImageCollector.RemoteControl.UI
         
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedFrom(e);
+            base.OnNavigatedTo(e);
 
             RemoteClientRepository repository = ServiceProvider.RemoteClients;
             RemoteClient client = e.Parameter as RemoteClient;
             if (client != null)
+            {
                 repository.Add(client);
+                repository.Save();
+            }
 
             DataContext = repository.Enumerate();
         }
@@ -43,6 +46,18 @@ namespace WebCamImageCollector.RemoteControl.UI
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(RemoteClientEditPage));
+        }
+
+        private void btnControl_Click(object sender, RoutedEventArgs e)
+        {
+            RemoteClient client = (RemoteClient)((Button)sender).Tag;
+            Frame.Navigate(typeof(RemoteClientControlPage), client);
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            RemoteClient client = (RemoteClient)((Button)sender).Tag;
+            Frame.Navigate(typeof(RemoteClientEditPage), client);
         }
     }
 }

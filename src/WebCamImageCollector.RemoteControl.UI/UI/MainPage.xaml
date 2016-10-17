@@ -8,15 +8,6 @@
     xmlns:data="using:WebCamImageCollector.RemoteControl.UI.Data"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Page.Resources>
-        <Style x:Key="FlatButtonStyle" TargetType="Button">
-            <Setter Property="Template" Value="{StaticResource FlatButtonTemplate}" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="Padding" Value="12" />
-            <Setter Property="Background" Value="Transparent" />
-        </Style>
-    </Page.Resources>
     <Grid>
         <SplitView x:Name="rootSplitView" DisplayMode="Overlay" IsPaneOpen="{x:Bind btnMenu.IsChecked, Mode=TwoWay, Converter={StaticResource nullableBoolToBool}}">
             <SplitView.Pane>

@@ -30,6 +30,12 @@ namespace WebCamImageCollector.RemoteControl.UI
         public RemoteClientControlPage()
         {
             InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
             DisableButtons();
             UpdateState();
         }

@@ -35,7 +35,7 @@ namespace WebCamImageCollector.RemoteControl.UI
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedFrom(e);
+            base.OnNavigatedTo(e);
             frmRoot.Navigate(typeof(RemoteClientListPage), e.Parameter);
         }
 
