@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using WebCamImageCollector.RemoteControl.Services;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -27,6 +28,8 @@ namespace WebCamImageCollector.RemoteControl.UI
     /// </summary>
     public sealed partial class RemoteClientControlPage : Page
     {
+        private RemoteClient client;
+
         public RemoteClientControlPage()
         {
             InitializeComponent();
@@ -35,6 +38,7 @@ namespace WebCamImageCollector.RemoteControl.UI
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            client = (RemoteClient)e.Parameter;
 
             DisableButtons();
             UpdateState();
@@ -67,63 +71,73 @@ namespace WebCamImageCollector.RemoteControl.UI
         private async Task UpdateState()
         {
             ShowMessage("Checking status...");
-            await SendRequest("/status", String.Empty, async response =>
+            await HandleErrorAsync(client.IsRunningAsync, status =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    ClearMessage();
-                    btnDownload.IsEnabled = true;
+                btnDownload.IsEnabled = true;
 
-                    string responseText = await response.Content.ReadAsStringAsync();
-                    if (responseText.Contains("true"))
-                    {
-                        btnStart.IsEnabled = false;
-                        btnStop.IsEnabled = true;
-                    }
-                    else if (responseText.Contains("false"))
-                    {
-                        btnStart.IsEnabled = true;
-                        btnStop.IsEnabled = false;
-                    }
+                if (status)
+                {
+                    btnStart.IsEnabled = false;
+                    btnStop.IsEnabled = true;
                 }
                 else
                 {
-                    ShowMessage("Server not available", true);
+                    btnStart.IsEnabled = true;
+                    btnStop.IsEnabled = false;
                 }
             });
         }
-
-        private async Task SendRequest(string url, string content, Action<HttpResponseMessage> onResponse)
+        
+        private async Task HandleErrorAsync(Func<Task> execute, Action done)
         {
             try
             {
-                using (HttpClient client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(LocalSettings.Url);
-                    client.DefaultRequestHeaders.Add("X-Authentication-Token", LocalSettings.AuthenticationToken);
-
-                    HttpResponseMessage response = await client.PostAsync(url, new StringContent(content));
-                    if (response.StatusCode == HttpStatusCode.OK)
-                    {
-                        ClearMessage();
-                        onResponse(response);
-                    }
-                    else
-                    {
-                        ShowMessage("Server not responded correctly.", true);
-                    }
-                }
+                await execute();
+                ClearMessage();
+                done();
             }
-            catch (HttpRequestException e)
+            catch (RemoteClientException)
             {
-                OnNetworkError(e);
+                ShowMessage("Server not responded correctly.", true);
+            }
+            catch (HttpRequestException requestException)
+            {
+                OnNetworkError(requestException);
+            }
+            catch (Exception e)
+            {
+                string message = e.ToString();
+                ShowMessage(message.Substring(0, Math.Min(message.Length, 20)));
+            }
+        }
+
+        private async Task HandleErrorAsync<T>(Func<Task<T>> execute, Action<T> done)
+        {
+            try
+            {
+                T result = await execute();
+                ClearMessage();
+                done(result);
+            }
+            catch (RemoteClientException)
+            {
+                ShowMessage("Server not responded correctly.", true);
+            }
+            catch (HttpRequestException requestException)
+            {
+                OnNetworkError(requestException);
+            }
+            catch (Exception e)
+            {
+                string message = e.ToString();
+                ShowMessage(message.Substring(0, Math.Min(message.Length, 20)));
             }
         }
 
         private async void btnStart_Click(object sender, RoutedEventArgs e)
         {
             ShowMessage("Starting server...");
-            await SendRequest("/start", String.Empty, response =>
+            await HandleErrorAsync(client.StartAsync, () =>
             {
                 btnStart.IsEnabled = false;
                 btnStop.IsEnabled = true;
@@ -132,7 +146,8 @@ namespace WebCamImageCollector.RemoteControl.UI
 
         private async void btnStop_Click(object sender, RoutedEventArgs e)
         {
-            await SendRequest("/stop", String.Empty, response =>
+            ShowMessage("Stoping server...");
+            await HandleErrorAsync(client.StopAsync, () =>
             {
                 btnStart.IsEnabled = true;
                 btnStop.IsEnabled = false;
@@ -148,15 +163,9 @@ namespace WebCamImageCollector.RemoteControl.UI
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
         {
             ShowMessage("Downloading image...");
-            await SendRequest("/latest", String.Empty, async response =>
+            await HandleErrorAsync(client.DownloadLatest, image =>
             {
-                ShowMessage("Reading content...");
-
-                Stream imageStream = await response.Content.ReadAsStreamAsync();
-                BitmapImage image = new BitmapImage();
-                await image.SetSourceAsync(imageStream.AsRandomAccessStream());
                 imgBackground.Source = image;
-
                 ClearMessage();
             });
         }
