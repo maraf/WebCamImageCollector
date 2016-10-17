@@ -107,7 +107,6 @@
     <Compile Include="UI\Data\NullableBoolToBoolConverter.cs" />
     <Compile Include="UI\Data\NullToBoolConverter.cs" />
     <Compile Include="UI\Data\NullToVisibilityConverter.cs" />
-    <Compile Include="UI\LocalSettings.cs" />
     <Compile Include="UI\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

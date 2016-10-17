@@ -26,9 +26,6 @@ namespace WebCamImageCollector.RemoteControl.UI
         public RemoteClientEditPage()
         {
             InitializeComponent();
-
-            tbxUrl.Text = LocalSettings.Url;
-            tbxAuthenticationToken.Text = LocalSettings.AuthenticationToken;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
