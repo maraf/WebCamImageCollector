@@ -39,7 +39,7 @@ namespace WebCamImageCollector.RemoteControl.UI
             btnMenu.IsChecked = false;
         }
 
-        private void btnHome_Click(object sender, RoutedEventArgs e)
+        private void btnRemoteClient_Click(object sender, RoutedEventArgs e)
         {
             NavigateRootTo(typeof(ContentPage));
         }
@@ -47,6 +47,11 @@ namespace WebCamImageCollector.RemoteControl.UI
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             NavigateRootTo(typeof(SettingsPage));
+        }
+
+        private void btnLocalServer_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

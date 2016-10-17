@@ -8,12 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
-        <Style TargetType="StackPanel">
-            <Setter Property="Margin" Value="12" />
-        </Style>
-        <Style TargetType="TextBlock">
-            <Setter Property="Margin" Value="0,0,0,4" />
-        </Style>
+        <ResourceDictionary Source="/Resources/EditForm.xaml" />
     </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>

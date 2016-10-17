@@ -94,8 +94,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ContentPage.xaml.cs">
-      <DependentUpon>ContentPage.xaml</DependentUpon>
+    <Compile Include="LocalServer.xaml.cs">
+      <DependentUpon>LocalServer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RemoteClient.xaml.cs">
+      <DependentUpon>RemoteClient.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\NullableBoolToBoolConverter.cs" />
     <Compile Include="Data\NullToBoolConverter.cs" />
@@ -133,7 +136,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ContentPage.xaml">
+    <Page Include="Resources\EditForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="LocalServer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RemoteClient.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
