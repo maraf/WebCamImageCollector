@@ -6,8 +6,36 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <ResourceDictionary Source="/UI/Resources/EditForm.xaml" />
+    </Page.Resources>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Name="btnStart" Label="Start server">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE768;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="btnStop" Label="Stop server">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE769;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
+    <Grid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Style="{StaticResource HeaderStyle}">
+            <TextBlock Text="Local server" Style="{StaticResource HeaderTextStyle}" />
+        </StackPanel>
+        <StackPanel Margin="0,50,0,0">
+            <StackPanel>
+                <TextBlock Text="Port" />
+                <TextBox x:Name="tbxPort" />
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Authentication token" />
+                <TextBox x:Name="tbxAuthenticationToken" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>
