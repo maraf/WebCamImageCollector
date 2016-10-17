@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using WebCamImageCollector.RemoteControl.Services;
 using WebCamImageCollector.RemoteControl.UI;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -47,6 +48,10 @@ namespace WebCamImageCollector.RemoteControl
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+            ServiceProvider.RemoteClients = new RemoteClientRepository();
+            ServiceProvider.RemoteClients.Load();
+
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,

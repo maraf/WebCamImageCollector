@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using WebCamImageCollector.RemoteControl.Services;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -30,7 +31,12 @@ namespace WebCamImageCollector.RemoteControl.UI
         public MainPage()
         {
             InitializeComponent();
-            NavigateRootTo(typeof(ContentPage));
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            frmRoot.Navigate(typeof(RemoteClientListPage), e.Parameter);
         }
 
         private void NavigateRootTo(Type page)
@@ -41,17 +47,12 @@ namespace WebCamImageCollector.RemoteControl.UI
 
         private void btnRemoteClient_Click(object sender, RoutedEventArgs e)
         {
-            NavigateRootTo(typeof(ContentPage));
-        }
-
-        private void btnSettings_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateRootTo(typeof(SettingsPage));
+            NavigateRootTo(typeof(RemoteClientListPage));
         }
 
         private void btnLocalServer_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigateRootTo(typeof(LocalServer));
         }
     }
 }

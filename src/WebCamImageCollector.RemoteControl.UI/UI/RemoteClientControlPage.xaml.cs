@@ -25,9 +25,9 @@ namespace WebCamImageCollector.RemoteControl.UI
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ContentPage : Page
+    public sealed partial class RemoteClientControlPage : Page
     {
-        public ContentPage()
+        public RemoteClientControlPage()
         {
             InitializeComponent();
             DisableButtons();

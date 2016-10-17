@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="WebCamImageCollector.RemoteControl.UI.RemoteClientListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WebCamImageCollector.RemoteControl.UI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Name="btnAdd" Label="Add" Click="btnAdd_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE109;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ListView ItemsSource="{Binding}" />
+    </Grid>
+</Page>

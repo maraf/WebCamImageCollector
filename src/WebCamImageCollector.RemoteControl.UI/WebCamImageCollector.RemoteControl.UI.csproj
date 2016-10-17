@@ -94,11 +94,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\RemoteClient.cs" />
+    <Compile Include="Services\RemoteClientRepository.cs" />
+    <Compile Include="Services\RemoteClientException.cs" />
+    <Compile Include="Services\RemoteClientNotAvailableException.cs" />
     <Compile Include="UI\LocalServer.xaml.cs">
       <DependentUpon>LocalServer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\RemoteClient.xaml.cs">
-      <DependentUpon>RemoteClient.xaml</DependentUpon>
+    <Compile Include="UI\RemoteClientControlPage.xaml.cs">
+      <DependentUpon>RemoteClientControlPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Data\NullableBoolToBoolConverter.cs" />
     <Compile Include="UI\Data\NullToBoolConverter.cs" />
@@ -108,9 +112,13 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\SettingsPage.xaml.cs">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    <Compile Include="UI\RemoteClientListPage.xaml.cs">
+      <DependentUpon>RemoteClientListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\RemoteClientEditPage.xaml.cs">
+      <DependentUpon>RemoteClientEditPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ServiceProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -136,6 +144,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="UI\RemoteClientListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Resources\EditForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -145,7 +157,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\RemoteClient.xaml">
+    <Page Include="UI\RemoteClientControlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -153,14 +165,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\SettingsPage.xaml">
+    <Page Include="UI\RemoteClientEditPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
