@@ -97,18 +97,6 @@
     <None Include="WebCamImageCollector.RemoteControl.UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\WebCamImageCollector.Background\FileModel.cs">
-      <Link>_Background\FileModel.cs</Link>
-    </Compile>
-    <Compile Include="..\WebCamImageCollector.Background\ICaptureService.cs">
-      <Link>_Background\ICaptureService.cs</Link>
-    </Compile>
-    <Compile Include="..\WebCamImageCollector.Background\StartupTask.cs">
-      <Link>_Background\StartupTask.cs</Link>
-    </Compile>
-    <Compile Include="..\WebCamImageCollector.Background\WebServer.cs">
-      <Link>_Background\WebServer.cs</Link>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -188,6 +176,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebCamImageCollector.Background\WebCamImageCollector.Background.csproj">
+      <Project>{c28742d5-4a75-49e2-9188-3e3dc2d9edf7}</Project>
+      <Name>WebCamImageCollector.Background</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

@@ -26,7 +26,8 @@ namespace WebCamImageCollector.RemoteControl.UI
     public sealed partial class LocalServer : Page
     {
         public const string TaskName = "LocalServer";
-        public static readonly string TaskEntryPoint = typeof(LocalServerStartupTask).FullName;
+        //public static readonly string TaskEntryPoint = typeof(LocalServerStartupTask).FullName;
+        public static readonly string TaskEntryPoint = typeof(WebCamImageCollector.Background.StartupTask).FullName;
 
         private IBackgroundTaskRegistration task;
         private LocalClient client;

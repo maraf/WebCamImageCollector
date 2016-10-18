@@ -13,8 +13,9 @@ namespace WebCamImageCollector.RemoteControl
     {
         public void Run(IBackgroundTaskInstance taskInstance)
         {
-            StartupTask inner = new StartupTask();
-            inner.Run(taskInstance);
+            //StartupTask inner = new StartupTask();
+            //inner.Run(taskInstance);
+            taskInstance.GetDeferral().Complete();
         }
     }
 }
