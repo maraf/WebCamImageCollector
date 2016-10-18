@@ -11,12 +11,12 @@
     </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="btnStart" Label="Start server">
+            <AppBarButton x:Name="btnStart" Click="btnStart_Click" Label="Start server">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE768;" />
                 </AppBarButton.Icon>
             </AppBarButton>
-            <AppBarButton x:Name="btnStop" Label="Stop server">
+            <AppBarButton x:Name="btnStop" Click="btnStop_Click" Label="Stop server">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE769;" />
                 </AppBarButton.Icon>

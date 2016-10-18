@@ -60,8 +60,23 @@ namespace WebCamImageCollector.Background
         {
             deferral = taskInstance.GetDeferral();
 
-            server = new WebServer(this, "{3FFF8234-F0B4-4DEB-AB91-75C98ECE550D}");
-            await server.StartAsync(8000);
+            int port = 8000;
+            string authenticationToken = "{3FFF8234-F0B4-4DEB-AB91-75C98ECE550D}";
+
+            ApplicationTriggerDetails triggerDetails = taskInstance.TriggerDetails as ApplicationTriggerDetails;
+            if (triggerDetails != null)
+            {
+                object portRaw = null;
+                if (triggerDetails.Arguments.TryGetValue("Port", out portRaw) && portRaw != null)
+                    port = Int32.Parse(portRaw.ToString());
+
+                object authTokenRaw = null;
+                if (triggerDetails.Arguments.TryGetValue("AuthenticationToken", out authTokenRaw) && authTokenRaw != null)
+                    authenticationToken = authTokenRaw.ToString();
+            }
+
+            server = new WebServer(this, authenticationToken);
+            await server.StartAsync(port);
 
             IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
             if (storage.FileExists(stateFileName))

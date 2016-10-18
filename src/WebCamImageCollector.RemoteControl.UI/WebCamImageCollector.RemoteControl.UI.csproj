@@ -94,6 +94,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LocalServerStartupTask.cs" />
     <Compile Include="Services\RemoteClient.cs" />
     <Compile Include="Services\RemoteClientRepository.cs" />
     <Compile Include="Services\RemoteClientException.cs" />
@@ -169,7 +170,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WebCamImageCollector.Background\WebCamImageCollector.Background.csproj">
+      <Project>{c28742d5-4a75-49e2-9188-3e3dc2d9edf7}</Project>
+      <Name>WebCamImageCollector.Background</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
