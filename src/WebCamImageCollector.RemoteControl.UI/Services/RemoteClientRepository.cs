@@ -11,6 +11,8 @@ namespace WebCamImageCollector.RemoteControl.Services
     {
         private readonly List<RemoteClient> storage = new List<RemoteClient>();
 
+        public LocalClient LocalClient { get; private set; }
+
         public IEnumerable<RemoteClient> Enumerate()
         {
             return storage;
@@ -34,6 +36,12 @@ namespace WebCamImageCollector.RemoteControl.Services
             return this;
         }
 
+        public RemoteClientRepository SetLocal(LocalClient client)
+        {
+            LocalClient = client;
+            return this;
+        }
+
         public void Save()
         {
             ApplicationDataContainer container = ApplicationData.Current.LocalSettings;
@@ -43,12 +51,19 @@ namespace WebCamImageCollector.RemoteControl.Services
             int index = 1;
             foreach (RemoteClient client in storage)
             {
-                ApplicationDataContainer clientContainer =  container
+                ApplicationDataContainer clientContainer = container
                     .CreateContainer(String.Format("Client-{0}", index), ApplicationDataCreateDisposition.Always);
 
                 clientContainer.Values["Url"] = client.Url;
                 clientContainer.Values["AuthenticationToken"] = client.AuthenticationToken;
                 index++;
+            }
+
+            if (LocalClient != null)
+            {
+                ApplicationDataContainer localContainer = container.CreateContainer("Local", ApplicationDataCreateDisposition.Always);
+                localContainer.Values["Port"] = LocalClient.Port;
+                localContainer.Values["AuthenticationToken"] = LocalClient.AuthenticationToken;
             }
         }
 
@@ -58,7 +73,22 @@ namespace WebCamImageCollector.RemoteControl.Services
 
             ApplicationDataContainer container = ApplicationData.Current.LocalSettings;
             foreach (ApplicationDataContainer clientContainer in container.Containers.Values)
-                storage.Add(new RemoteClient((string)clientContainer.Values["Url"], (string)clientContainer.Values["AuthenticationToken"]));
+            {
+                if (clientContainer.Name.StartsWith("Client-"))
+                {
+                    storage.Add(new RemoteClient(
+                        (string)clientContainer.Values["Url"],
+                        (string)clientContainer.Values["AuthenticationToken"]
+                    ));
+                }
+                else if (clientContainer.Name == "Local")
+                {
+                    LocalClient = new LocalClient(
+                        (int)clientContainer.Values["Port"],
+                        (string)clientContainer.Values["AuthenticationToken"]
+                    );
+                }
+            }
         }
     }
 }

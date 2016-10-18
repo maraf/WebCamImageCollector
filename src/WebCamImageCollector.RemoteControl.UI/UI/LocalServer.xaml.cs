@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using WebCamImageCollector.RemoteControl.Services;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -24,8 +26,10 @@ namespace WebCamImageCollector.RemoteControl.UI
     public sealed partial class LocalServer : Page
     {
         public const string TaskName = "LocalServer";
-        public const string TaskEntryPoint = "WebCamImageCollector.RemoteControl.LocalServerStartupTask";
+        public static readonly string TaskEntryPoint = typeof(LocalServerStartupTask).FullName;
+
         private IBackgroundTaskRegistration task;
+        private LocalClient client;
 
         public LocalServer()
         {
@@ -36,6 +40,12 @@ namespace WebCamImageCollector.RemoteControl.UI
         {
             base.OnNavigatedTo(e);
 
+            client = ServiceProvider.RemoteClients.LocalClient;
+            if (client != null)
+            {
+                tbxPort.Text = client.Port.ToString();
+                tbxAuthenticationToken.Text = client.AuthenticationToken;
+            }
 
             foreach (KeyValuePair<Guid, IBackgroundTaskRegistration> item in BackgroundTaskRegistration.AllTasks)
             {
@@ -45,6 +55,8 @@ namespace WebCamImageCollector.RemoteControl.UI
                     break;
                 }
             }
+
+            UpdateButtons();
         }
 
         private void UpdateButtons()
@@ -54,6 +66,18 @@ namespace WebCamImageCollector.RemoteControl.UI
 
         private async void btnStart_Click(object sender, RoutedEventArgs e)
         {
+            int port = -1;
+            if (!String.IsNullOrEmpty(tbxPort.Text) && Int32.TryParse(tbxPort.Text, out port))
+            {
+                if (client == null)
+                    client = new LocalClient(port, tbxAuthenticationToken.Text);
+                else
+                    client.Update(port, tbxAuthenticationToken.Text);
+
+                ServiceProvider.RemoteClients.SetLocal(client);
+                ServiceProvider.RemoteClients.Save();
+            }
+
             if (task == null)
             {
                 ApplicationTrigger trigger = new ApplicationTrigger();
@@ -65,15 +89,16 @@ namespace WebCamImageCollector.RemoteControl.UI
                 task = builder.Register();
 
                 ValueSet args = new ValueSet();
+                
+                if (!String.IsNullOrEmpty(tbxPort.Text))
+                    args["Port"] = client.Port;
 
-                int port;
-                if (!String.IsNullOrEmpty(tbxPort.Text) && Int32.TryParse(tbxPort.Text, out port))
-                    args["Port"] = port;
+                if (!String.IsNullOrEmpty(client.AuthenticationToken))
+                    args["AuthenticationToken"] = client.AuthenticationToken;
 
-                if (!String.IsNullOrEmpty(tbxAuthenticationToken.Text))
-                    args["AuthenticationToken"] = tbxAuthenticationToken.Text;
-
-                await trigger.RequestAsync(args);
+                ApplicationTriggerResult result = await trigger.RequestAsync(args);
+                if (result != ApplicationTriggerResult.Allowed)
+                    task = null;
 
                 UpdateButtons();
             }
