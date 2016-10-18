@@ -15,6 +15,7 @@ using Windows.Foundation;
 using System.IO;
 using Windows.Storage.Search;
 using System.IO.IsolatedStorage;
+using Windows.Devices.Enumeration;
 
 // The Background Application template is documented at http://go.microsoft.com/fwlink/?LinkID=533884&clcid=0x409
 
@@ -27,6 +28,7 @@ namespace WebCamImageCollector.Background
         private BackgroundTaskDeferral deferral;
         private WebServer server;
         private Timer timer;
+        private DeviceInformation device;
 
         public bool IsRunning
         {
@@ -78,6 +80,9 @@ namespace WebCamImageCollector.Background
             server = new WebServer(this, authenticationToken);
             await server.StartAsync(port);
 
+            DeviceInformationCollection devices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
+            device = devices.FirstOrDefault(d => d.EnclosureLocation.Panel == Panel.Back);
+
             IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
             if (storage.FileExists(stateFileName))
                 Start();
@@ -96,15 +101,19 @@ namespace WebCamImageCollector.Background
             try
             {
                 mediaCapture = new MediaCapture();
-                await mediaCapture.InitializeAsync();
 
+                if (device == null)
+                    await mediaCapture.InitializeAsync();
+                else
+                    await mediaCapture.InitializeAsync(new MediaCaptureInitializationSettings() { VideoDeviceId = device.Id });
+                
                 string folderName = DateTime.Now.ToString("yyyy-MM-dd");
                 StorageFolder folder = await FindFolderAsync(KnownFolders.PicturesLibrary, folderName);
                 if (folder == null)
                     folder = await KnownFolders.PicturesLibrary.CreateFolderAsync(folderName);
 
                 StorageFile photoFile = await folder.CreateFileAsync(
-                    $"{DateTime.Now.ToString("HH-mm-ss")}.jpg", 
+                    $"{DateTime.Now.ToString("HH-mm-ss")}.jpg",
                     CreationCollisionOption.GenerateUniqueName
                 );
 
