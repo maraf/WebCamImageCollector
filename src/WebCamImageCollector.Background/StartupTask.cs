@@ -29,7 +29,10 @@ namespace WebCamImageCollector.Background
         private WebServer server;
         private Timer timer;
         private DeviceInformation device;
+        private TimeSpan interval;
         private TimeSpan? delay;
+
+        #region ICaptureService
 
         public bool IsRunning
         {
@@ -43,7 +46,7 @@ namespace WebCamImageCollector.Background
                 storage.CreateFile(stateFileName);
 
             if (timer == null)
-                timer = new Timer(OnPeriodicPhotoTimer, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+                timer = new Timer(OnPeriodicPhotoTimer, null, TimeSpan.Zero, interval);
         }
 
         public void Stop()
@@ -59,12 +62,60 @@ namespace WebCamImageCollector.Background
             }
         }
 
+        private async Task<StorageFolder> FindFolderAsync(StorageFolder parent, string folderName)
+        {
+            try
+            {
+                StorageFolder item = await parent.TryGetItemAsync(folderName) as StorageFolder;
+                return item;
+            }
+            catch (Exception)
+            {
+                // Should never get here 
+                return null;
+            }
+        }
+
+        public IAsyncOperation<FileModel> FindLatestImageAsync()
+        {
+            return FindLatestImageInternalAsync().AsAsyncOperation();
+        }
+
+        private async Task<FileModel> FindLatestImageInternalAsync()
+        {
+            StorageFile latestFile = await FindLatestImage();
+            if (latestFile == null)
+                return null;
+
+            return new FileModel(
+                await latestFile.OpenSequentialReadAsync(),
+                (long)(await latestFile.GetBasicPropertiesAsync()).Size
+            );
+        }
+
+        private async Task<StorageFile> FindLatestImage()
+        {
+            IReadOnlyList<StorageFolder> folders = await KnownFolders.PicturesLibrary.GetFoldersAsync();
+            DateTime dateTime;
+            StorageFolder latestFolder = folders.OrderBy(f => f.Name).Where(f => DateTime.TryParse(f.Name, out dateTime)).LastOrDefault();
+            if (latestFolder == null)
+                return null;
+
+            IReadOnlyList<StorageFile> files = await latestFolder.GetFilesAsync();
+            StorageFile latestFile = files.OrderBy(f => f.DateCreated).LastOrDefault();
+
+            return latestFile;
+        }
+
+        #endregion
+
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
             deferral = taskInstance.GetDeferral();
 
             int port = 8000;
             string authenticationToken = "{3FFF8234-F0B4-4DEB-AB91-75C98ECE550D}";
+            interval = TimeSpan.FromMinutes(1);
 
             ApplicationTriggerDetails triggerDetails = taskInstance.TriggerDetails as ApplicationTriggerDetails;
             if (triggerDetails != null)
@@ -80,6 +131,14 @@ namespace WebCamImageCollector.Background
                 object delayRaw = null;
                 if (triggerDetails.Arguments.TryGetValue("Delay", out delayRaw) && delayRaw != null)
                     delay = TimeSpan.FromSeconds(Int32.Parse(delayRaw.ToString()));
+
+                object intervalRaw = null;
+                if (triggerDetails.Arguments.TryGetValue("Interval", out intervalRaw) && intervalRaw != null)
+                {
+                    TimeSpan interval = TimeSpan.FromSeconds(Int32.Parse(intervalRaw.ToString()));
+                    if (interval > TimeSpan.FromSeconds(10) && interval < TimeSpan.FromMinutes(5))
+                        this.interval = interval;
+                }
             }
 
             server = new WebServer(this, authenticationToken);
@@ -149,51 +208,6 @@ namespace WebCamImageCollector.Background
                     mediaCapture = null;
                 }
             }
-        }
-
-        private async Task<StorageFolder> FindFolderAsync(StorageFolder parent, string folderName)
-        {
-            try
-            {
-                StorageFolder item = await parent.TryGetItemAsync(folderName) as StorageFolder;
-                return item;
-            }
-            catch (Exception)
-            {
-                // Should never get here 
-                return null;
-            }
-        }
-
-        public IAsyncOperation<FileModel> FindLatestImageAsync()
-        {
-            return FindLatestImageInternalAsync().AsAsyncOperation();
-        }
-
-        private async Task<FileModel> FindLatestImageInternalAsync()
-        {
-            StorageFile latestFile = await FindLatestImage();
-            if (latestFile == null)
-                return null;
-
-            return new FileModel(
-                await latestFile.OpenSequentialReadAsync(),
-                (long)(await latestFile.GetBasicPropertiesAsync()).Size
-            );
-        }
-
-        private async Task<StorageFile> FindLatestImage()
-        {
-            IReadOnlyList<StorageFolder> folders = await KnownFolders.PicturesLibrary.GetFoldersAsync();
-            DateTime dateTime;
-            StorageFolder latestFolder = folders.OrderBy(f => f.Name).Where(f => DateTime.TryParse(f.Name, out dateTime)).LastOrDefault();
-            if (latestFolder == null)
-                return null;
-
-            IReadOnlyList<StorageFile> files = await latestFolder.GetFilesAsync();
-            StorageFile latestFile = files.OrderBy(f => f.DateCreated).LastOrDefault();
-
-            return latestFile;
         }
     }
 }
