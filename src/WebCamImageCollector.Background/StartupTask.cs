@@ -29,6 +29,7 @@ namespace WebCamImageCollector.Background
         private WebServer server;
         private Timer timer;
         private DeviceInformation device;
+        private TimeSpan? delay;
 
         public bool IsRunning
         {
@@ -75,6 +76,10 @@ namespace WebCamImageCollector.Background
                 object authTokenRaw = null;
                 if (triggerDetails.Arguments.TryGetValue("AuthenticationToken", out authTokenRaw) && authTokenRaw != null)
                     authenticationToken = authTokenRaw.ToString();
+
+                object delayRaw = null;
+                if (triggerDetails.Arguments.TryGetValue("Delay", out delayRaw) && delayRaw != null)
+                    delay = TimeSpan.FromSeconds(Int32.Parse(delayRaw.ToString()));
             }
 
             server = new WebServer(this, authenticationToken);
@@ -103,9 +108,20 @@ namespace WebCamImageCollector.Background
                 mediaCapture = new MediaCapture();
 
                 if (device == null)
+                {
                     await mediaCapture.InitializeAsync();
+                }
                 else
-                    await mediaCapture.InitializeAsync(new MediaCaptureInitializationSettings() { VideoDeviceId = device.Id });
+                {
+                    MediaCaptureInitializationSettings settings = new MediaCaptureInitializationSettings()
+                    {
+                        VideoDeviceId = device.Id,
+                    };
+                    await mediaCapture.InitializeAsync(settings);
+                }
+
+                if (delay != null)
+                    await Task.Delay(delay.Value);
                 
                 string folderName = DateTime.Now.ToString("yyyy-MM-dd");
                 StorageFolder folder = await FindFolderAsync(KnownFolders.PicturesLibrary, folderName);
@@ -122,8 +138,8 @@ namespace WebCamImageCollector.Background
             }
             catch (Exception ex)
             {
-                server.Dispose();
-                deferral.Complete();
+                //server.Dispose();
+                //deferral.Complete();
             }
             finally
             {
@@ -169,7 +185,8 @@ namespace WebCamImageCollector.Background
         private async Task<StorageFile> FindLatestImage()
         {
             IReadOnlyList<StorageFolder> folders = await KnownFolders.PicturesLibrary.GetFoldersAsync();
-            StorageFolder latestFolder = folders.OrderBy(f => f.Name).LastOrDefault();
+            DateTime dateTime;
+            StorageFolder latestFolder = folders.OrderBy(f => f.Name).Where(f => DateTime.TryParse(f.Name, out dateTime)).LastOrDefault();
             if (latestFolder == null)
                 return null;
 

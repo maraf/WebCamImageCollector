@@ -90,7 +90,8 @@ namespace WebCamImageCollector.RemoteControl.UI
                 task = builder.Register();
 
                 ValueSet args = new ValueSet();
-                
+                args["Delay"] = 5;
+
                 if (!String.IsNullOrEmpty(tbxPort.Text))
                     args["Port"] = client.Port;
 
