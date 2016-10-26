@@ -99,6 +99,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Background\Application.cs" />
     <Compile Include="Background\Bootstrap\ApplicationTriggerConfigurationLoader.cs" />
     <Compile Include="Background\Bootstrap\Configuration.cs" />
     <Compile Include="Background\Bootstrap\DefaultConfigurationLoader.cs" />
