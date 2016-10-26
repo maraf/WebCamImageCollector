@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 
-namespace WebCamImageCollector.Background.Http
+namespace WebCamImageCollector.Http
 {
     internal interface IHttpHandler
     {

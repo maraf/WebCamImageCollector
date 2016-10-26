@@ -13,9 +13,9 @@ using Windows.Media.MediaProperties;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace WebCamImageCollector.Background.Capturing
+namespace WebCamImageCollector.Capturing
 {
-    public class CaptureService
+    internal class CaptureService
     {
         private const string stateFileName = "{653AC3C8-82D1-4474-A12B-13834A44CBD4}.tmp";
 

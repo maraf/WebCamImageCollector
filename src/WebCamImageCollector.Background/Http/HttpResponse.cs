@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebCamImageCollector.Background.Http
+namespace WebCamImageCollector.Http
 {
     internal class HttpResponse
     {

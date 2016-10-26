@@ -12,7 +12,7 @@ using Windows.Graphics.Imaging;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 
-namespace WebCamImageCollector.Background.Http
+namespace WebCamImageCollector.Http
 {
     public sealed class HttpServer : IDisposable
     {
