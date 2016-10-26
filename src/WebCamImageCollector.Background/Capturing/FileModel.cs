@@ -11,11 +11,13 @@ namespace WebCamImageCollector.Capturing
     {
         public IInputStream Content { get; private set; }
         public long Size { get; private set; }
+        public DateTime CreatedAt { get; private set; }
 
-        public FileModel(IInputStream content, long size)
+        public FileModel(IInputStream content, long size, DateTime createdAt)
         {
             Content = content;
             Size = size;
+            CreatedAt = createdAt;
         }
     }
 }

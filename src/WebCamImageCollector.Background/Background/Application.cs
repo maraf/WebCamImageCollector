@@ -90,6 +90,7 @@ namespace WebCamImageCollector.Background
                     {
                         response.StatusCode = 200;
                         response.Headers["Content-Type"] = "image/jpeg";
+                        response.Headers["Date"] = file.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss");
 
                         await file.Content.AsStreamForRead().CopyToAsync(response.Output.BaseStream);
                         file.Content.Dispose();

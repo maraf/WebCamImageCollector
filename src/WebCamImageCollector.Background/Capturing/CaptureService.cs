@@ -140,7 +140,8 @@ namespace WebCamImageCollector.Capturing
 
             return new FileModel(
                 await latestFile.OpenSequentialReadAsync(),
-                (long)(await latestFile.GetBasicPropertiesAsync()).Size
+                (long)(await latestFile.GetBasicPropertiesAsync()).Size,
+                latestFile.DateCreated.DateTime
             );
         }
 
