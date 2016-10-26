@@ -7,4 +7,4 @@ Simple periodic webcam image collector for IoT and UWP. It consists of two proje
 
 ## Licence
 
-[Apache 2.0](blob/master/LICENSE)
+[Apache 2.0](LICENSE)
