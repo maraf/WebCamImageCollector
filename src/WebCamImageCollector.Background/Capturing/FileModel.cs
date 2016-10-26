@@ -7,7 +7,7 @@ using Windows.Storage.Streams;
 
 namespace WebCamImageCollector.Capturing
 {
-    public sealed class FileModel
+    internal sealed class FileModel
     {
         public IInputStream Content { get; private set; }
         public long Size { get; private set; }
