@@ -145,7 +145,9 @@ namespace WebCamImageCollector.Background
             await server.StartAsync(port);
 
             DeviceInformationCollection devices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
-            device = devices.FirstOrDefault(d => d.EnclosureLocation.Panel == Panel.Back);
+            device = devices.Where(d => d.EnclosureLocation != null).FirstOrDefault(d => d.EnclosureLocation.Panel == Panel.Back);
+            if (device == null)
+                device = devices.FirstOrDefault();
 
             IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
             if (storage.FileExists(stateFileName))
