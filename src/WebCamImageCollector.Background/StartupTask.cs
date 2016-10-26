@@ -16,17 +16,17 @@ using System.IO;
 using Windows.Storage.Search;
 using System.IO.IsolatedStorage;
 using Windows.Devices.Enumeration;
-
-// The Background Application template is documented at http://go.microsoft.com/fwlink/?LinkID=533884&clcid=0x409
+using WebCamImageCollector.Background.Http;
 
 namespace WebCamImageCollector.Background
 {
-    public sealed class StartupTask : IBackgroundTask, ICaptureService
+    internal sealed class StartupTask : IBackgroundTask, ICaptureService, IHttpHandler
     {
         private const string stateFileName = "{653AC3C8-82D1-4474-A12B-13834A44CBD4}.tmp";
 
+        private string authenticationToken = "{3FFF8234-F0B4-4DEB-AB91-75C98ECE550D}";
         private BackgroundTaskDeferral deferral;
-        private WebServer server;
+        private HttpServer server;
         private Timer timer;
         private DeviceInformation device;
         private TimeSpan interval;
@@ -114,7 +114,6 @@ namespace WebCamImageCollector.Background
             deferral = taskInstance.GetDeferral();
 
             int port = 8000;
-            string authenticationToken = "{3FFF8234-F0B4-4DEB-AB91-75C98ECE550D}";
             interval = TimeSpan.FromMinutes(1);
 
             ApplicationTriggerDetails triggerDetails = taskInstance.TriggerDetails as ApplicationTriggerDetails;
@@ -141,7 +140,7 @@ namespace WebCamImageCollector.Background
                 }
             }
 
-            server = new WebServer(this, authenticationToken);
+            server = new HttpServer(this);
             await server.StartAsync(port);
 
             DeviceInformationCollection devices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
@@ -183,7 +182,7 @@ namespace WebCamImageCollector.Background
 
                 if (delay != null)
                     await Task.Delay(delay.Value);
-                
+
                 string folderName = DateTime.Now.ToString("yyyy-MM-dd");
                 StorageFolder folder = await FindFolderAsync(KnownFolders.PicturesLibrary, folderName);
                 if (folder == null)
@@ -210,6 +209,51 @@ namespace WebCamImageCollector.Background
                     mediaCapture = null;
                 }
             }
+        }
+
+        public async Task<bool> TryHandleAsync(HttpRequest request, HttpResponse response)
+        {
+            if (request.Method == "POST")
+            {
+                string authenticationToken = request.Headers["X-Authentication-Token"];
+                if (String.IsNullOrEmpty(authenticationToken) || this.authenticationToken != authenticationToken)
+                {
+                    response.StatusCode = 401;
+                }
+                else if (request.Path == "/start")
+                {
+                    Start();
+                    response.StatusCode = 200;
+                }
+                else if (request.Path == "/stop")
+                {
+                    Stop();
+                    response.StatusCode = 200;
+                }
+                else if (request.Path == "/status")
+                {
+                    response.Output.WriteLine("{ running: " + (IsRunning ? "true" : "false") + " }");
+                    response.StatusCode = 200;
+                }
+                else if (request.Path == "/latest")
+                {
+                    FileModel file = await FindLatestImageAsync();
+                    if (file == null)
+                    {
+                        response.StatusCode = 404;
+                    }
+                    else
+                    {
+
+                        response.Headers["Content-Type"] = "image/jpeg";
+                        file.Content.AsStreamForRead().CopyTo(response.Output.BaseStream);
+                        file.Content.Dispose();
+                        response.StatusCode = 200;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

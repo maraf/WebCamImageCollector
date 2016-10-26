@@ -12,19 +12,17 @@ using Windows.Graphics.Imaging;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 
-namespace WebCamImageCollector.Background
+namespace WebCamImageCollector.Background.Http
 {
-    public sealed class WebServer : IDisposable
+    public sealed class HttpServer : IDisposable
     {
         private const uint BufferSize = 8192;
-        private readonly ICaptureService service;
-        private readonly string authenticationToken;
+        private readonly IHttpHandler handler;
         private readonly StreamSocketListener listener;
 
-        public WebServer(ICaptureService service, string authenticationToken)
+        internal HttpServer(IHttpHandler handler)
         {
-            this.service = service;
-            this.authenticationToken = authenticationToken;
+            this.handler = handler;
 
             listener = new StreamSocketListener();
             listener.ConnectionReceived += OnConnectionReceived;
@@ -40,6 +38,7 @@ namespace WebCamImageCollector.Background
             HttpRequest request = await TryParseRequest(e.Socket);
             if (request == null)
                 return;
+
             try
             {
                 using (IOutputStream output = e.Socket.OutputStream)
@@ -49,31 +48,30 @@ namespace WebCamImageCollector.Background
                         using (var bodyStream = new MemoryStream())
                         using (var streamWriter = new StreamWriter(bodyStream))
                         {
-                            HttpResponse response = new HttpResponse()
+                            HttpResponse response = new HttpResponse(streamWriter);
+
+                            if (await handler.TryHandleAsync(request, response))
                             {
-                                Output = streamWriter,
-                                Headers = new NameValueCollection()
-                            };
 
-                            int statusCode = await HandleRequest(request, response);
-                            string statusText = GetStatusText(statusCode);
-                            await streamWriter.FlushAsync();
-                            bodyStream.Seek(0, SeekOrigin.Begin);
+                                string statusText = GetStatusText(response.StatusCode);
+                                await streamWriter.FlushAsync();
+                                bodyStream.Seek(0, SeekOrigin.Begin);
 
-                            StringBuilder responseHttpHeader = new StringBuilder();
-                            responseHttpHeader.AppendLine($"HTTP/1.1 {statusCode} {statusText}");
-                            responseHttpHeader.AppendLine($"Content-Length: {bodyStream.Length}");
+                                StringBuilder responseHttpHeader = new StringBuilder();
+                                responseHttpHeader.AppendLine($"HTTP/1.1 {response.StatusCode} {statusText}");
+                                responseHttpHeader.AppendLine($"Content-Length: {bodyStream.Length}");
 
-                            foreach (string key in response.Headers.Keys)
-                                responseHttpHeader.AppendLine(key + ": " + response.Headers[key]);
+                                foreach (string key in response.Headers.Keys)
+                                    responseHttpHeader.AppendLine(key + ": " + response.Headers[key]);
 
-                            responseHttpHeader.AppendLine("Connection: close");
-                            responseHttpHeader.AppendLine();
+                                responseHttpHeader.AppendLine("Connection: close");
+                                responseHttpHeader.AppendLine();
 
-                            byte[] outputBytes = Encoding.UTF8.GetBytes(responseHttpHeader.ToString());
-                            await responseOutput.WriteAsync(outputBytes, 0, outputBytes.Length);
-                            await bodyStream.CopyToAsync(responseOutput);
-                            await responseOutput.FlushAsync();
+                                byte[] outputBytes = Encoding.UTF8.GetBytes(responseHttpHeader.ToString());
+                                await responseOutput.WriteAsync(outputBytes, 0, outputBytes.Length);
+                                await bodyStream.CopyToAsync(responseOutput);
+                                await responseOutput.FlushAsync();
+                            }
                         }
 
                     }
@@ -83,22 +81,6 @@ namespace WebCamImageCollector.Background
             {
                 Debug.WriteLine(ex.ToString());
             }
-        }
-
-        private class HttpRequest
-        {
-            public string Method { get; set; }
-            public string Host { get; set; }
-            public string Path { get; set; }
-
-            public NameValueCollection Headers { get; set; }
-            public NameValueCollection QueryString { get; set; }
-        }
-
-        private class HttpResponse
-        {
-            public NameValueCollection Headers { get; set; }
-            public StreamWriter Output { get; set; }
         }
 
         private async Task<HttpRequest> TryParseRequest(StreamSocket socket)
@@ -191,48 +173,7 @@ namespace WebCamImageCollector.Background
                     return String.Empty;
             }
         }
-
-        private async Task<int> HandleRequest(HttpRequest request, HttpResponse response)
-        {
-            if (request.Method == "POST")
-            {
-                string authenticationToken = request.Headers["X-Authentication-Token"];
-                if (String.IsNullOrEmpty(authenticationToken) || this.authenticationToken != authenticationToken)
-                {
-                    return 401;
-                }
-
-                if (request.Path == "/start")
-                {
-                    service.Start();
-                    return 200;
-                }
-                else if (request.Path == "/stop")
-                {
-                    service.Stop();
-                    return 200;
-                }
-                else if (request.Path == "/status")
-                {
-                    response.Output.WriteLine("{ running: " + (service.IsRunning ? "true" : "false") + " }");
-                    return 200;
-                }
-                else if(request.Path == "/latest")
-                {
-                    FileModel file = await service.FindLatestImageAsync();
-                    if (file == null)
-                        return 404;
-
-                    response.Headers["Content-Type"] = "image/jpeg";
-                    file.Content.AsStreamForRead().CopyTo(response.Output.BaseStream);
-                    file.Content.Dispose();
-                    return 200;
-                }
-            }
-
-            return 404;
-        }
-
+        
         public void Dispose()
         {
             if (listener != null)
