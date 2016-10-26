@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage.Streams;
 
-namespace WebCamImageCollector.Background
+namespace WebCamImageCollector.Background.Capturing
 {
     public sealed class FileModel
     {

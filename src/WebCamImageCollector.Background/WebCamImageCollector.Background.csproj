@@ -99,11 +99,12 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileModel.cs" />
+    <Compile Include="Capturing\_StorageFolderExtensions.cs" />
+    <Compile Include="Capturing\FileModel.cs" />
     <Compile Include="Http\HttpRequest.cs" />
     <Compile Include="Http\HttpResponse.cs" />
     <Compile Include="Http\IHttpHandler.cs" />
-    <Compile Include="ICaptureService.cs" />
+    <Compile Include="Capturing\CaptureService.cs" />
     <Compile Include="StartupTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Http\HttpServer.cs" />
