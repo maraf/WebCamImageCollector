@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WebCamImageCollector.RemoteControl.Services;
+using WebCamImageCollector.RemoteControl.UI.DesignData;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -19,8 +20,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace WebCamImageCollector.RemoteControl.UI
 {
     /// <summary>
@@ -31,28 +30,13 @@ namespace WebCamImageCollector.RemoteControl.UI
         public MainPage()
         {
             InitializeComponent();
+            DataContext = new ViewModelLocator().MainViewModel;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            frmRoot.Navigate(typeof(RemoteClientListPage), e.Parameter);
-        }
-
-        private void NavigateRootTo(Type page)
-        {
-            frmRoot.Navigate(page);
-            btnMenu.IsChecked = false;
-        }
-
-        private void btnRemoteClient_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateRootTo(typeof(RemoteClientListPage));
-        }
-
-        private void btnLocalServer_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateRootTo(typeof(LocalServer));
+            //Frame.Navigate(typeof(RemoteClientListPage), e.Parameter);
         }
     }
 }

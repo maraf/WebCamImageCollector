@@ -1,28 +1,174 @@
 ﻿<Page
     x:Class="WebCamImageCollector.RemoteControl.UI.MainPage"
+    x:Name="page"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WebCamImageCollector.RemoteControl.UI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:data="using:WebCamImageCollector.RemoteControl.UI.Data"
-    mc:Ignorable="d"
+    mc:Ignorable="d" d:DataContext="{Binding MainViewModel, Source={StaticResource ViewModel}}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Style x:Key="PlainButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SymbolButtonStyle" TargetType="Button">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="40" />
+        </Style>
+        <Style x:Key="FormItemStyle" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+    </Page.Resources>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Add" Label="Add remote" />
+        </CommandBar>
+    </Page.BottomAppBar>
     <Grid>
-        <SplitView x:Name="rootSplitView" DisplayMode="Overlay" IsPaneOpen="{x:Bind btnMenu.IsChecked, Mode=TwoWay, Converter={StaticResource nullableBoolToBool}}">
-            <SplitView.Pane>
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal" Style="{StaticResource HeaderStyle}">
-                        <TextBlock Text="WebCam Remote Control" Style="{StaticResource HeaderTextStyle}" FontWeight="Bold" />
+        <StackPanel Margin="20,0">
+            <ItemsControl ItemsSource="{Binding RemoteClients}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" MinWidth="300" Margin="10" Padding="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Button  Style="{StaticResource PlainButtonStyle}">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" FontSize="20" />
+                                        <TextBlock Text="{Binding Url}" FontSize="12" />
+                                    </StackPanel>
+                                </Button>
+                                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                    <Button Command="{Binding DataContext.EditRemote, ElementName=page}" CommandParameter="{Binding}" Style="{StaticResource SymbolButtonStyle}">
+                                        <SymbolIcon Symbol="Edit"/>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Border BorderThickness="0,1,0,0" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" Margin="10,20" />
+
+            <Border BorderThickness="1" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" Margin="10" Padding="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Style="{StaticResource PlainButtonStyle}">
+                        <StackPanel>
+                            <TextBlock Text="{Binding LocalClient.Name}" FontSize="20" />
+                            <TextBlock Text="{Binding LocalClient.Url}" FontSize="12" />
+                        </StackPanel>
+                    </Button>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <Button Style="{StaticResource SymbolButtonStyle}">
+                            <SymbolIcon Symbol="Edit"/>
+                        </Button>
                     </StackPanel>
-                    <StackPanel Margin="0,10,0,0">
-                        <Button x:Name="btnRemoteClient" Content="Remote control" Click="btnRemoteClient_Click" Style="{StaticResource FlatButtonStyle}" />
-                        <Button x:Name="btnLocalServer" Content="Local server" Click="btnLocalServer_Click" Style="{StaticResource FlatButtonStyle}" />
+                </Grid>
+            </Border>
+        </StackPanel>
+
+        <Grid x:Name="gridRemoteEdit" DataContext="{Binding RemoteClientEdit}" Visibility="Collapsed">
+            <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Opacity=".7" />
+            <Border Background="{StaticResource ApplicationPageBackgroundThemeBrush}" 
+             BorderThickness="1" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+             VerticalAlignment="Center" Padding="10" Margin="30">
+                <StackPanel>
+                    <StackPanel Style="{StaticResource FormItemStyle}">
+                        <TextBlock Text="Name:" />
+                        <TextBox Text="{Binding Name}" />
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource FormItemStyle}">
+                        <TextBlock Text="Authentication token:" />
+                        <TextBox Text="{Binding AuthenticationToken}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Accept" />
+                                <TextBlock Text="Save" Margin="10,0,0,0" />
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Cancel" />
+                                <TextBlock Text="Close" Margin="10,0,0,0" />
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Delete" />
+                                <TextBlock Text="Delete" Margin="10,0,0,0" />
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                 </StackPanel>
-            </SplitView.Pane>
-            <Frame x:Name="frmRoot" />
-        </SplitView>
-        <ToggleButton x:Name="btnMenu" Style="{StaticResource MenuButtonStyle}" />
+            </Border>
+        </Grid>
+        <Grid x:Name="gridLocalEdit" DataContext="{Binding LocalClientEdit}" Visibility="Collapsed">
+            <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Opacity=".7" />
+            <Border Background="{StaticResource ApplicationPageBackgroundThemeBrush}" 
+             BorderThickness="1" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+             VerticalAlignment="Center" Padding="10" Margin="30">
+                <StackPanel>
+                    <StackPanel Style="{StaticResource FormItemStyle}">
+                        <TextBlock Text="Port:" />
+                        <TextBox Text="{Binding Port}" />
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource FormItemStyle}">
+                        <TextBlock Text="Authentication token:" />
+                        <TextBox Text="{Binding AuthenticationToken}" />
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource FormItemStyle}">
+                        <TextBlock Text="Interval between captures (in secconds):" />
+                        <TextBox Text="{Binding IntervalSeconds}" />
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource FormItemStyle}">
+                        <TextBlock Text="Delay after starting camera (in secconds):" />
+                        <TextBox Text="{Binding DelaySeconds}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Accept" />
+                                <TextBlock Text="Save" Margin="10,0,0,0" />
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Cancel" />
+                                <TextBlock Text="Close" Margin="10,0,0,0" />
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Delete" />
+                                <TextBlock Text="Delete" Margin="10,0,0,0" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

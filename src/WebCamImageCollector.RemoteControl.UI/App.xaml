@@ -4,11 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WebCamImageCollector.RemoteControl.UI"
     xmlns:data="using:WebCamImageCollector.RemoteControl.UI.Data"
+    xmlns:dd="using:WebCamImageCollector.RemoteControl.UI.DesignData"
     RequestedTheme="Dark">
     <Application.Resources>
-        <data:NullToBoolConverter x:Key="notNullToBool" IsInverted="True" />
-        <data:NullToVisibilityConverter x:Key="notNullToVisibility" IsInverted="True" />
-        <data:NullableBoolToBoolConverter x:Key="nullableBoolToBool" />
+        <dd:ViewModelLocator x:Key="ViewModel" />
+        
+        <data:NullToBoolConverter x:Key="NotNullToBoolConverter" IsInverted="True" />
+        <data:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <data:NullToVisibilityConverter x:Key="NotNullToVisibilityConverter" IsInverted="True" />
+        <data:NullableBoolToBoolConverter x:Key="NullableBoolToBoolConverter" />
 
         <Style x:Key="HeaderStyle" TargetType="StackPanel">
             <Setter Property="Height" Value="48" />

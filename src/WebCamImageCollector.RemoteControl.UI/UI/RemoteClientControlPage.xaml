@@ -29,13 +29,13 @@
                 </AppBarButton.Icon>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
-                <AppBarButton x:Name="btnClearImage" Label="Clear image" Click="btnClearImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource notNullToBool}, Mode=OneWay}" />
+                <AppBarButton x:Name="btnClearImage" Label="Clear image" Click="btnClearImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
 
     <Grid>
-        <ScrollViewer x:Name="Scrollster" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" Visibility="{x:Bind imgBackground.Source, Converter={StaticResource notNullToVisibility}, Mode=OneWay}"
+        <ScrollViewer x:Name="Scrollster" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" Visibility="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToVisibilityConverter}, Mode=OneWay}"
          HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" 
          HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
          HorizontalAlignment="Center">
