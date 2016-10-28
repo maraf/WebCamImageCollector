@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.ComponentModel;
 
 namespace WebCamImageCollector.RemoteControl.UI
 {
@@ -43,12 +44,14 @@ namespace WebCamImageCollector.RemoteControl.UI
         }
 
         public ICommand EditRemote { get; private set; }
+        public ICommand EditLocal { get; private set; }
 
         public MainViewModel()
         {
             RemoteClients = new ObservableCollection<ClientViewModel>();
 
             EditRemote = new EditRemoteCommand(this);
+            EditLocal = new EditLocalCommand(this);
         }
 
         private class EditRemoteCommand : ICommand
@@ -75,6 +78,38 @@ namespace WebCamImageCollector.RemoteControl.UI
                     Name = client.Name,
                     Url = client.Url,
                     AuthenticationToken = null
+                };
+            }
+        }
+
+        private class EditLocalCommand : ICommand
+        {
+            private readonly MainViewModel viewModel;
+
+            public EditLocalCommand(MainViewModel viewModel)
+            {
+                this.viewModel = viewModel;
+                this.viewModel.PropertyChanged += OnPropertyChanged;
+            }
+
+            private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+            {
+                if (e.PropertyName == nameof(MainViewModel.LocalClient) && CanExecuteChanged != null)
+                    CanExecuteChanged(this, EventArgs.Empty);
+            }
+
+            public event EventHandler CanExecuteChanged;
+
+            public bool CanExecute(object parameter)
+            {
+                return viewModel.LocalClient != null;
+            }
+
+            public void Execute(object parameter)
+            {
+                viewModel.LocalClientEdit = new LocalClientEditViewModel()
+                {
+                    
                 };
             }
         }

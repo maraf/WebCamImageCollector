@@ -78,7 +78,7 @@
                         </StackPanel>
                     </Button>
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
-                        <Button Style="{StaticResource SymbolButtonStyle}">
+                        <Button Command="{Binding EditLocal}" Style="{StaticResource SymbolButtonStyle}">
                             <SymbolIcon Symbol="Edit"/>
                         </Button>
                     </StackPanel>
