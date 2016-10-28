@@ -41,23 +41,23 @@ namespace WebCamImageCollector.RemoteControl.UI
         {
             base.OnNavigatedTo(e);
 
-            client = ServiceProvider.RemoteClients.LocalClient;
-            if (client != null)
-            {
-                tbxPort.Text = client.Port.ToString();
-                tbxAuthenticationToken.Text = client.AuthenticationToken;
-            }
+            //client = ServiceProvider.Clients.LocalClient;
+            //if (client != null)
+            //{
+            //    tbxPort.Text = client.Port.ToString();
+            //    tbxAuthenticationToken.Text = client.AuthenticationToken;
+            //}
 
-            foreach (KeyValuePair<Guid, IBackgroundTaskRegistration> item in BackgroundTaskRegistration.AllTasks)
-            {
-                if (item.Value.Name == TaskName)
-                {
-                    task = item.Value;
-                    break;
-                }
-            }
+            //foreach (KeyValuePair<Guid, IBackgroundTaskRegistration> item in BackgroundTaskRegistration.AllTasks)
+            //{
+            //    if (item.Value.Name == TaskName)
+            //    {
+            //        task = item.Value;
+            //        break;
+            //    }
+            //}
 
-            UpdateButtons();
+            //UpdateButtons();
         }
 
         private void UpdateButtons()
@@ -67,53 +67,53 @@ namespace WebCamImageCollector.RemoteControl.UI
 
         private async void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            int port = -1;
-            if (!String.IsNullOrEmpty(tbxPort.Text) && Int32.TryParse(tbxPort.Text, out port))
-            {
-                if (client == null)
-                    client = new LocalClient(port, tbxAuthenticationToken.Text);
-                else
-                    client.Update(port, tbxAuthenticationToken.Text);
+            //int port = -1;
+            //if (!String.IsNullOrEmpty(tbxPort.Text) && Int32.TryParse(tbxPort.Text, out port))
+            //{
+            //    if (client == null)
+            //        client = new LocalClient(port, tbxAuthenticationToken.Text);
+            //    else
+            //        client.Update(port, tbxAuthenticationToken.Text);
 
-                ServiceProvider.RemoteClients.SetLocal(client);
-                ServiceProvider.RemoteClients.Save();
-            }
+            //    ServiceProvider.Clients.CreateOrReplaceLocal(client);
+            //    ServiceProvider.Clients.Save();
+            //}
 
-            if (task == null)
-            {
-                ApplicationTrigger trigger = new ApplicationTrigger();
+            //if (task == null)
+            //{
+            //    ApplicationTrigger trigger = new ApplicationTrigger();
 
-                BackgroundTaskBuilder builder = new BackgroundTaskBuilder();
-                builder.Name = TaskName;
-                builder.TaskEntryPoint = TaskEntryPoint;
-                builder.SetTrigger(trigger);
-                task = builder.Register();
+            //    BackgroundTaskBuilder builder = new BackgroundTaskBuilder();
+            //    builder.Name = TaskName;
+            //    builder.TaskEntryPoint = TaskEntryPoint;
+            //    builder.SetTrigger(trigger);
+            //    task = builder.Register();
 
-                ValueSet args = new ValueSet();
-                args["Delay"] = 5;
+            //    ValueSet args = new ValueSet();
+            //    args["Delay"] = 5;
 
-                if (!String.IsNullOrEmpty(tbxPort.Text))
-                    args["Port"] = client.Port;
+            //    if (!String.IsNullOrEmpty(tbxPort.Text))
+            //        args["Port"] = client.Port;
 
-                if (!String.IsNullOrEmpty(client.AuthenticationToken))
-                    args["AuthenticationToken"] = client.AuthenticationToken;
+            //    if (!String.IsNullOrEmpty(client.AuthenticationToken))
+            //        args["AuthenticationToken"] = client.AuthenticationToken;
 
-                ApplicationTriggerResult result = await trigger.RequestAsync(args);
-                if (result != ApplicationTriggerResult.Allowed)
-                    task = null;
+            //    ApplicationTriggerResult result = await trigger.RequestAsync(args);
+            //    if (result != ApplicationTriggerResult.Allowed)
+            //        task = null;
 
-                UpdateButtons();
-            }
+            //    UpdateButtons();
+            //}
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
-            if (task != null)
-            {
-                task.Unregister(true);
-                task = null;
-                UpdateButtons();
-            }
+            //if (task != null)
+            //{
+            //    task.Unregister(true);
+            //    task = null;
+            //    UpdateButtons();
+            //}
         }
     }
 }

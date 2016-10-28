@@ -9,7 +9,8 @@ namespace WebCamImageCollector.RemoteControl.UI
 {
     public class ClientViewModel : ObservableObject
     {
-        public string Name { get;  set; }
+        public Guid Key { get; set; }
+        public string Name { get; set; }
         public string Url { get; set; }
     }
 }

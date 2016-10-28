@@ -30,7 +30,7 @@
     </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Add" Label="Add remote" />
+            <AppBarButton Icon="Add" Label="Add remote" Command="{Binding CreateRemote}" />
         </CommandBar>
     </Page.BottomAppBar>
     <Grid>
@@ -86,65 +86,71 @@
             </Border>
         </StackPanel>
 
-        <Grid x:Name="gridRemoteEdit" DataContext="{Binding RemoteClientEdit}" Visibility="Collapsed">
+        <Grid x:Name="gridRemoteEdit" Visibility="{Binding RemoteClientEdit, Converter={StaticResource NotNullToVisibilityConverter}}">
             <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Opacity=".7" />
-            <Border Background="{StaticResource ApplicationPageBackgroundThemeBrush}" 
+            <Border DataContext="{Binding RemoteClientEdit}"
+             Background="{StaticResource ApplicationPageBackgroundThemeBrush}" 
              BorderThickness="1" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
              VerticalAlignment="Center" Padding="10" Margin="30">
                 <StackPanel>
                     <StackPanel Style="{StaticResource FormItemStyle}">
                         <TextBlock Text="Name:" />
-                        <TextBox Text="{Binding Name}" />
+                        <TextBox Text="{Binding Name, Mode=TwoWay}" />
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource FormItemStyle}">
+                        <TextBlock Text="Url:" />
+                        <TextBox Text="{Binding Url, Mode=TwoWay}" />
                     </StackPanel>
                     <StackPanel Style="{StaticResource FormItemStyle}">
                         <TextBlock Text="Authentication token:" />
-                        <TextBox Text="{Binding AuthenticationToken}" />
+                        <TextBox Text="{Binding AuthenticationToken, Mode=TwoWay}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Margin="10,0,0,0">
+                        <Button Command="{Binding Save}" Margin="10,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Accept" />
                                 <TextBlock Text="Save" Margin="10,0,0,0" />
                             </StackPanel>
                         </Button>
-                        <Button Margin="10,0,0,0">
-                            <StackPanel Orientation="Horizontal">
-                                <SymbolIcon Symbol="Cancel" />
-                                <TextBlock Text="Close" Margin="10,0,0,0" />
-                            </StackPanel>
-                        </Button>
-                        <Button Margin="10,0,0,0">
+                        <Button Command="{Binding Delete}" Margin="10,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Delete" />
                                 <TextBlock Text="Delete" Margin="10,0,0,0" />
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding Close}" Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Cancel" />
+                                <TextBlock Text="Close" Margin="10,0,0,0" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
                 </StackPanel>
             </Border>
         </Grid>
-        <Grid x:Name="gridLocalEdit" DataContext="{Binding LocalClientEdit}" Visibility="Collapsed">
+        <Grid x:Name="gridLocalEdit" Visibility="{Binding LocalClientEdit, Converter={StaticResource NotNullToVisibilityConverter}}">
             <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Opacity=".7" />
-            <Border Background="{StaticResource ApplicationPageBackgroundThemeBrush}" 
+            <Border DataContext="{Binding LocalClientEdit}"
+             Background="{StaticResource ApplicationPageBackgroundThemeBrush}" 
              BorderThickness="1" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
              VerticalAlignment="Center" Padding="10" Margin="30">
                 <StackPanel>
                     <StackPanel Style="{StaticResource FormItemStyle}">
                         <TextBlock Text="Port:" />
-                        <TextBox Text="{Binding Port}" />
+                        <TextBox Text="{Binding Port, Mode=TwoWay}" />
                     </StackPanel>
                     <StackPanel Style="{StaticResource FormItemStyle}">
                         <TextBlock Text="Authentication token:" />
-                        <TextBox Text="{Binding AuthenticationToken}" />
+                        <TextBox Text="{Binding AuthenticationToken, Mode=TwoWay}" />
                     </StackPanel>
                     <StackPanel Style="{StaticResource FormItemStyle}">
                         <TextBlock Text="Interval between captures (in secconds):" />
-                        <TextBox Text="{Binding IntervalSeconds}" />
+                        <TextBox Text="{Binding IntervalSeconds, Mode=TwoWay}" />
                     </StackPanel>
                     <StackPanel Style="{StaticResource FormItemStyle}">
                         <TextBlock Text="Delay after starting camera (in secconds):" />
-                        <TextBox Text="{Binding DelaySeconds}" />
+                        <TextBox Text="{Binding DelaySeconds, Mode=TwoWay}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

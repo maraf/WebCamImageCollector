@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace WebCamImageCollector.RemoteControl.Services
 {
-    public class RemoteClientException : Exception
+    public class ClientNotAvailableException : ClientException
     { }
 }

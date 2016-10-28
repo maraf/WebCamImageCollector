@@ -13,24 +13,20 @@ namespace WebCamImageCollector.RemoteControl.Services
 {
     public class RemoteClient
     {
+        public Guid Key { get; private set; }
+        public string Name { get; private set; }
         public string Url { get; private set; }
         public string AuthenticationToken { get; private set; }
 
-        public RemoteClient(string url, string authenticationToken)
+        public RemoteClient(Guid key, string name, string url, string authenticationToken)
         {
+            Key = key;
+            Name = name;
             Url = url;
+            Name = name;
             AuthenticationToken = authenticationToken;
         }
-
-        public void UpdateEndpoint(string url, string authenticationToken)
-        {
-            if (String.IsNullOrEmpty(url))
-                throw new ArgumentException("url");
-
-            Url = url;
-            AuthenticationToken = authenticationToken;
-        }
-
+        
         private async Task<HttpResponseMessage> SendRequest(string url, string content)
         {
             try
@@ -63,7 +59,7 @@ namespace WebCamImageCollector.RemoteControl.Services
             }
             else
             {
-                throw new RemoteClientNotAvailableException();
+                throw new ClientNotAvailableException();
             }
         }
 

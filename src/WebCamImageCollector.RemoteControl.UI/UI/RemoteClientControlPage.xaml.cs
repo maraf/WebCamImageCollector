@@ -96,7 +96,7 @@ namespace WebCamImageCollector.RemoteControl.UI
                 ClearMessage();
                 done();
             }
-            catch (RemoteClientException)
+            catch (ClientException)
             {
                 ShowMessage("Server not responded correctly.", true);
             }
@@ -119,7 +119,7 @@ namespace WebCamImageCollector.RemoteControl.UI
                 ClearMessage();
                 done(result);
             }
-            catch (RemoteClientException)
+            catch (ClientException)
             {
                 ShowMessage("Server not responded correctly.", true);
             }

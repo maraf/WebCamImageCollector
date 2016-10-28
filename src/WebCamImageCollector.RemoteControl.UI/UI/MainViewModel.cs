@@ -12,6 +12,8 @@ namespace WebCamImageCollector.RemoteControl.UI
 {
     public class MainViewModel : ObservableObject
     {
+        private readonly IService service;
+
         public ClientViewModel LocalClient { get; set; }
         public ObservableCollection<ClientViewModel> RemoteClients { get; private set; }
 
@@ -43,15 +45,83 @@ namespace WebCamImageCollector.RemoteControl.UI
             }
         }
 
+        public ICommand CreateRemote { get; private set; }
         public ICommand EditRemote { get; private set; }
         public ICommand EditLocal { get; private set; }
 
-        public MainViewModel()
+        public MainViewModel(IService service)
         {
+            this.service = service;
+
             RemoteClients = new ObservableCollection<ClientViewModel>();
 
+            CreateRemote = new CreateRemoteCommand(this);
             EditRemote = new EditRemoteCommand(this);
             EditLocal = new EditLocalCommand(this);
+        }
+
+        private RemoteClientEditViewModel.IService CreateRemoteEditService(ClientViewModel client)
+        {
+            return new RemoteClientEditService(this, client);
+        }
+
+        public interface IService
+        {
+            ClientViewModel CreateRemote(string name, string url, string authenticationToken);
+        }
+
+        private class RemoteClientEditService : RemoteClientEditViewModel.IService
+        {
+            private readonly MainViewModel main;
+            private ClientViewModel client;
+
+            public RemoteClientEditService(MainViewModel main, ClientViewModel client)
+            {
+                this.main = main;
+                this.client = client;
+            }
+
+            public void Close()
+            {
+                main.RemoteClientEdit = null;
+            }
+
+            public void Delete()
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Save(string name, string url, string authenticationToken)
+            {
+                if (client == null)
+                {
+                    client = main.service.CreateRemote(name, url, authenticationToken);
+                    main.RemoteClients.Add(client);
+                    Close();
+                }
+            }
+        }
+
+        private class CreateRemoteCommand : ICommand
+        {
+            private readonly MainViewModel viewModel;
+
+            public CreateRemoteCommand(MainViewModel viewModel)
+            {
+                this.viewModel = viewModel;
+            }
+
+            public event EventHandler CanExecuteChanged;
+
+            public bool CanExecute(object parameter)
+            {
+                return true;
+            }
+
+            public void Execute(object parameter)
+            {
+                viewModel.RemoteClientEdit = new RemoteClientEditViewModel(viewModel.CreateRemoteEditService(null));
+            }
         }
 
         private class EditRemoteCommand : ICommand
@@ -73,7 +143,7 @@ namespace WebCamImageCollector.RemoteControl.UI
             public void Execute(object parameter)
             {
                 ClientViewModel client = (ClientViewModel)parameter;
-                viewModel.RemoteClientEdit = new RemoteClientEditViewModel()
+                viewModel.RemoteClientEdit = new RemoteClientEditViewModel(viewModel.CreateRemoteEditService(client))
                 {
                     Name = client.Name,
                     Url = client.Url,

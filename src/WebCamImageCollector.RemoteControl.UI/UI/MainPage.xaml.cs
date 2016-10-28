@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,13 +31,59 @@ namespace WebCamImageCollector.RemoteControl.UI
         public MainPage()
         {
             InitializeComponent();
-            DataContext = new ViewModelLocator().MainViewModel;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            //Frame.Navigate(typeof(RemoteClientListPage), e.Parameter);
+
+            ClientRepository repository = ServiceProvider.Clients;
+
+            MainViewModel viewModel = new MainViewModel(new MainViewModelService(repository));
+            foreach (RemoteClient remote in repository.EnumerateRemote())
+            {
+                viewModel.RemoteClients.Add(new ClientViewModel()
+                {
+                    Key = remote.Key,
+                    Name = remote.Name,
+                    Url = remote.Name
+                });
+            }
+
+            LocalClient local = repository.FindLocal();
+            if (local != null)
+            {
+                viewModel.LocalClient = new ClientViewModel()
+                {
+                    Key = local.Key,
+                    Name = "Local",
+                    Url = String.Format("http://localhost{0}/", local.Port) // TODO: Use IClient unified API with Url+AuthenticationToken etc.
+                };
+            }
+
+            DataContext = viewModel;
+        }
+
+        private class MainViewModelService : MainViewModel.IService
+        {
+            private readonly ClientRepository repository;
+
+            public MainViewModelService(ClientRepository repository)
+            {
+                Ensure.NotNull(repository, "repository");
+                this.repository = repository;
+            }
+
+            public ClientViewModel CreateRemote(string name, string url, string authenticationToken)
+            {
+                RemoteClient client = repository.CreateRemote(name, url, authenticationToken);
+                return new ClientViewModel()
+                {
+                    Key = client.Key,
+                    Name = client.Name,
+                    Url = client.Url
+                };
+            }
         }
     }
 }

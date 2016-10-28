@@ -48,9 +48,7 @@ namespace WebCamImageCollector.RemoteControl
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
-            ServiceProvider.RemoteClients = new RemoteClientRepository();
-            ServiceProvider.RemoteClients.Load();
-
+            ServiceProvider.Clients = new ClientRepository();
 
             Frame rootFrame = Window.Current.Content as Frame;
 

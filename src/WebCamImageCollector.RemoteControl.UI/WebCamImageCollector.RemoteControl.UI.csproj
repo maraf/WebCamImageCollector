@@ -102,9 +102,9 @@
     </Compile>
     <Compile Include="Services\LocalClient.cs" />
     <Compile Include="Services\RemoteClient.cs" />
-    <Compile Include="Services\RemoteClientRepository.cs" />
-    <Compile Include="Services\RemoteClientException.cs" />
-    <Compile Include="Services\RemoteClientNotAvailableException.cs" />
+    <Compile Include="Services\ClientRepository.cs" />
+    <Compile Include="Services\ClientException.cs" />
+    <Compile Include="Services\ClientNotAvailableException.cs" />
     <Compile Include="UI\DesignData\ViewModelLocator.cs" />
     <Compile Include="UI\LocalClientEditViewModel.cs" />
     <Compile Include="UI\LocalServer.xaml.cs">
@@ -122,12 +122,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\RemoteClientEditViewModel.cs" />
-    <Compile Include="UI\RemoteClientListPage.xaml.cs">
-      <DependentUpon>RemoteClientListPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\RemoteClientEditPage.xaml.cs">
-      <DependentUpon>RemoteClientEditPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\ClientViewModel.cs" />
     <Compile Include="UI\ServiceProvider.cs" />
     <Compile Include="_Neptuo\Ensure.cs" />
@@ -158,10 +152,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="UI\RemoteClientListPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\Resources\EditForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -178,10 +168,6 @@
     <Page Include="UI\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\RemoteClientEditPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

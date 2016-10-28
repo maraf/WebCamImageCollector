@@ -9,6 +9,6 @@ namespace WebCamImageCollector.RemoteControl.UI
 {
     public static class ServiceProvider
     {
-        public static RemoteClientRepository RemoteClients { get; set; }
+        public static ClientRepository Clients { get; set; }
     }
 }
