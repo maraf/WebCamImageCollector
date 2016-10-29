@@ -39,7 +39,7 @@ namespace WebCamImageCollector.RemoteControl.UI
 
             ClientRepository repository = ServiceProvider.Clients;
 
-            MainViewModel viewModel = new MainViewModel(new MainViewModelService(repository));
+            MainViewModel viewModel = new MainViewModel(new MainViewModelService(repository), repository);
             foreach (RemoteClient remote in repository.EnumerateRemote())
             {
                 viewModel.RemoteClients.Add(new ClientViewModel()
@@ -72,6 +72,17 @@ namespace WebCamImageCollector.RemoteControl.UI
             {
                 Ensure.NotNull(repository, "repository");
                 this.repository = repository;
+            }
+
+            public ClientViewModel CreateLocal(int port, string authenticationToken, int interval, int delay)
+            {
+                LocalClient client = repository.CreateOrReplaceLocal(port, authenticationToken, interval, delay);
+                return new ClientViewModel()
+                {
+                    Key = client.Key,
+                    Name = "Local",
+                    Url = String.Format("http://localhost{0}/", client.Port) // TODO: Use IClient unified API with Url+AuthenticationToken etc.
+                };
             }
 
             public ClientViewModel CreateRemote(string name, string url, string authenticationToken)

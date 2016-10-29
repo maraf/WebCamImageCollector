@@ -16,7 +16,7 @@ namespace WebCamImageCollector.RemoteControl.UI.DesignData
             {
                 if (mainViewModel == null)
                 {
-                    mainViewModel = new MainViewModel(new MainViewModelService());
+                    mainViewModel = new MainViewModel(new MainViewModelService(), null);
                     mainViewModel.LocalClient = new ClientViewModel()
                     {
                         Name = "Local",
@@ -53,6 +53,11 @@ namespace WebCamImageCollector.RemoteControl.UI.DesignData
 
         private class MainViewModelService : MainViewModel.IService
         {
+            public ClientViewModel CreateLocal(int port, string authenticationToken, int interval, int delay)
+            {
+                throw new NotImplementedException();
+            }
+
             public ClientViewModel CreateRemote(string name, string url, string authenticationToken)
             {
                 throw new NotImplementedException();
