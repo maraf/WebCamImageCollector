@@ -117,7 +117,7 @@ namespace WebCamImageCollector.RemoteControl.UI
 
             public void Close()
             {
-                main.RemoteClientEdit = null;
+                main.LocalClientEdit = null;
             }
 
             public void Delete()
@@ -210,13 +210,13 @@ namespace WebCamImageCollector.RemoteControl.UI
 
             public bool CanExecute(object parameter)
             {
-                return viewModel.LocalClient != null;
+                //return viewModel.LocalClient != null;
+                return true;
             }
 
             public void Execute(object parameter)
             {
                 LocalClient client = repository.FindLocal();
-
                 viewModel.LocalClientEdit = new LocalClientEditViewModel(new LocalClientEditService(viewModel));
 
                 if (client != null)

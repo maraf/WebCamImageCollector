@@ -154,19 +154,19 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Margin="10,0,0,0">
+                        <Button Command="{Binding Save}" Margin="10,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Accept" />
                                 <TextBlock Text="Save" Margin="10,0,0,0" />
                             </StackPanel>
                         </Button>
-                        <Button Margin="10,0,0,0">
+                        <Button Command="{Binding Close}" Margin="10,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Cancel" />
                                 <TextBlock Text="Close" Margin="10,0,0,0" />
                             </StackPanel>
                         </Button>
-                        <Button Margin="10,0,0,0">
+                        <Button Command="{Binding Delete}" Margin="10,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Delete" />
                                 <TextBlock Text="Delete" Margin="10,0,0,0" />
