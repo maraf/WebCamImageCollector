@@ -45,7 +45,7 @@ namespace WebCamImageCollector.RemoteControl.Services
             return client;
         }
 
-        public ClientRepository RemoveRemote(Guid key)
+        public ClientRepository DeleteRemote(Guid key)
         {
             if (remoteClients.Remove(key))
                 Save();

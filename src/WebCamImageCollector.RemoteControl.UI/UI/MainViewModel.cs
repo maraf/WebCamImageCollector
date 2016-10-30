@@ -14,6 +14,7 @@ namespace WebCamImageCollector.RemoteControl.UI
     public class MainViewModel : ObservableObject
     {
         private readonly IService service;
+        private readonly ClientRepository repository;
 
         public ClientViewModel LocalClient { get; set; }
         public ObservableCollection<ClientViewModel> RemoteClients { get; private set; }
@@ -53,6 +54,7 @@ namespace WebCamImageCollector.RemoteControl.UI
         public MainViewModel(IService service, ClientRepository repository)
         {
             this.service = service;
+            this.repository = repository;
 
             RemoteClients = new ObservableCollection<ClientViewModel>();
 
@@ -63,7 +65,7 @@ namespace WebCamImageCollector.RemoteControl.UI
 
         private RemoteClientEditViewModel.IService CreateRemoteEditService(ClientViewModel client)
         {
-            return new RemoteClientEditService(this, client);
+            return new RemoteClientEditService(this, client, repository);
         }
 
         public interface IService
@@ -76,11 +78,13 @@ namespace WebCamImageCollector.RemoteControl.UI
         {
             private readonly MainViewModel main;
             private ClientViewModel client;
+            private ClientRepository repository;
 
-            public RemoteClientEditService(MainViewModel main, ClientViewModel client)
+            public RemoteClientEditService(MainViewModel main, ClientViewModel client, ClientRepository repository)
             {
                 this.main = main;
                 this.client = client;
+                this.repository = repository;
             }
 
             public void Close()
@@ -90,7 +94,8 @@ namespace WebCamImageCollector.RemoteControl.UI
 
             public void Delete()
             {
-                throw new NotImplementedException();
+                if (client != null)
+                    repository.DeleteRemote(client.Key);
             }
 
             public void Save(string name, string url, string authenticationToken)
@@ -109,10 +114,12 @@ namespace WebCamImageCollector.RemoteControl.UI
         private class LocalClientEditService : LocalClientEditViewModel.IService
         {
             private readonly MainViewModel main;
+            private readonly ClientRepository repository;
 
-            public LocalClientEditService(MainViewModel main)
+            public LocalClientEditService(MainViewModel main, ClientRepository repository)
             {
                 this.main = main;
+                this.repository = repository;
             }
 
             public void Close()
@@ -122,7 +129,7 @@ namespace WebCamImageCollector.RemoteControl.UI
 
             public void Delete()
             {
-                throw new NotImplementedException();
+                repository.DeleteLocal();
             }
 
             public void Save(int port, string authenticationToken, int interval, int delay)
@@ -217,7 +224,7 @@ namespace WebCamImageCollector.RemoteControl.UI
             public void Execute(object parameter)
             {
                 LocalClient client = repository.FindLocal();
-                viewModel.LocalClientEdit = new LocalClientEditViewModel(new LocalClientEditService(viewModel));
+                viewModel.LocalClientEdit = new LocalClientEditViewModel(new LocalClientEditService(viewModel, repository));
 
                 if (client != null)
                 {
