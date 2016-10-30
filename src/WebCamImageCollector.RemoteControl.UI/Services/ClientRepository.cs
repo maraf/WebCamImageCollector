@@ -22,6 +22,19 @@ namespace WebCamImageCollector.RemoteControl.Services
             return remoteClients.Values;
         }
 
+        public IClient Find(Guid key)
+        {
+            RemoteClient remote = FindRemote(key);
+            if(remote == null)
+            {
+                LocalClient local = FindLocal();
+                if (local != null && local.Key == key)
+                    return local;
+            }
+
+            return remote;
+        }
+
         public LocalClient FindLocal()
         {
             return localClient;

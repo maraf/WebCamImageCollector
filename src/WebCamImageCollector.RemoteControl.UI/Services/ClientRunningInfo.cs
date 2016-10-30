@@ -8,13 +8,7 @@ namespace WebCamImageCollector.RemoteControl.Services
 {
     public class ClientRunningInfo
     {
-        public bool IsRunning { get; private set; }
-        public string Message { get; private set; }
-
-        public ClientRunningInfo(bool isRunning, string message)
-        {
-            IsRunning = isRunning;
-            Message = message;
-        }
+        public bool Running { get; set; }
+        public string LastError { get; set; }
     }
 }

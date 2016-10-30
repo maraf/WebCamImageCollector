@@ -26,11 +26,11 @@ namespace WebCamImageCollector.RemoteControl.UI
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class RemoteClientControlPage : Page
+    public sealed partial class ClientControlPage : Page
     {
-        private RemoteClient client;
+        private IClient client;
 
-        public RemoteClientControlPage()
+        public ClientControlPage()
         {
             InitializeComponent();
         }
@@ -38,7 +38,13 @@ namespace WebCamImageCollector.RemoteControl.UI
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            client = (RemoteClient)e.Parameter;
+            client = ServiceProvider.Clients.Find((Guid)e.Parameter);
+            if (client == null)
+            {
+                DisableButtons();
+                ShowMessage("Missing client.");
+                return;
+            }
 
             DisableButtons();
             UpdateState();
@@ -75,19 +81,22 @@ namespace WebCamImageCollector.RemoteControl.UI
             {
                 btnDownload.IsEnabled = true;
 
-                if (status)
+                if (status.Running)
                 {
                     btnStart.IsEnabled = false;
                     btnStop.IsEnabled = true;
                 }
                 else
                 {
+                    if (!String.IsNullOrEmpty(status.LastError))
+                        ShowMessage(status.LastError);
+
                     btnStart.IsEnabled = true;
                     btnStop.IsEnabled = false;
                 }
             });
         }
-        
+
         private async Task HandleErrorAsync(Func<Task> execute, Action done)
         {
             try

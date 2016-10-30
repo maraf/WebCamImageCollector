@@ -100,6 +100,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\ClientBase.cs" />
     <Compile Include="Services\IClient.cs" />
     <Compile Include="Services\ClientRunningInfo.cs" />
     <Compile Include="Services\LocalClient.cs" />
@@ -113,8 +114,8 @@
       <DependentUpon>LocalServer.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\MainViewModel.cs" />
-    <Compile Include="UI\RemoteClientControlPage.xaml.cs">
-      <DependentUpon>RemoteClientControlPage.xaml</DependentUpon>
+    <Compile Include="UI\ClientControlPage.xaml.cs">
+      <DependentUpon>ClientControlPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Data\NullableBoolToBoolConverter.cs" />
     <Compile Include="UI\Data\NullToBoolConverter.cs" />
@@ -163,7 +164,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\RemoteClientControlPage.xaml">
+    <Page Include="UI\ClientControlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

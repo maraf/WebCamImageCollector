@@ -96,5 +96,11 @@ namespace WebCamImageCollector.RemoteControl.UI
                 };
             }
         }
+
+        private void btnControl_Click(object sender, RoutedEventArgs e)
+        {
+            Guid key = (Guid)((Button)sender).Tag;
+            Frame.Navigate(typeof(ClientControlPage), key);
+        }
     }
 }
