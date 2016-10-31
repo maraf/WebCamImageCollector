@@ -97,7 +97,7 @@ namespace WebCamImageCollector.RemoteControl.Services
 
             foreach (RemoteClient client in remoteClients.Values)
             {
-                ApplicationDataContainer item = root
+                ApplicationDataContainer item = remote
                     .CreateContainer(client.Key.ToString(), ApplicationDataCreateDisposition.Always);
 
                 item.Values["Name"] = client.Name;

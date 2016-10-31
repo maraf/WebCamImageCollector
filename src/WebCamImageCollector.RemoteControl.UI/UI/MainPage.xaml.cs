@@ -46,7 +46,7 @@ namespace WebCamImageCollector.RemoteControl.UI
                 {
                     Key = remote.Key,
                     Name = remote.Name,
-                    Url = remote.Name
+                    Url = remote.Url
                 });
             }
 
@@ -57,7 +57,7 @@ namespace WebCamImageCollector.RemoteControl.UI
                 {
                     Key = local.Key,
                     Name = "Local",
-                    Url = String.Format("http://localhost{0}/", local.Port) // TODO: Use IClient unified API with Url+AuthenticationToken etc.
+                    Url = local.Url
                 };
             }
 
@@ -81,7 +81,7 @@ namespace WebCamImageCollector.RemoteControl.UI
                 {
                     Key = client.Key,
                     Name = "Local",
-                    Url = String.Format("http://localhost{0}/", client.Port) // TODO: Use IClient unified API with Url+AuthenticationToken etc.
+                    Url = client.Url
                 };
             }
 
