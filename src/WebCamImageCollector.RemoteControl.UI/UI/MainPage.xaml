@@ -71,7 +71,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <Button x:Name="btnLocalControl" Click="btnControl_Click" Tag="{Binding Key}" Style="{StaticResource PlainButtonStyle}">
+                    <Button x:Name="btnLocalControl" Click="btnControl_Click" Tag="{Binding LocalClient.Key}" Style="{StaticResource PlainButtonStyle}">
                         <StackPanel>
                             <TextBlock Text="{Binding LocalClient.Name}" FontSize="20" />
                             <TextBlock Text="{Binding LocalClient.Url}" FontSize="12" />

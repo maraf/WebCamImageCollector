@@ -14,6 +14,7 @@ namespace WebCamImageCollector.Http
         public AuthenticationHttpHandler(string authenticationToken, IHttpHandler inner)
         {
             this.authenticationToken = authenticationToken;
+            this.inner = inner;
         }
 
         public Task<bool> TryHandleAsync(HttpRequest request, HttpResponse response)

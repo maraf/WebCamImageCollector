@@ -49,10 +49,20 @@ namespace WebCamImageCollector.Http
                         using (var streamWriter = new StreamWriter(bodyStream))
                         {
                             HttpResponse response = new HttpResponse(streamWriter);
-
-                            if (await handler.TryHandleAsync(request, response))
+                            bool result = false;
+                            try
                             {
-
+                                result = await handler.TryHandleAsync(request, response);
+                                if (!result)
+                                    response.StatusCode = 404;
+                            }
+                            catch (Exception ex1)
+                            {
+                                response.StatusCode = 500;
+                                Debug.WriteLine(ex1.ToString());
+                            }
+                            finally
+                            {
                                 string statusText = GetStatusText(response.StatusCode);
                                 await streamWriter.FlushAsync();
                                 bodyStream.Seek(0, SeekOrigin.Begin);
@@ -77,9 +87,13 @@ namespace WebCamImageCollector.Http
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex2)
             {
-                Debug.WriteLine(ex.ToString());
+                Debug.WriteLine(ex2.ToString());
+            }
+            finally
+            {
+                e.Socket.Dispose();
             }
         }
 
@@ -173,7 +187,7 @@ namespace WebCamImageCollector.Http
                     return String.Empty;
             }
         }
-        
+
         public void Dispose()
         {
             if (listener != null)

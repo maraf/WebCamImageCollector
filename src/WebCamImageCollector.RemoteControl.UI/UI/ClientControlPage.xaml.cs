@@ -183,5 +183,10 @@ namespace WebCamImageCollector.RemoteControl.UI
         {
             imgBackground.Source = null;
         }
+
+        private void btnHome_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage));
+        }
     }
 }

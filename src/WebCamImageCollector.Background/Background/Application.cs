@@ -40,7 +40,7 @@ namespace WebCamImageCollector.Background
             captureService.ExceptionHandler += OnCaptureException;
             captureService.TryStartIfNotStopped();
 
-            IHttpHandler httpHandler = new AuthenticationHttpHandler(configuration.AuthenticationToken, null);
+            IHttpHandler httpHandler = new AuthenticationHttpHandler(configuration.AuthenticationToken, this);
             server = new HttpServer(httpHandler);
             await server.StartAsync(configuration.Port);
         }
