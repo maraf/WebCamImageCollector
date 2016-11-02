@@ -127,6 +127,9 @@
     <Compile Include="UI\RemoteClientEditViewModel.cs" />
     <Compile Include="UI\ClientViewModel.cs" />
     <Compile Include="UI\ServiceProvider.cs" />
+    <Compile Include="_Capturing\CaptureService.cs" />
+    <Compile Include="_Capturing\FileModel.cs" />
+    <Compile Include="_Capturing\_StorageFolderExtensions.cs" />
     <Compile Include="_Neptuo\Ensure.cs" />
     <Compile Include="_Neptuo\_Observables\ObservableCollection.cs" />
     <Compile Include="_Neptuo\_Observables\ObservableObject.cs" />

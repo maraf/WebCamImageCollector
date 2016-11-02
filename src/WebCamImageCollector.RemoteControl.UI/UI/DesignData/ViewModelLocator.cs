@@ -33,12 +33,12 @@ namespace WebCamImageCollector.RemoteControl.UI.DesignData
                         Url = "http://publis-web-cam.at:9002"
                     });
 
-                    mainViewModel.RemoteClientEdit = new RemoteClientEditViewModel(new RemoteClientEditViewModelService())
-                    {
-                        Name = "Raspberry Pi2",
-                        Url = "http://rpi2athome:9001",
-                        AuthenticationToken = "{FFA23D94-A341-4CBB-B40F-8D6D3B5C2408}"
-                    };
+                    //mainViewModel.RemoteClientEdit = new RemoteClientEditViewModel(new RemoteClientEditViewModelService())
+                    //{
+                    //    Name = "Raspberry Pi2",
+                    //    Url = "http://rpi2athome:9001",
+                    //    AuthenticationToken = "{FFA23D94-A341-4CBB-B40F-8D6D3B5C2408}"
+                    //};
                     //mainViewModel.LocalClientEdit = new LocalClientEditViewModel()
                     //{
                     //    Port = 9010,

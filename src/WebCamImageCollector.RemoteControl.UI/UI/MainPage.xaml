@@ -78,6 +78,12 @@
                         </StackPanel>
                     </Button>
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <Button x:Name="btnStartLocal" Click="btnStartLocal_Click" Style="{StaticResource SymbolButtonStyle}">
+                            <SymbolIcon Symbol="Play"/>
+                        </Button>
+                        <Button x:Name="btnStopLocal" Click="btnStopLocal_Click" Style="{StaticResource SymbolButtonStyle}" Visibility="Collapsed">
+                            <SymbolIcon Symbol="Pause"/>
+                        </Button>
                         <Button Command="{Binding EditLocal}" Style="{StaticResource SymbolButtonStyle}">
                             <SymbolIcon Symbol="Edit"/>
                         </Button>
