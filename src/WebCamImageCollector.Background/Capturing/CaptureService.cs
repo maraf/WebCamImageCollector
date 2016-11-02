@@ -55,6 +55,7 @@ namespace WebCamImageCollector.Capturing
             if (!storage.FileExists(stateFileName))
                 storage.CreateFile(stateFileName);
 
+            IsRunning = true;
             if (timer == null)
                 timer = new Timer(OnTimer, null, TimeSpan.Zero, Interval);
         }
@@ -65,6 +66,7 @@ namespace WebCamImageCollector.Capturing
             if (storage.FileExists(stateFileName))
                 storage.DeleteFile(stateFileName);
 
+            IsRunning = false;
             if (timer != null)
             {
                 timer.Dispose();
