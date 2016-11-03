@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 using WebCamImageCollector.RemoteControl.Services;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Graphics.Imaging;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.Storage.Provider;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -83,16 +87,16 @@ namespace WebCamImageCollector.RemoteControl.UI
 
                 if (status.Running)
                 {
-                    btnStart.IsEnabled = false;
-                    btnStop.IsEnabled = true;
+                    btnStart.Visibility = Visibility.Collapsed;
+                    btnStop.Visibility = Visibility.Visible;
                 }
                 else
                 {
                     if (!String.IsNullOrEmpty(status.LastError))
                         ShowMessage(status.LastError);
 
-                    btnStart.IsEnabled = true;
-                    btnStop.IsEnabled = false;
+                    btnStart.Visibility = Visibility.Visible;
+                    btnStop.Visibility = Visibility.Collapsed;
                 }
             });
         }
@@ -169,12 +173,15 @@ namespace WebCamImageCollector.RemoteControl.UI
             await UpdateState();
         }
 
+        private ClientImageModel downloadModel;
+
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
         {
             ShowMessage("Downloading image...");
-            await HandleErrorAsync(client.DownloadLatest, image =>
+            await HandleErrorAsync(client.DownloadLatest, model =>
             {
-                imgBackground.Source = image;
+                downloadModel = model;
+                imgBackground.Source = model.Image;
                 ClearMessage();
             });
         }
@@ -187,6 +194,34 @@ namespace WebCamImageCollector.RemoteControl.UI
         private void btnHome_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage));
+        }
+
+        private async void btnSaveImage_Click(object sender, RoutedEventArgs e)
+        {
+            FileSavePicker savePicker = new FileSavePicker();
+            savePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            savePicker.FileTypeChoices.Add("Image", new List<string>() { ".jpg" });
+            savePicker.SuggestedFileName = downloadModel.Date.ToString("yyyy-MM-dd HH:mm:ss");
+
+            StorageFile file = await savePicker.PickSaveFileAsync();
+            if (file != null)
+            {
+                CachedFileManager.DeferUpdates(file);
+
+                using (MemoryStream buffer = new MemoryStream())
+                {
+                    downloadModel.Stream.Position = 0;
+                    downloadModel.Stream.CopyTo(buffer);
+
+                    await FileIO.WriteBytesAsync(file, buffer.ToArray());
+                }
+
+                FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+                if (status == FileUpdateStatus.Complete)
+                    ShowMessage("Save completed...");
+                else
+                    ShowMessage("Something went wrong during save operation.");
+            }
         }
     }
 }

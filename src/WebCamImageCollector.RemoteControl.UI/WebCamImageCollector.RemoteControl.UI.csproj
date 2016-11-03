@@ -101,6 +101,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\ClientBase.cs" />
+    <Compile Include="Services\ClientImageModel.cs" />
     <Compile Include="Services\IClient.cs" />
     <Compile Include="Services\ClientRunningInfo.cs" />
     <Compile Include="Services\LocalClient.cs" />
@@ -110,9 +111,6 @@
     <Compile Include="Services\ClientNotAvailableException.cs" />
     <Compile Include="UI\DesignData\ViewModelLocator.cs" />
     <Compile Include="UI\LocalClientEditViewModel.cs" />
-    <Compile Include="UI\LocalServer.xaml.cs">
-      <DependentUpon>LocalServer.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\MainViewModel.cs" />
     <Compile Include="UI\ClientControlPage.xaml.cs">
       <DependentUpon>ClientControlPage.xaml</DependentUpon>
@@ -162,10 +160,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Page>
-    <Page Include="UI\LocalServer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\ClientControlPage.xaml">
       <SubType>Designer</SubType>

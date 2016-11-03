@@ -68,13 +68,19 @@ namespace WebCamImageCollector.RemoteControl.Services
             return response.StatusCode == HttpStatusCode.OK;
         }
 
-        public async Task<ImageSource> DownloadLatest()
+        public async Task<ClientImageModel> DownloadLatest()
         {
             HttpResponseMessage response = await SendRequest("/latest", String.Empty);
             Stream imageStream = await response.Content.ReadAsStreamAsync();
             BitmapImage image = new BitmapImage();
             await image.SetSourceAsync(imageStream.AsRandomAccessStream());
-            return image;
+
+            return new ClientImageModel()
+            {
+                Image = image,
+                Stream = imageStream,
+                Date = response.Headers.Date?.Date ?? DateTime.Today
+            };
         }
     }
 }

@@ -18,9 +18,10 @@
             <AppBarButton x:Name="btnStop" Label="Stop" Icon="Pause" Click="btnStop_Click" />
             <AppBarButton x:Name="btnStatus" Label="Refresh status" Icon="Refresh" Click="btnStatus_Click" />
             <AppBarButton x:Name="btnDownload" Label="Download latest" Icon="Download" Click="btnDownload_Click" />
-            
+
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Name="btnClearImage" Label="Clear image" Click="btnClearImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
+                <AppBarButton x:Name="btnSaveImage" Label="Save image" Click="btnSaveImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

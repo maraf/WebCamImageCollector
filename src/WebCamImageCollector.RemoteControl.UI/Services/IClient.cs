@@ -15,6 +15,6 @@ namespace WebCamImageCollector.RemoteControl.Services
         Task<ClientRunningInfo> IsRunningAsync();
         Task<bool> StartAsync();
         Task<bool> StopAsync();
-        Task<ImageSource> DownloadLatest();
+        Task<ClientImageModel> DownloadLatest();
     }
 }

@@ -62,13 +62,18 @@ namespace WebCamImageCollector.RemoteControl.Services
             service = new CaptureService(TimeSpan.FromSeconds(interval), TimeSpan.FromSeconds(delay));
         }
 
-        public async Task<ImageSource> DownloadLatest()
+        public async Task<ClientImageModel> DownloadLatest()
         {
             FileModel file = await service.FindLatestImageAsync();
             Stream imageStream = file.Content.AsStreamForRead();
             BitmapImage image = new BitmapImage();
             await image.SetSourceAsync(imageStream.AsRandomAccessStream());
-            return image;
+            return new ClientImageModel()
+            {
+                Image = image,
+                Stream = imageStream,
+                Date = file.CreatedAt
+            };
         }
 
         public Task<ClientRunningInfo> IsRunningAsync()
