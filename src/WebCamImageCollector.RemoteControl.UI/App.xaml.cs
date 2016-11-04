@@ -110,10 +110,9 @@ namespace WebCamImageCollector.RemoteControl
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            // TODO: Uncomment this.
-            //MainPage mainPage = Window.Current.Content as MainPage;
-            //if (mainPage != null)
-            //    mainPage.ShowMessage(e.Exception.ToString(), true);
+            ClientControlPage mainPage = Window.Current.Content as ClientControlPage;
+            if (mainPage != null)
+                mainPage.ShowMessage(e.Exception.ToString(), true);
         }
     }
 }

@@ -15,7 +15,7 @@
                 <AppBarButton x:Name="btnHome" Icon="Home" Click="btnHome_Click" />
             </CommandBar.Content>
             <AppBarButton x:Name="btnStart" Label="Start" Icon="Play" Click="btnStart_Click" />
-            <AppBarButton x:Name="btnStop" Label="Stop" Icon="Pause" Click="btnStop_Click" />
+            <AppBarButton x:Name="btnStop" Label="Stop" Icon="Pause" Click="btnStop_Click" Visibility="Collapsed" />
             <AppBarButton x:Name="btnStatus" Label="Refresh status" Icon="Refresh" Click="btnStatus_Click" />
             <AppBarButton x:Name="btnDownload" Label="Download latest" Icon="Download" Click="btnDownload_Click" />
 

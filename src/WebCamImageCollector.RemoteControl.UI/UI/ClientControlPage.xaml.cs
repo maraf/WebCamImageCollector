@@ -77,12 +77,14 @@ namespace WebCamImageCollector.RemoteControl.UI
             btnStart.IsEnabled = false;
             btnStop.IsEnabled = false;
         }
-
+        
         private async Task UpdateState()
         {
             ShowMessage("Checking status...");
             await HandleErrorAsync(client.IsRunningAsync, status =>
             {
+                btnStart.IsEnabled = true;
+                btnStop.IsEnabled = true;
                 btnDownload.IsEnabled = true;
 
                 if (status.Running)
@@ -152,8 +154,8 @@ namespace WebCamImageCollector.RemoteControl.UI
             ShowMessage("Starting server...");
             await HandleErrorAsync(client.StartAsync, () =>
             {
-                btnStart.IsEnabled = false;
-                btnStop.IsEnabled = true;
+                btnStart.Visibility = Visibility.Collapsed;
+                btnStop.Visibility = Visibility.Visible;
             });
         }
 
@@ -162,8 +164,8 @@ namespace WebCamImageCollector.RemoteControl.UI
             ShowMessage("Stoping server...");
             await HandleErrorAsync(client.StopAsync, () =>
             {
-                btnStart.IsEnabled = true;
-                btnStop.IsEnabled = false;
+                btnStart.Visibility = Visibility.Visible;
+                btnStop.Visibility = Visibility.Collapsed;
             });
         }
 
