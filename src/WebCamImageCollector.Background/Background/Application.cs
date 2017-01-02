@@ -89,7 +89,7 @@ namespace WebCamImageCollector.Background
                     else
                     {
                         string fileEtag = file.CreatedAt.ToString("yyyyMMddHHmmss");
-                        string etag = request.Headers["If-Nont-Match"];
+                        string etag = request.Headers["If-None-Match"];
                         if (fileEtag == etag)
                         {
                             response.StatusCode = 304;
