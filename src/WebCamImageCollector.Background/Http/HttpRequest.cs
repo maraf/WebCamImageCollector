@@ -16,5 +16,4 @@ namespace WebCamImageCollector.Http
         public NameValueCollection Headers { get; set; }
         public NameValueCollection QueryString { get; set; }
     }
-
 }
