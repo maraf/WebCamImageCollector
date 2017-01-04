@@ -33,7 +33,7 @@ namespace WebCamImageCollector.RemoteControl.Services
                     client.DefaultRequestHeaders.Add("X-Authentication-Token", AuthenticationToken);
 
                     if (!String.IsNullOrEmpty(etag))
-                        client.DefaultRequestHeaders.Add("If-None-Match", etag);
+                        client.DefaultRequestHeaders.TryAddWithoutValidation("If-None-Match", etag);
 
                     HttpResponseMessage response = await client.PostAsync(url, new StringContent(content));
                     return response;
@@ -77,7 +77,6 @@ namespace WebCamImageCollector.RemoteControl.Services
         public async Task<ClientImageModel> DownloadLatest()
         {
             HttpResponseMessage response = await SendRequest("/latest", String.Empty, latestETag);
-            latestETag = response.Headers.ETag.Tag;
             if (response.StatusCode == HttpStatusCode.NotModified)
                 return latestImage;
 
@@ -85,6 +84,7 @@ namespace WebCamImageCollector.RemoteControl.Services
             BitmapImage image = new BitmapImage();
             await image.SetSourceAsync(imageStream.AsRandomAccessStream());
 
+            latestETag = response.Headers.GetValues("ETag").FirstOrDefault();
             latestImage = new ClientImageModel()
             {
                 Image = image,
