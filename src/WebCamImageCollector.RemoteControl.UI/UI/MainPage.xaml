@@ -31,6 +31,7 @@
     </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
+            <AppBarButton Icon="OpenLocal" Label="Add local" Command="{Binding EditLocal}" Visibility="{Binding LocalClient, Converter={StaticResource NullToVisibilityConverter}}" />
             <AppBarButton Icon="Add" Label="Add remote" Command="{Binding CreateRemote}" />
         </CommandBar>
     </Page.BottomAppBar>
@@ -63,9 +64,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <Border BorderThickness="0,1,0,0" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" Margin="10,20" />
-
-            <Border BorderThickness="1" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" Margin="10" Padding="10">
+            <Border BorderThickness="1" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" Margin="10" Padding="10" Visibility="{Binding LocalClient, Converter={StaticResource NotNullToVisibilityConverter}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -106,7 +105,7 @@
                     </StackPanel>
                     <StackPanel Style="{StaticResource FormItemStyle}">
                         <TextBlock Text="Url:" />
-                        <TextBox Text="{Binding Url, Mode=TwoWay}" />
+                        <TextBox Text="{Binding Url, Mode=TwoWay}" InputScope="Url" />
                     </StackPanel>
                     <StackPanel Style="{StaticResource FormItemStyle}">
                         <TextBlock Text="Authentication token:" />
@@ -145,7 +144,7 @@
                 <StackPanel>
                     <StackPanel Style="{StaticResource FormItemStyle}">
                         <TextBlock Text="Port:" />
-                        <TextBox Text="{Binding Port, Mode=TwoWay}" />
+                        <TextBox Text="{Binding Port, Mode=TwoWay}" InputScope="Number" />
                     </StackPanel>
                     <StackPanel Style="{StaticResource FormItemStyle}">
                         <TextBlock Text="Authentication token:" />
@@ -153,11 +152,11 @@
                     </StackPanel>
                     <StackPanel Style="{StaticResource FormItemStyle}">
                         <TextBlock Text="Interval between captures (in secconds):" />
-                        <TextBox Text="{Binding IntervalSeconds, Mode=TwoWay}" />
+                        <TextBox Text="{Binding IntervalSeconds, Mode=TwoWay}" InputScope="Number" />
                     </StackPanel>
                     <StackPanel Style="{StaticResource FormItemStyle}">
                         <TextBlock Text="Delay after starting camera (in secconds):" />
-                        <TextBox Text="{Binding DelaySeconds, Mode=TwoWay}" />
+                        <TextBox Text="{Binding DelaySeconds, Mode=TwoWay}" InputScope="Number" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -167,16 +166,16 @@
                                 <TextBlock Text="Save" Margin="10,0,0,0" />
                             </StackPanel>
                         </Button>
-                        <Button Command="{Binding Close}" Margin="10,0,0,0">
-                            <StackPanel Orientation="Horizontal">
-                                <SymbolIcon Symbol="Cancel" />
-                                <TextBlock Text="Close" Margin="10,0,0,0" />
-                            </StackPanel>
-                        </Button>
                         <Button Command="{Binding Delete}" Margin="10,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Delete" />
                                 <TextBlock Text="Delete" Margin="10,0,0,0" />
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding Close}" Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Cancel" />
+                                <TextBlock Text="Close" Margin="10,0,0,0" />
                             </StackPanel>
                         </Button>
                     </StackPanel>

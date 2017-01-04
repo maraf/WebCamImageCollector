@@ -12,7 +12,11 @@
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.Content>
-                <AppBarButton x:Name="btnHome" Icon="Home" Click="btnHome_Click" />
+                <AppBarButton x:Name="btnHome" Click="btnHome_Click">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE700;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
             </CommandBar.Content>
             <AppBarButton x:Name="btnStart" Label="Start" Icon="Play" Click="btnStart_Click" />
             <AppBarButton x:Name="btnStop" Label="Stop" Icon="Pause" Click="btnStop_Click" Visibility="Collapsed" />
@@ -20,8 +24,8 @@
             <AppBarButton x:Name="btnDownload" Label="Download latest" Icon="Download" Click="btnDownload_Click" />
 
             <CommandBar.SecondaryCommands>
-                <AppBarButton x:Name="btnClearImage" Label="Clear image" Click="btnClearImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
-                <AppBarButton x:Name="btnSaveImage" Label="Save image" Click="btnSaveImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
+                <AppBarButton x:Name="btnClearImage" Label="Clear image" Icon="Clear" Click="btnClearImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
+                <AppBarButton x:Name="btnSaveImage" Label="Save image" Icon="Save" Click="btnSaveImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
