@@ -40,7 +40,7 @@
 
 
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Padding="5,15">
-            <TextBlock x:Name="tblMessage" />
+            <TextBlock x:Name="tblMessage" TextWrapping="Wrap" />
         </StackPanel>
     </Grid>
 </Page>
