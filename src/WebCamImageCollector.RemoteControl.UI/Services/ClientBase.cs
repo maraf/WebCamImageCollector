@@ -89,7 +89,7 @@ namespace WebCamImageCollector.RemoteControl.Services
             {
                 Image = image,
                 Stream = imageStream,
-                Date = response.Headers.Date?.Date ?? DateTime.Today
+                Date = response.Headers.Date?.DateTime ?? DateTime.Now
             };
             return latestImage;
         }

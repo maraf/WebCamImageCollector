@@ -185,6 +185,12 @@ namespace WebCamImageCollector.RemoteControl.UI
                 downloadModel = model;
                 imgBackground.Source = model.Image;
                 ClearMessage();
+
+                string date = model.Date.ToString("HH:mm:ss");
+                if (model.Date.Date != DateTime.Today)
+                    date += model.Date.ToString(" dd.MM.YYYY");
+
+                ShowMessage(date);
             });
         }
 

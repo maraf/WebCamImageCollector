@@ -30,7 +30,7 @@
         </CommandBar>
     </Page.BottomAppBar>
 
-    <Grid>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer x:Name="Scrollster" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" Visibility="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToVisibilityConverter}, Mode=OneWay}"
          HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" 
          HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
@@ -39,8 +39,9 @@
         </ScrollViewer>
 
 
-        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Padding="5,15">
-            <TextBlock x:Name="tblMessage" TextWrapping="Wrap" />
-        </StackPanel>
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch">
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity=".5" />
+            <TextBlock x:Name="tblMessage" TextWrapping="Wrap" HorizontalAlignment="Center" Padding="5,15" />
+        </Grid>
     </Grid>
 </Page>
