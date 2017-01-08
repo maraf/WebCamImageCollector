@@ -34,8 +34,9 @@
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Name="btnStatus" Label="Refresh status" Icon="Refresh" Click="btnStatus_Click" />
                 <AppBarSeparator />
-                <AppBarButton x:Name="btnClearImage" Label="Clear image" Icon="Clear" Click="btnClearImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
-                <AppBarButton x:Name="btnSaveImage" Label="Save image" Icon="Save" Click="btnSaveImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
+                <AppBarButton x:Name="btnClearImage" Label="Clear" Icon="Clear" Click="btnClearImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
+                <AppBarButton x:Name="btnSaveImage" Label="Save" Icon="Save" Click="btnSaveImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
+                <AppBarButton x:Name="abbShare" Label="Share" Icon="ReShare" Click="abbShare_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

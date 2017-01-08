@@ -7,12 +7,14 @@ using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WebCamImageCollector.RemoteControl.Services;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
+using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -54,6 +56,36 @@ namespace WebCamImageCollector.RemoteControl.UI
             DisableButtons();
             UpdateState();
             UpdateQualityButtons();
+
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += OnDataTransferRequested;
+        }
+
+        private void OnDataTransferRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            if (downloadModel == null)
+                return;
+
+            DataRequest request = args.Request;
+            DataRequestDeferral deferral = request.GetDeferral();
+            try
+            {
+                using (MemoryStream buffer = new MemoryStream())
+                {
+                    downloadModel.Stream.Position = 0;
+                    downloadModel.Stream.CopyTo(buffer);
+                    buffer.Position = 0;
+
+                    request.Data.Properties.Title = downloadModel.Date.ToString("yyyy-MM-dd HH:mm:ss");
+                    request.Data.Properties.Description = client.Name;
+                    request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromStream(buffer.AsRandomAccessStream());
+                    request.Data.SetBitmap(RandomAccessStreamReference.CreateFromStream(buffer.AsRandomAccessStream()));
+                }
+            }
+            finally
+            {
+                deferral.Complete();
+            }
         }
 
         public void ShowMessage(string message, bool isError = false)
@@ -269,6 +301,11 @@ namespace WebCamImageCollector.RemoteControl.UI
                     mfiQualityThumbnail.IsChecked = true;
                     break;
             }
+        }
+
+        private void abbShare_Click(object sender, RoutedEventArgs e)
+        {
+            DataTransferManager.ShowShareUI();
         }
     }
 }
