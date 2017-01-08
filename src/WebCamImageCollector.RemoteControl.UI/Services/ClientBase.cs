@@ -74,9 +74,20 @@ namespace WebCamImageCollector.RemoteControl.Services
         private string latestETag;
         private ClientImageModel latestImage;
 
-        public async Task<ClientImageModel> DownloadLatest()
+        public async Task<ClientImageModel> DownloadLatest(ImageQuality quality)
         {
-            HttpResponseMessage response = await SendRequest("/latest", String.Empty, latestETag);
+            string url = "/latest";
+            switch (quality)
+            {
+                case ImageQuality.Medium:
+                    url += "?quality=medium";
+                    break;
+                case ImageQuality.Thumbnail:
+                    url += "?quality=thumbnail";
+                    break;
+            }
+
+            HttpResponseMessage response = await SendRequest(url, String.Empty, latestETag);
             if (response.StatusCode == HttpStatusCode.NotModified)
                 return latestImage;
 

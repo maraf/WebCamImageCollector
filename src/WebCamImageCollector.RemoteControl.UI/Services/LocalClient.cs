@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebCamImageCollector.Capturing;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -62,18 +64,75 @@ namespace WebCamImageCollector.RemoteControl.Services
             service = new CaptureService(TimeSpan.FromSeconds(interval), TimeSpan.FromSeconds(delay));
         }
 
-        public async Task<ClientImageModel> DownloadLatest()
+        public async Task<ClientImageModel> DownloadLatest(ImageQuality quality)
         {
             FileModel file = await service.FindLatestImageAsync();
-            Stream imageStream = file.Content.AsStreamForRead();
+            Stream content = file.Content.AsStreamForRead();
+
+            switch (quality)
+            {
+                case ImageQuality.Full:
+                    break;
+                case ImageQuality.Medium:
+                    int width = 600;
+                    content = await ResizeImage(content, width, 0);
+                    break;
+                case ImageQuality.Thumbnail:
+                    width = 200;
+                    content = await ResizeImage(content, width, 0);
+                    break;
+                default:
+                    throw new NotSupportedException(quality.ToString());
+            }
+
             BitmapImage image = new BitmapImage();
-            await image.SetSourceAsync(imageStream.AsRandomAccessStream());
+            await image.SetSourceAsync(content.AsRandomAccessStream());
             return new ClientImageModel()
             {
                 Image = image,
-                Stream = imageStream,
+                Stream = content,
                 Date = file.CreatedAt
             };
+        }
+
+        private async Task<Stream> ResizeImage(Stream imageData, int desiredWidth, int desiredHeight)
+        {
+            IRandomAccessStream imageStream = imageData.AsRandomAccessStream();
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);
+
+            if (decoder.PixelWidth > desiredWidth || decoder.PixelHeight > desiredHeight)
+            {
+                using (imageData)
+                using (imageStream)
+                {
+                    InMemoryRandomAccessStream resizedStream = new InMemoryRandomAccessStream();
+
+                    BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
+                    double widthRatio = (double)desiredWidth / decoder.PixelWidth;
+                    double heightRatio = (double)desiredHeight / decoder.PixelHeight;
+
+                    double scaleRatio = Math.Min(widthRatio, heightRatio);
+
+                    if (desiredWidth == 0)
+                        scaleRatio = heightRatio;
+
+                    if (desiredHeight == 0)
+                        scaleRatio = widthRatio;
+
+                    uint aspectHeight = (uint)Math.Floor(decoder.PixelHeight * scaleRatio);
+                    uint aspectWidth = (uint)Math.Floor(decoder.PixelWidth * scaleRatio);
+
+                    encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Linear;
+
+                    encoder.BitmapTransform.ScaledHeight = aspectHeight;
+                    encoder.BitmapTransform.ScaledWidth = aspectWidth;
+
+                    await encoder.FlushAsync();
+                    resizedStream.Seek(0);
+                    return resizedStream.AsStreamForRead();
+                }
+            }
+            return imageData;
         }
 
         public Task<ClientRunningInfo> IsRunningAsync()

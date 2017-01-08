@@ -20,10 +20,20 @@
             </CommandBar.Content>
             <AppBarButton x:Name="btnStart" Label="Start" Icon="Play" Click="btnStart_Click" />
             <AppBarButton x:Name="btnStop" Label="Stop" Icon="Pause" Click="btnStop_Click" Visibility="Collapsed" />
-            <AppBarButton x:Name="btnStatus" Label="Refresh status" Icon="Refresh" Click="btnStatus_Click" />
             <AppBarButton x:Name="btnDownload" Label="Download latest" Icon="Download" Click="btnDownload_Click" />
+            <AppBarButton Label="Quality" Icon="TwoBars">
+                <AppBarButton.Flyout>
+                    <MenuFlyout>
+                        <ToggleMenuFlyoutItem x:Name="mfiQualityFull" Text="Full" Click="mfiQualityFull_Click" />
+                        <ToggleMenuFlyoutItem x:Name="mfiQualityMedium" Text="Medium" Click="mfiQualityMedium_Click" />
+                        <ToggleMenuFlyoutItem x:Name="mfiQualityThumbnail" Text="Thumbnail" Click="mfiQualityThumbnail_Click" />
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
 
             <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="btnStatus" Label="Refresh status" Icon="Refresh" Click="btnStatus_Click" />
+                <AppBarSeparator />
                 <AppBarButton x:Name="btnClearImage" Label="Clear image" Icon="Clear" Click="btnClearImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
                 <AppBarButton x:Name="btnSaveImage" Label="Save image" Icon="Save" Click="btnSaveImage_Click" IsEnabled="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToBoolConverter}, Mode=OneWay}" />
             </CommandBar.SecondaryCommands>

@@ -104,6 +104,7 @@
     <Compile Include="Services\ClientImageModel.cs" />
     <Compile Include="Services\IClient.cs" />
     <Compile Include="Services\ClientRunningInfo.cs" />
+    <Compile Include="Services\ImageQuality.cs" />
     <Compile Include="Services\LocalClient.cs" />
     <Compile Include="Services\RemoteClient.cs" />
     <Compile Include="Services\ClientRepository.cs" />

@@ -33,6 +33,7 @@ namespace WebCamImageCollector.RemoteControl.UI
     public sealed partial class ClientControlPage : Page
     {
         private IClient client;
+        private ImageQuality quality;
 
         public ClientControlPage()
         {
@@ -52,6 +53,7 @@ namespace WebCamImageCollector.RemoteControl.UI
 
             DisableButtons();
             UpdateState();
+            UpdateQualityButtons();
         }
 
         public void ShowMessage(string message, bool isError = false)
@@ -77,7 +79,7 @@ namespace WebCamImageCollector.RemoteControl.UI
             btnStart.IsEnabled = false;
             btnStop.IsEnabled = false;
         }
-        
+
         private async Task UpdateState()
         {
             ShowMessage("Checking status...");
@@ -180,7 +182,7 @@ namespace WebCamImageCollector.RemoteControl.UI
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
         {
             ShowMessage("Downloading image...");
-            await HandleErrorAsync(client.DownloadLatest, model =>
+            await HandleErrorAsync(() => client.DownloadLatest(quality), model =>
             {
                 downloadModel = model;
                 imgBackground.Source = model.Image;
@@ -226,9 +228,46 @@ namespace WebCamImageCollector.RemoteControl.UI
 
                 FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
                 if (status == FileUpdateStatus.Complete)
-                    ShowMessage("Save completed...");
+                    ShowMessage("Saved.");
                 else
-                    ShowMessage("Something went wrong during save operation.");
+                    ShowMessage("Something went wrong saving the image.");
+            }
+        }
+
+        private void mfiQualityFull_Click(object sender, RoutedEventArgs e)
+        {
+            quality = ImageQuality.Full;
+            UpdateQualityButtons();
+        }
+
+        private void mfiQualityMedium_Click(object sender, RoutedEventArgs e)
+        {
+            quality = ImageQuality.Medium;
+            UpdateQualityButtons();
+        }
+
+        private void mfiQualityThumbnail_Click(object sender, RoutedEventArgs e)
+        {
+            quality = ImageQuality.Thumbnail;
+            UpdateQualityButtons();
+        }
+
+        private void UpdateQualityButtons()
+        {
+            mfiQualityFull.IsChecked = false;
+            mfiQualityMedium.IsChecked = false;
+            mfiQualityThumbnail.IsChecked = false;
+            switch (quality)
+            {
+                case ImageQuality.Full:
+                    mfiQualityFull.IsChecked = true;
+                    break;
+                case ImageQuality.Medium:
+                    mfiQualityMedium.IsChecked = true;
+                    break;
+                case ImageQuality.Thumbnail:
+                    mfiQualityThumbnail.IsChecked = true;
+                    break;
             }
         }
     }
