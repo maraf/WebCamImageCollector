@@ -103,6 +103,7 @@
     <Compile Include="Background\Bootstrap\ApplicationTriggerConfigurationLoader.cs" />
     <Compile Include="Background\Bootstrap\Configuration.cs" />
     <Compile Include="Background\Bootstrap\DefaultConfigurationLoader.cs" />
+    <Compile Include="Background\ImageQuality.cs" />
     <Compile Include="Capturing\_StorageFolderExtensions.cs" />
     <Compile Include="Capturing\FileModel.cs" />
     <Compile Include="Http\AuthenticationHttpHandler.cs" />
