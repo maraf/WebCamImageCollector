@@ -91,7 +91,8 @@ namespace WebCamImageCollector.Background
                     }
                     else
                     {
-                        string fileEtag = file.CreatedAt.ToString("yyyyMMddHHmmss");
+                        ImageQuality quality = GetImageQuality(request);
+                        string fileEtag = file.CreatedAt.ToString("yyyyMMddHHmmss") + quality;
                         string etag = request.Headers["If-None-Match"];
                         if (fileEtag == etag)
                         {
@@ -106,7 +107,6 @@ namespace WebCamImageCollector.Background
 
                         Stream content = file.Content.AsStreamForRead();
 
-                        ImageQuality quality = GetImageQuality(request);
                         switch (quality)
                         {
                             case ImageQuality.Full:
@@ -152,6 +152,7 @@ namespace WebCamImageCollector.Background
 
             if (decoder.PixelWidth > desiredWidth || decoder.PixelHeight > desiredHeight)
             {
+                using (imageData)
                 using (imageStream)
                 {
                     InMemoryRandomAccessStream resizedStream = new InMemoryRandomAccessStream();
@@ -181,6 +182,7 @@ namespace WebCamImageCollector.Background
                     return resizedStream.AsStreamForRead();
                 }
             }
+
             return imageData;
         }
 
