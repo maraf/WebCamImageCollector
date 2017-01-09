@@ -11,12 +11,12 @@ namespace WebCamImageCollector.Http
     internal class HttpResponse
     {
         public int StatusCode { get; set; }
-        public NameValueCollection Headers { get; private set; }
+        public Dictionary<string, string> Headers { get; private set; }
         public StreamWriter Output { get; private set; }
 
         public HttpResponse(StreamWriter output)
         {
-            Headers = new NameValueCollection();
+            Headers = new Dictionary<string, string>();
             Output = output;
         }
     }

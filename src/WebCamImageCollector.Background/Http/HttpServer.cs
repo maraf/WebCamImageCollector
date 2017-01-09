@@ -101,8 +101,8 @@ namespace WebCamImageCollector.Http
         {
             HttpRequest result = new HttpRequest()
             {
-                Headers = new NameValueCollection(),
-                QueryString = new NameValueCollection()
+                Headers = new Dictionary<string, string>(),
+                QueryString = new Dictionary<string, string>()
             };
 
             StringBuilder request = new StringBuilder();

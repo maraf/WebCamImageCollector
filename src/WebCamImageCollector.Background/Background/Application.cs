@@ -93,8 +93,8 @@ namespace WebCamImageCollector.Background
                     {
                         ImageQuality quality = GetImageQuality(request);
                         string fileEtag = file.CreatedAt.ToString("yyyyMMddHHmmss") + quality;
-                        string etag = request.Headers["If-None-Match"];
-                        if (fileEtag == etag)
+                        string etag;
+                        if (request.Headers.TryGetValue("If-None-Match", out etag) && fileEtag == etag)
                         {
                             response.StatusCode = 304;
                             return true;

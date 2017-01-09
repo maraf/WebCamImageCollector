@@ -13,7 +13,7 @@ namespace WebCamImageCollector.Http
         public string Host { get; set; }
         public string Path { get; set; }
 
-        public NameValueCollection Headers { get; set; }
-        public NameValueCollection QueryString { get; set; }
+        public Dictionary<string, string> Headers { get; set; }
+        public Dictionary<string, string> QueryString { get; set; }
     }
 }
