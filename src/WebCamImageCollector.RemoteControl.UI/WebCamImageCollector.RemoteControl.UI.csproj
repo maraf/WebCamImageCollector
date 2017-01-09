@@ -131,9 +131,6 @@
     <Compile Include="_Capturing\CaptureService.cs" />
     <Compile Include="_Capturing\FileModel.cs" />
     <Compile Include="_Capturing\_StorageFolderExtensions.cs" />
-    <Compile Include="_Neptuo\Ensure.cs" />
-    <Compile Include="_Neptuo\_Observables\ObservableCollection.cs" />
-    <Compile Include="_Neptuo\_Observables\ObservableObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
