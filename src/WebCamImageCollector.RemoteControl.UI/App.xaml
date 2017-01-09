@@ -8,7 +8,8 @@
     RequestedTheme="Dark">
     <Application.Resources>
         <dd:ViewModelLocator x:Key="ViewModel" />
-        
+
+        <data:BoolToVisiblityConverter x:Key="TrueToVisibleConverter" />
         <data:NullToBoolConverter x:Key="NotNullToBoolConverter" IsInverted="True" />
         <data:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <data:NullToVisibilityConverter x:Key="NotNullToVisibilityConverter" IsInverted="True" />

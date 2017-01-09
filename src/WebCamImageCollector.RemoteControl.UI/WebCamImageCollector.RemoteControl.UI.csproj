@@ -110,6 +110,8 @@
     <Compile Include="Services\ClientRepository.cs" />
     <Compile Include="Services\ClientException.cs" />
     <Compile Include="Services\ClientNotAvailableException.cs" />
+    <Compile Include="UI\Data\BoolToVisiblityConverter.cs" />
+    <Compile Include="UI\Data\BoolConverter.cs" />
     <Compile Include="UI\DesignData\ViewModelLocator.cs" />
     <Compile Include="UI\LocalClientEditViewModel.cs" />
     <Compile Include="UI\MainViewModel.cs" />
