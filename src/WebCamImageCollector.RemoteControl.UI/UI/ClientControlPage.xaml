@@ -21,7 +21,7 @@
             <AppBarButton x:Name="btnStart" Label="Start" Icon="Play" Click="btnStart_Click" />
             <AppBarButton x:Name="btnStop" Label="Stop" Icon="Pause" Click="btnStop_Click" Visibility="Collapsed" />
             <AppBarButton x:Name="btnDownload" Label="Download latest" Icon="Download" Click="btnDownload_Click" />
-            <AppBarButton Label="Quality" Icon="TwoBars">
+            <AppBarButton x:Name="abbQuality" Label="Quality" Icon="TwoBars">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
                         <ToggleMenuFlyoutItem x:Name="mfiQualityFull" Text="Full" Click="mfiQualityFull_Click" />

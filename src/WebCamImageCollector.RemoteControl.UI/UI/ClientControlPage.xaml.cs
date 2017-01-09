@@ -293,12 +293,15 @@ namespace WebCamImageCollector.RemoteControl.UI
             {
                 case ImageQuality.Full:
                     mfiQualityFull.IsChecked = true;
+                    abbQuality.Icon = new SymbolIcon(Symbol.FourBars);
                     break;
                 case ImageQuality.Medium:
                     mfiQualityMedium.IsChecked = true;
+                    abbQuality.Icon = new SymbolIcon(Symbol.ThreeBars);
                     break;
                 case ImageQuality.Thumbnail:
                     mfiQualityThumbnail.IsChecked = true;
+                    abbQuality.Icon = new SymbolIcon(Symbol.OneBar);
                     break;
             }
         }
