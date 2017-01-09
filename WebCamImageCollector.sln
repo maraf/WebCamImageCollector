@@ -7,16 +7,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCamImageCollector.Backgr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCamImageCollector.RemoteControl.UI", "src\WebCamImageCollector.RemoteControl.UI\WebCamImageCollector.RemoteControl.UI.csproj", "{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo", "src\Neptuo\Neptuo.csproj", "{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|ARM = Release|ARM
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Debug|ARM.ActiveCfg = Debug|ARM
 		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Debug|ARM.Build.0 = Debug|ARM
 		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -26,6 +31,7 @@ Global
 		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Debug|x86.ActiveCfg = Debug|x86
 		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Debug|x86.Build.0 = Debug|x86
 		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Debug|x86.Deploy.0 = Debug|x86
+		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Release|Any CPU.ActiveCfg = Release|x86
 		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Release|ARM.ActiveCfg = Release|ARM
 		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Release|ARM.Build.0 = Release|ARM
 		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Release|ARM.Deploy.0 = Release|ARM
@@ -35,6 +41,7 @@ Global
 		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Release|x86.ActiveCfg = Release|x86
 		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Release|x86.Build.0 = Release|x86
 		{C28742D5-4A75-49E2-9188-3E3DC2D9EDF7}.Release|x86.Deploy.0 = Release|x86
+		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Debug|ARM.ActiveCfg = Debug|ARM
 		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Debug|ARM.Build.0 = Debug|ARM
 		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -44,6 +51,7 @@ Global
 		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Debug|x86.ActiveCfg = Debug|x86
 		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Debug|x86.Build.0 = Debug|x86
 		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Debug|x86.Deploy.0 = Debug|x86
+		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Release|Any CPU.ActiveCfg = Release|x86
 		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Release|ARM.ActiveCfg = Release|ARM
 		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Release|ARM.Build.0 = Release|ARM
 		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Release|ARM.Deploy.0 = Release|ARM
@@ -53,6 +61,22 @@ Global
 		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Release|x86.ActiveCfg = Release|x86
 		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Release|x86.Build.0 = Release|x86
 		{C1C73A6C-E8CA-455E-89DD-82B09E7880C2}.Release|x86.Deploy.0 = Release|x86
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Debug|ARM.ActiveCfg = Debug|ARM
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Debug|ARM.Build.0 = Debug|ARM
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Debug|x64.ActiveCfg = Debug|x64
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Debug|x64.Build.0 = Debug|x64
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Debug|x86.ActiveCfg = Debug|x86
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Debug|x86.Build.0 = Debug|x86
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Release|ARM.ActiveCfg = Release|ARM
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Release|ARM.Build.0 = Release|ARM
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Release|x64.ActiveCfg = Release|x64
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Release|x64.Build.0 = Release|x64
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Release|x86.ActiveCfg = Release|x86
+		{C63023BF-64F8-4C85-8DDD-521D4D2A0F7F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
