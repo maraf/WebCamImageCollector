@@ -134,6 +134,9 @@
     <Compile Include="Views\Converters\CuttingConverter.cs" />
     <Compile Include="Views\Converters\NullConverter.cs" />
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
+    <Compile Include="Views\LocalClientEdit.xaml.cs">
+      <DependentUpon>LocalClientEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OverviewView.xaml.cs">
       <DependentUpon>OverviewView.xaml</DependentUpon>
     </Compile>
@@ -177,6 +180,10 @@
     <Page Include="UI\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LocalClientEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OverviewView.xaml">
       <SubType>Designer</SubType>

@@ -1,0 +1,52 @@
+﻿<Page
+    x:Class="WebCamImageCollector.RemoteControl.Views.LocalClientEdit"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WebCamImageCollector.RemoteControl.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <Style x:Key="FormItemStyle" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+    </Page.Resources>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Save" Label="Save" Command="{Binding Save}" />
+            <AppBarButton Icon="Delete" Label="Delete" Command="{Binding Delete}" />
+            <AppBarButton Icon="Cancel" Label="Back" Command="{Binding Save}" />
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Background="{ThemeResource AppBarBackground}" Padding="8">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Client: " Style="{ThemeResource HeaderTextStyle}" />
+                <TextBlock Text="{Binding Name}" Style="{ThemeResource HeaderTextStyle}" />
+            </StackPanel>
+        </Grid>
+        <StackPanel Margin="10" Grid.Row="1">
+            <StackPanel Style="{StaticResource FormItemStyle}">
+                <TextBlock Text="Port:" />
+                <TextBox Text="{Binding Port, Mode=TwoWay}" InputScope="Number" />
+            </StackPanel>
+            <StackPanel Style="{StaticResource FormItemStyle}">
+                <TextBlock Text="Authentication token:" />
+                <TextBox Text="{Binding AuthenticationToken, Mode=TwoWay}" />
+            </StackPanel>
+            <StackPanel Style="{StaticResource FormItemStyle}">
+                <TextBlock Text="Interval between captures (in secconds):" />
+                <TextBox Text="{Binding IntervalSeconds, Mode=TwoWay}" InputScope="Number" />
+            </StackPanel>
+            <StackPanel Style="{StaticResource FormItemStyle}">
+                <TextBlock Text="Delay after starting camera (in secconds):" />
+                <TextBox Text="{Binding DelaySeconds, Mode=TwoWay}" InputScope="Number" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>
