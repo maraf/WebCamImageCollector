@@ -134,8 +134,8 @@ namespace WebCamImageCollector.Background
 
         private ImageQuality GetImageQuality(HttpRequest request)
         {
-            string rawValue = request.QueryString["quality"];
-            if (String.IsNullOrEmpty(rawValue))
+            string rawValue;
+            if (!request.QueryString.TryGetValue("quality", out rawValue) || String.IsNullOrEmpty(rawValue))
                 return ImageQuality.Full;
 
             ImageQuality value;
