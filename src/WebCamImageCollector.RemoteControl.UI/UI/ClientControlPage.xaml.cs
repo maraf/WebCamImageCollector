@@ -222,7 +222,7 @@ namespace WebCamImageCollector.RemoteControl.UI
 
                 string date = model.Date.ToString("HH:mm:ss");
                 if (model.Date.Date != DateTime.Today)
-                    date += model.Date.ToString(" dd.MM.YYYY");
+                    date += model.Date.ToString(" dd.MM.yyyy");
 
                 ShowMessage(date);
             });
