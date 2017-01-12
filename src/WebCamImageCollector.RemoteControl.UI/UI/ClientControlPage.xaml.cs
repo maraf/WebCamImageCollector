@@ -168,6 +168,10 @@ namespace WebCamImageCollector.RemoteControl.UI
                 ClearMessage();
                 done(result);
             }
+            catch (ClientNotAvailableException)
+            {
+                ShowMessage("Image download failed.", true);
+            }
             catch (ClientException)
             {
                 ShowMessage("Server not responded correctly.", true);
@@ -178,8 +182,11 @@ namespace WebCamImageCollector.RemoteControl.UI
             }
             catch (Exception e)
             {
-                string message = e.ToString();
-                ShowMessage(message.Substring(0, Math.Min(message.Length, 20)));
+                string message = e.Message;
+                if (message.Length > 30)
+                    message = message.Substring(0, Math.Min(message.Length, 30));
+
+                ShowMessage(message, true);
             }
         }
 

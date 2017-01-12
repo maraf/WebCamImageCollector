@@ -90,6 +90,8 @@ namespace WebCamImageCollector.RemoteControl.Services
             HttpResponseMessage response = await SendRequest(url, String.Empty, latestETag);
             if (response.StatusCode == HttpStatusCode.NotModified)
                 return latestImage;
+            else if (response.StatusCode == HttpStatusCode.InternalServerError)
+                throw new ClientNotAvailableException();
 
             Stream imageStream = await response.Content.ReadAsStreamAsync();
             BitmapImage image = new BitmapImage();
