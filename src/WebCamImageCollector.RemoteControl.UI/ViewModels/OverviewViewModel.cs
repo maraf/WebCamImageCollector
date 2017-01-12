@@ -28,6 +28,11 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         public ObservableCollection<ClientOverviewViewModel> Remotes { get; private set; }
 
         public ICommand CreateRemote { get; private set; }
-        public ICommand SetLocal { get; private set; }
+        public ICommand CreateLocal { get; private set; }
+
+        public OverviewViewModel()
+        {
+            Remotes = new ObservableCollection<ClientOverviewViewModel>();
+        }
     }
 }

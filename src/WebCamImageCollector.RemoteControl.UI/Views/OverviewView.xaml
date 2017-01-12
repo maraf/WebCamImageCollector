@@ -5,10 +5,70 @@
     xmlns:local="using:WebCamImageCollector.RemoteControl.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:WebCamImageCollector.RemoteControl.Views.Converters"
     xmlns:dd="using:WebCamImageCollector.RemoteControl.Views.DesignData"
-    mc:Ignorable="d" d:DataContext="{Binding Overview, Source={dd:ViewModelLocator}}">
+    xmlns:vm="using:WebCamImageCollector.RemoteControl.ViewModels"
+    mc:Ignorable="d" d:DataContext="{Binding Overview, Source={StaticResource ViewModelLocator}}">
+    <Page.Resources>
+        <converters:BoolConverter x:Key="TrueToStopSymbolConverter" TrueValue="Stop" FalseValue="Start" />
+
+        <Style x:Key="IconButton" TargetType="Button">
+            <Setter Property="Margin" Value="10,0,0,0" />
+            <Setter Property="Padding" Value="8" />
+        </Style>
+    </Page.Resources>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="OpenLocal" Label="Add local" Command="{Binding EditLocal}" Visibility="{Binding Local, Converter={StaticResource NullToVisibilityConverter}}" />
+            <AppBarButton Icon="Add" Label="Add remote" Command="{Binding CreateRemote}" />
+        </CommandBar>
+    </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Background="{ThemeResource AppBarBackground}" Padding="8">
+            <TextBlock Text="Clients" Style="{ThemeResource HeaderTextStyle}" />
+            <TextBlock Text="v2.1.0" HorizontalAlignment="Right" />
+        </Grid>
+        <ListView ItemsSource="{Binding Remotes}" Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vm:ClientOverviewViewModel">
+                    <Border BorderThickness="0,0,0,1" BorderBrush="{ThemeResource AppBarBackground}">
+                        <Grid Padding="0,8" Margin="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
+                            <Border Padding="12,8" Background="{ThemeResource ApplicationForegroundThemeBrush}">
+                                <SymbolIcon Symbol="World" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+                            </Border>
+                            <StackPanel Padding="10,0,0,0" Grid.Column="1">
+                                <TextBlock Text="{x:Bind Name}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                                <TextBlock Text="{x:Bind Url}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Column="2">
+                                <Button Style="{StaticResource IconButton}">
+                                    <SymbolIcon Symbol="{Binding IsRunning, Converter={StaticResource TrueToStopSymbolConverter}}" />
+                                </Button>
+                                <Button Style="{StaticResource IconButton}">
+                                    <SymbolIcon Symbol="Edit" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
     </Grid>
 </Page>

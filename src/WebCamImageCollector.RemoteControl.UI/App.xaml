@@ -5,9 +5,11 @@
     xmlns:local="using:WebCamImageCollector.RemoteControl.UI"
     xmlns:data="using:WebCamImageCollector.RemoteControl.UI.Data"
     xmlns:dd="using:WebCamImageCollector.RemoteControl.UI.DesignData"
+    xmlns:ddnew="using:WebCamImageCollector.RemoteControl.Views.DesignData"
     RequestedTheme="Dark">
     <Application.Resources>
         <dd:ViewModelLocator x:Key="ViewModel" />
+        <ddnew:ViewModelLocator x:Key="ViewModelLocator" />
 
         <data:BoolToVisiblityConverter x:Key="TrueToVisibleConverter" />
         <data:NullToBoolConverter x:Key="NotNullToBoolConverter" IsInverted="True" />
