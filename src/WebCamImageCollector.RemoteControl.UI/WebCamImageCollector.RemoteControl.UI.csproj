@@ -137,8 +137,11 @@
     <Compile Include="Views\LocalClientEdit.xaml.cs">
       <DependentUpon>LocalClientEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OverviewView.xaml.cs">
-      <DependentUpon>OverviewView.xaml</DependentUpon>
+    <Compile Include="Views\Overview.xaml.cs">
+      <DependentUpon>Overview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RemoteClientEdit.xaml.cs">
+      <DependentUpon>RemoteClientEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="_Capturing\CaptureService.cs" />
     <Compile Include="_Capturing\FileModel.cs" />
@@ -185,7 +188,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OverviewView.xaml">
+    <Page Include="Views\Overview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RemoteClientEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
