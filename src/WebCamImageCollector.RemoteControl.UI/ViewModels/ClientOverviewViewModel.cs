@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WebCamImageCollector.RemoteControl.Services;
+using WebCamImageCollector.RemoteControl.ViewModels.Commands;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels
 {
@@ -77,6 +78,11 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         {
             Name = client.Name;
             Url = client.Url;
+
+            Start = new StartCommand(client);
+            Stop = new StopCommand(client);
+            CheckStatus = new CheckStatusCommand(client, this);
+            CheckStatus.Execute(null);
         }
     }
 }
