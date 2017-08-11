@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WebCamImageCollector.Capturing;
 using Windows.Graphics.Imaging;
@@ -64,7 +65,7 @@ namespace WebCamImageCollector.RemoteControl.Services
             service = new CaptureService(TimeSpan.FromSeconds(interval), TimeSpan.FromSeconds(delay));
         }
 
-        public async Task<ClientImageModel> DownloadLatest(ImageQuality quality)
+        public async Task<ClientImageModel> DownloadLatest(ImageQuality quality, CancellationToken cancellationToken)
         {
             FileModel file = await service.FindLatestImageAsync();
             Stream content = file.Content.AsStreamForRead();
@@ -135,7 +136,7 @@ namespace WebCamImageCollector.RemoteControl.Services
             return imageData;
         }
 
-        public Task<ClientRunningInfo> IsRunningAsync()
+        public Task<ClientRunningInfo> IsRunningAsync(CancellationToken cancellationToken)
         {
             return Task.FromResult(new ClientRunningInfo()
             {
@@ -143,13 +144,13 @@ namespace WebCamImageCollector.RemoteControl.Services
             });
         }
 
-        public Task<bool> StartAsync()
+        public Task<bool> StartAsync(CancellationToken cancellationToken)
         {
             service.Start();
             return Task.FromResult(service.IsRunning);
         }
 
-        public Task<bool> StopAsync()
+        public Task<bool> StopAsync(CancellationToken cancellationToken)
         {
             service.Stop();
             return Task.FromResult(!service.IsRunning);

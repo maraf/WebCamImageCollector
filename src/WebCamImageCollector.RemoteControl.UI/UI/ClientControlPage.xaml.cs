@@ -115,7 +115,7 @@ namespace WebCamImageCollector.RemoteControl.UI
         private async Task UpdateState()
         {
             ShowMessage("Checking status...");
-            await HandleErrorAsync(client.IsRunningAsync, status =>
+            await HandleErrorAsync(() => client.IsRunningAsync(), status =>
             {
                 btnStart.IsEnabled = true;
                 btnStop.IsEnabled = true;
@@ -193,7 +193,7 @@ namespace WebCamImageCollector.RemoteControl.UI
         private async void btnStart_Click(object sender, RoutedEventArgs e)
         {
             ShowMessage("Starting server...");
-            await HandleErrorAsync(client.StartAsync, () =>
+            await HandleErrorAsync(() => client.StartAsync(), () =>
             {
                 btnStart.Visibility = Visibility.Collapsed;
                 btnStop.Visibility = Visibility.Visible;
@@ -203,7 +203,7 @@ namespace WebCamImageCollector.RemoteControl.UI
         private async void btnStop_Click(object sender, RoutedEventArgs e)
         {
             ShowMessage("Stoping server...");
-            await HandleErrorAsync(client.StopAsync, () =>
+            await HandleErrorAsync(() => client.StopAsync(), () =>
             {
                 btnStart.Visibility = Visibility.Visible;
                 btnStop.Visibility = Visibility.Collapsed;

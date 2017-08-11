@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -23,7 +24,7 @@ namespace WebCamImageCollector.RemoteControl.Services
             AuthenticationToken = authenticationToken;
         }
 
-        private async Task<HttpResponseMessage> SendRequest(string url, string content, string etag = null)
+        private async Task<HttpResponseMessage> SendRequest(string url, string content, string etag = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -35,7 +36,7 @@ namespace WebCamImageCollector.RemoteControl.Services
                     if (!String.IsNullOrEmpty(etag))
                         client.DefaultRequestHeaders.TryAddWithoutValidation("If-None-Match", etag);
 
-                    HttpResponseMessage response = await client.PostAsync(url, new StringContent(content));
+                    HttpResponseMessage response = await client.PostAsync(url, new StringContent(content), cancellationToken);
                     return response;
                 }
             }
@@ -45,9 +46,9 @@ namespace WebCamImageCollector.RemoteControl.Services
             }
         }
 
-        public async Task<ClientRunningInfo> IsRunningAsync()
+        public async Task<ClientRunningInfo> IsRunningAsync(CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = await SendRequest("/status", String.Empty);
+            HttpResponseMessage response = await SendRequest("/status", String.Empty, null, cancellationToken);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 string responseText = await response.Content.ReadAsStringAsync();
@@ -59,22 +60,22 @@ namespace WebCamImageCollector.RemoteControl.Services
             }
         }
 
-        public async Task<bool> StartAsync()
+        public async Task<bool> StartAsync(CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = await SendRequest("/start", String.Empty);
+            HttpResponseMessage response = await SendRequest("/start", String.Empty, null, cancellationToken);
             return response.StatusCode == HttpStatusCode.OK;
         }
 
-        public async Task<bool> StopAsync()
+        public async Task<bool> StopAsync(CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = await SendRequest("/stop", String.Empty);
+            HttpResponseMessage response = await SendRequest("/stop", String.Empty, null, cancellationToken);
             return response.StatusCode == HttpStatusCode.OK;
         }
 
         private string latestETag;
         private ClientImageModel latestImage;
 
-        public async Task<ClientImageModel> DownloadLatest(ImageQuality quality)
+        public async Task<ClientImageModel> DownloadLatest(ImageQuality quality, CancellationToken cancellationToken)
         {
             string url = "/latest";
             switch (quality)
@@ -87,7 +88,7 @@ namespace WebCamImageCollector.RemoteControl.Services
                     break;
             }
 
-            HttpResponseMessage response = await SendRequest(url, String.Empty, latestETag);
+            HttpResponseMessage response = await SendRequest(url, String.Empty, latestETag, cancellationToken);
             if (response.StatusCode == HttpStatusCode.NotModified)
                 return latestImage;
             else if (response.StatusCode == HttpStatusCode.InternalServerError)

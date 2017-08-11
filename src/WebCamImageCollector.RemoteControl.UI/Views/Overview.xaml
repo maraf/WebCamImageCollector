@@ -16,6 +16,34 @@
             <Setter Property="Margin" Value="10,0,0,0" />
             <Setter Property="Padding" Value="8" />
         </Style>
+
+        <DataTemplate x:Key="OverviewViewModelTemplate" x:DataType="vm:ClientOverviewViewModel">
+            <Border BorderThickness="0,0,0,1" BorderBrush="{ThemeResource AppBarBackground}">
+                <Grid Padding="0,8" Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Padding="12,8" Background="{ThemeResource ApplicationForegroundThemeBrush}">
+                        <SymbolIcon Symbol="World" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+                    </Border>
+                    <StackPanel Padding="10,0,0,0" Grid.Column="1">
+                        <TextBlock Text="{x:Bind Name}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <TextBlock Text="{x:Bind Url}" Opacity=".5" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="2">
+                        <Button Style="{StaticResource IconButton}">
+                            <SymbolIcon Symbol="{Binding IsRunning, Converter={StaticResource TrueToStopSymbolConverter}}" />
+                        </Button>
+                        <Button Style="{StaticResource IconButton}">
+                            <SymbolIcon Symbol="Edit" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
     </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
@@ -33,42 +61,18 @@
             <TextBlock Text="Clients" Style="{ThemeResource TitleTextBlockStyle}" />
             <TextBlock Text="v2.1.0" HorizontalAlignment="Right" />
         </Grid>
-        <ListView ItemsSource="{Binding Remotes}" Grid.Row="1">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="vm:ClientOverviewViewModel">
-                    <Border BorderThickness="0,0,0,1" BorderBrush="{ThemeResource AppBarBackground}">
-                        <Grid Padding="0,8" Margin="8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <Border Padding="12,8" Background="{ThemeResource ApplicationForegroundThemeBrush}">
-                                <SymbolIcon Symbol="World" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
-                            </Border>
-                            <StackPanel Padding="10,0,0,0" Grid.Column="1">
-                                <TextBlock Text="{x:Bind Name}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                                <TextBlock Text="{x:Bind Url}" Opacity=".5" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Grid.Column="2">
-                                <Button Style="{StaticResource IconButton}">
-                                    <SymbolIcon Symbol="{Binding IsRunning, Converter={StaticResource TrueToStopSymbolConverter}}" />
-                                </Button>
-                                <Button Style="{StaticResource IconButton}">
-                                    <SymbolIcon Symbol="Edit" />
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Padding" Value="0" />
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <ListView ItemsSource="{Binding Remotes}" ItemTemplate="{StaticResource OverviewViewModelTemplate}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+                <ContentPresenter ContentTemplate="{StaticResource OverviewViewModelTemplate}" Content="{Binding Local}" HorizontalAlignment="Stretch" Grid.Row="2" />
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
