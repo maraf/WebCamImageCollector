@@ -30,7 +30,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Background="{ThemeResource AppBarBackground}" Padding="8">
-            <TextBlock Text="Clients" Style="{ThemeResource HeaderTextStyle}" />
+            <TextBlock Text="Clients" Style="{ThemeResource TitleTextBlockStyle}" />
             <TextBlock Text="v2.1.0" HorizontalAlignment="Right" />
         </Grid>
         <ListView ItemsSource="{Binding Remotes}" Grid.Row="1">
@@ -49,7 +49,7 @@
                             </Border>
                             <StackPanel Padding="10,0,0,0" Grid.Column="1">
                                 <TextBlock Text="{x:Bind Name}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                                <TextBlock Text="{x:Bind Url}" />
+                                <TextBlock Text="{x:Bind Url}" Opacity=".5" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Grid.Column="2">
                                 <Button Style="{StaticResource IconButton}">
