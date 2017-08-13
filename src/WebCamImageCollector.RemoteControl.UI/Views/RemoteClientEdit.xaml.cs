@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using WebCamImageCollector.RemoteControl.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -25,6 +26,20 @@ namespace WebCamImageCollector.RemoteControl.Views
         public RemoteClientEdit()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            string key = (string)e.Parameter;
+            if (key == null)
+            {
+                DataContext = new RemoteClientEditViewModel()
+                {
+                    Name = "New"
+                };
+            }
         }
     }
 }

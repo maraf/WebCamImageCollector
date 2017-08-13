@@ -15,7 +15,7 @@
         <CommandBar>
             <AppBarButton Icon="Save" Label="Save" Command="{Binding Save}" />
             <AppBarButton Icon="Delete" Label="Delete" Command="{Binding Delete}" />
-            <AppBarButton Icon="Cancel" Label="Back" Command="{Binding Cancel}" />
+            <AppBarButton Icon="Cancel" Label="Back" Command="{Binding Back}" />
         </CommandBar>
     </Page.BottomAppBar>
 
@@ -33,7 +33,7 @@
         <StackPanel Margin="10" Grid.Row="1">
             <StackPanel Style="{StaticResource FormItemStyle}">
                 <TextBlock Text="Name:" />
-                <TextBox Text="{Binding Name, Mode=TwoWay}" />
+                <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
             <StackPanel Style="{StaticResource FormItemStyle}">
                 <TextBlock Text="Url:" />

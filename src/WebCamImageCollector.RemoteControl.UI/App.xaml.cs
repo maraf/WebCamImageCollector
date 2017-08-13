@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using WebCamImageCollector.RemoteControl.Services;
 using WebCamImageCollector.RemoteControl.UI;
+using WebCamImageCollector.RemoteControl.Views;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -78,6 +79,7 @@ namespace WebCamImageCollector.RemoteControl
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    //rootFrame.Navigate(typeof(Overview), e.Arguments);
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();

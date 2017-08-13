@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:WebCamImageCollector.RemoteControl.Views.Converters"
-    xmlns:dd="using:WebCamImageCollector.RemoteControl.Views.DesignData"
     xmlns:vm="using:WebCamImageCollector.RemoteControl.ViewModels"
     mc:Ignorable="d" d:DataContext="{Binding Overview, Source={StaticResource ViewModelLocator}}">
     <Page.Resources>
@@ -71,7 +70,8 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
-                <ContentPresenter ContentTemplate="{StaticResource OverviewViewModelTemplate}" Content="{Binding Local}" HorizontalAlignment="Stretch" Grid.Row="2" />
+                <!--<ContentPresenter ContentTemplate="{StaticResource OverviewViewModelTemplate}" Content="{Binding Local}" Visibility="{Binding Local, Converter={StaticResource NullToVisibilityConverter}}" 
+                 HorizontalAlignment="Stretch" />-->
             </StackPanel>
         </ScrollViewer>
     </Grid>

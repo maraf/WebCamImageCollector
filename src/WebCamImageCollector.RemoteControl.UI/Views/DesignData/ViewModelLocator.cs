@@ -25,5 +25,22 @@ namespace WebCamImageCollector.RemoteControl.Views.DesignData
                 return overview;
             }
         }
+
+        private RemoteClientEditViewModel remoteClientEdit;
+        public RemoteClientEditViewModel RemoteClientEdit
+        {
+            get
+            {
+                if (remoteClientEdit == null)
+                {
+                    remoteClientEdit = new RemoteClientEditViewModel();
+                    remoteClientEdit.Name = "Home";
+                    remoteClientEdit.Url = "http://localhost/webcam";
+                    remoteClientEdit.Name = "abcdefgh";
+                }
+
+                return remoteClientEdit;
+            }
+        }
     }
 }
