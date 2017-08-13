@@ -70,8 +70,8 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
-                <!--<ContentPresenter ContentTemplate="{StaticResource OverviewViewModelTemplate}" Content="{Binding Local}" Visibility="{Binding Local, Converter={StaticResource NullToVisibilityConverter}}" 
-                 HorizontalAlignment="Stretch" />-->
+                <ContentPresenter ContentTemplate="{StaticResource OverviewViewModelTemplate}" Content="{Binding Local}" Visibility="{Binding Local, Converter={StaticResource NotNullToVisibilityConverter}}" 
+                 HorizontalAlignment="Stretch" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

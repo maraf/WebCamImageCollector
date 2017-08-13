@@ -5,7 +5,7 @@
     xmlns:local="using:WebCamImageCollector.RemoteControl.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" d:DataContext="{Binding RemoteClientEdit, Source={StaticResource ViewModelLocator}}">
+    mc:Ignorable="d" d:DataContext="{Binding LocalClientEdit, Source={StaticResource ViewModelLocator}}">
     <Page.Resources>
         <Style x:Key="FormItemStyle" TargetType="StackPanel">
             <Setter Property="Margin" Value="0,0,0,10" />
@@ -14,7 +14,7 @@
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton Icon="Save" Label="Save" Command="{Binding Save}" />
-            <AppBarButton Icon="Delete" Label="Delete" Command="{Binding Delete}" />
+            <AppBarButton Icon="Delete" Label="Delete" Command="{Binding Delete}" Visibility="{Binding Delete, Converter={StaticResource NotNullToVisibilityConverter}}" />
             <AppBarButton Icon="Cancel" Label="Back" Command="{Binding Back}" />
         </CommandBar>
     </Page.BottomAppBar>
@@ -32,19 +32,19 @@
         <StackPanel Margin="10" Grid.Row="1">
             <StackPanel Style="{StaticResource FormItemStyle}">
                 <TextBlock Text="Port:" />
-                <TextBox Text="{Binding Port, Mode=TwoWay}" InputScope="Number" />
+                <TextBox Text="{Binding Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Number" />
             </StackPanel>
             <StackPanel Style="{StaticResource FormItemStyle}">
                 <TextBlock Text="Authentication token:" />
-                <TextBox Text="{Binding AuthenticationToken, Mode=TwoWay}" />
+                <TextBox Text="{Binding AuthenticationToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
             <StackPanel Style="{StaticResource FormItemStyle}">
                 <TextBlock Text="Interval between captures (in secconds):" />
-                <TextBox Text="{Binding IntervalSeconds, Mode=TwoWay}" InputScope="Number" />
+                <TextBox Text="{Binding Interval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Number" />
             </StackPanel>
             <StackPanel Style="{StaticResource FormItemStyle}">
                 <TextBlock Text="Delay after starting camera (in secconds):" />
-                <TextBox Text="{Binding DelaySeconds, Mode=TwoWay}" InputScope="Number" />
+                <TextBox Text="{Binding Delay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Number" />
             </StackPanel>
         </StackPanel>
     </Grid>

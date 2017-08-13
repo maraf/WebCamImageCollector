@@ -125,11 +125,14 @@
     <Compile Include="UI\ServiceProvider.cs" />
     <Compile Include="ViewModels\ClientOverviewViewModel.cs" />
     <Compile Include="ViewModels\Commands\CheckStatusCommand.cs" />
+    <Compile Include="ViewModels\Commands\DeleteLocalCommand.cs" />
     <Compile Include="ViewModels\Commands\DeleteRemoveCommand.cs" />
     <Compile Include="ViewModels\Commands\NavigateCommand.cs" />
+    <Compile Include="ViewModels\Commands\SaveLocalCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveRemoteCommand.cs" />
     <Compile Include="ViewModels\Commands\StartCommand.cs" />
     <Compile Include="ViewModels\Commands\StopCommand.cs" />
+    <Compile Include="ViewModels\LocalClientEditViewModel.cs" />
     <Compile Include="ViewModels\OverviewViewModel.cs" />
     <Compile Include="ViewModels\RemoteClientEditViewModel.cs" />
     <Compile Include="Views\Converters\BoolConverter.cs" />

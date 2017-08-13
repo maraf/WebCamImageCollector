@@ -42,5 +42,23 @@ namespace WebCamImageCollector.RemoteControl.Views.DesignData
                 return remoteClientEdit;
             }
         }
+
+        private LocalClientEditViewModel localClientEdit;
+        public LocalClientEditViewModel LocalClientEdit
+        {
+            get
+            {
+                if (localClientEdit == null)
+                {
+                    localClientEdit = new LocalClientEditViewModel();
+                    localClientEdit.Port = 8000;
+                    localClientEdit.AuthenticationToken = "abcdefgh";
+                    localClientEdit.Delay = 2;
+                    localClientEdit.Interval = 60;
+                }
+
+                return localClientEdit;
+            }
+        }
     }
 }
