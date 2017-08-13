@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WebCamImageCollector.RemoteControl.Services;
 using WebCamImageCollector.RemoteControl.ViewModels.Commands;
+using WebCamImageCollector.RemoteControl.Views;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels
 {
@@ -73,6 +74,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         public ICommand Start { get; private set; }
         public ICommand Stop { get; private set; }
         public ICommand CheckStatus { get; private set; }
+        public ICommand Edit { get; private set; }
 
         public ClientOverviewViewModel(IClient client)
         {
@@ -82,7 +84,13 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             Start = new StartCommand(client);
             Stop = new StopCommand(client);
             CheckStatus = new CheckStatusCommand(client, this);
-            CheckStatus.Execute(null);
+
+            if (client is RemoteClient remote)
+                Edit = new NavigateCommand(typeof(RemoteClientEdit), remote.Key);
+            else
+                Edit = new NavigateCommand(typeof(LocalClientEdit));
+
+            //CheckStatus.Execute(null);
         }
     }
 }

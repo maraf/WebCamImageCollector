@@ -1,10 +1,12 @@
-﻿using Neptuo.Observables;
+﻿using Neptuo;
+using Neptuo.Observables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WebCamImageCollector.RemoteControl.Services;
 using WebCamImageCollector.RemoteControl.ViewModels.Commands;
 using WebCamImageCollector.RemoteControl.Views;
 
@@ -60,7 +62,25 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
 
         public RemoteClientEditViewModel()
         {
+            Name = "New";
+            Save = new SaveRemoteCommand(this, null);
             Back = new NavigateCommand(typeof(Overview));
+        }
+
+        public RemoteClientEditViewModel(Guid key)
+        {
+            ClientRepository repository = new ClientRepository();
+            RemoteClient client = repository.FindRemote(key);
+            if (client != null)
+            {
+                Name = client.Name;
+                Url = client.Url;
+                AuthenticationToken = client.AuthenticationToken;
+            }
+
+            Save = new SaveRemoteCommand(this, key);
+            Back = new NavigateCommand(typeof(Overview));
+            Delete = new DeleteRemoveCommand(key);
         }
     }
 }

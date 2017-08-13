@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using WebCamImageCollector.RemoteControl.Services;
 using WebCamImageCollector.RemoteControl.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -32,7 +33,17 @@ namespace WebCamImageCollector.RemoteControl.Views
         {
             base.OnNavigatedTo(e);
 
-            DataContext = new OverviewViewModel();
+            OverviewViewModel viewModel = new OverviewViewModel();
+
+            ClientRepository repository = new ClientRepository();
+            foreach (RemoteClient remote in repository.EnumerateRemote())
+                viewModel.Remotes.Add(new ClientOverviewViewModel(remote));
+
+            LocalClient local = repository.FindLocal();
+            if (local != null)
+                viewModel.Local = new ClientOverviewViewModel(local);
+
+            DataContext = viewModel;
         }
     }
 }

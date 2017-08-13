@@ -32,14 +32,11 @@ namespace WebCamImageCollector.RemoteControl.Views
         {
             base.OnNavigatedTo(e);
 
-            string key = (string)e.Parameter;
+            Guid? key = (Guid?)e.Parameter;
             if (key == null)
-            {
-                DataContext = new RemoteClientEditViewModel()
-                {
-                    Name = "New"
-                };
-            }
+                DataContext = new RemoteClientEditViewModel();
+            else
+                DataContext = new RemoteClientEditViewModel(key.Value);
         }
     }
 }

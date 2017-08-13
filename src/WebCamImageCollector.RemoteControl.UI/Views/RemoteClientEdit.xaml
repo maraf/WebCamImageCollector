@@ -14,7 +14,7 @@
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton Icon="Save" Label="Save" Command="{Binding Save}" />
-            <AppBarButton Icon="Delete" Label="Delete" Command="{Binding Delete}" />
+            <AppBarButton Icon="Delete" Label="Delete" Command="{Binding Delete}" Visibility="{Binding Delete, Converter={StaticResource NotNullToVisibilityConverter}}" />
             <AppBarButton Icon="Cancel" Label="Back" Command="{Binding Back}" />
         </CommandBar>
     </Page.BottomAppBar>
@@ -37,11 +37,11 @@
             </StackPanel>
             <StackPanel Style="{StaticResource FormItemStyle}">
                 <TextBlock Text="Url:" />
-                <TextBox Text="{Binding Url, Mode=TwoWay}" InputScope="Url" />
+                <TextBox Text="{Binding Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Url" />
             </StackPanel>
             <StackPanel Style="{StaticResource FormItemStyle}">
                 <TextBlock Text="Authentication token:" />
-                <TextBox Text="{Binding AuthenticationToken, Mode=TwoWay}" />
+                <TextBox Text="{Binding AuthenticationToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </StackPanel>
     </Grid>

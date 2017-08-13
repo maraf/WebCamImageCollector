@@ -58,6 +58,18 @@ namespace WebCamImageCollector.RemoteControl.Services
             return client;
         }
 
+        public bool TryUpdateRemote(Guid key, string name, string url, string authenticationToken)
+        {
+            RemoteClient client = FindRemote(key);
+            if (client == null)
+                return false;
+
+            client = new RemoteClient(key, name, url, authenticationToken);
+            remoteClients[key] = client;
+            Save();
+            return true;
+        }
+
         public ClientRepository DeleteRemote(Guid key)
         {
             if (remoteClients.Remove(key))

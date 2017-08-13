@@ -17,7 +17,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         public ClientOverviewViewModel Local
         {
             get { return local; }
-            private set
+            set
             {
                 if (local != value)
                 {

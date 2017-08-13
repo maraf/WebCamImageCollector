@@ -36,7 +36,7 @@
                         <Button Style="{StaticResource IconButton}">
                             <SymbolIcon Symbol="{Binding IsRunning, Converter={StaticResource TrueToStopSymbolConverter}}" />
                         </Button>
-                        <Button Style="{StaticResource IconButton}">
+                        <Button Command="{Binding Edit}" Style="{StaticResource IconButton}">
                             <SymbolIcon Symbol="Edit" />
                         </Button>
                     </StackPanel>
