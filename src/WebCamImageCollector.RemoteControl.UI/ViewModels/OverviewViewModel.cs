@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WebCamImageCollector.RemoteControl.ViewModels.Commands;
+using WebCamImageCollector.RemoteControl.Views;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels
 {
@@ -33,6 +35,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         public OverviewViewModel()
         {
             Remotes = new ObservableCollection<ClientOverviewViewModel>();
+            CreateRemote = new NavigateCommand(typeof(RemoteClientEdit));
+            CreateLocal = new NavigateCommand(typeof(LocalClientEdit));
         }
     }
 }
