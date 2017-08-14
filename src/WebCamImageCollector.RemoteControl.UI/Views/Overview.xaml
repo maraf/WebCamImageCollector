@@ -25,8 +25,8 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <Border Padding="12,8" Background="{ThemeResource ApplicationForegroundThemeBrush}">
-                        <SymbolIcon Symbol="World" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+                    <Border Padding="12,8">
+                        <SymbolIcon Symbol="World" />
                     </Border>
                     <StackPanel Padding="10,0,0,0" Grid.Column="1">
                         <TextBlock Text="{x:Bind Name}" Style="{ThemeResource SubtitleTextBlockStyle}" />
