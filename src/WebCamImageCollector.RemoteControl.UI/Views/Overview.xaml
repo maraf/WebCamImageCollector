@@ -9,7 +9,7 @@
     xmlns:vm="using:WebCamImageCollector.RemoteControl.ViewModels"
     mc:Ignorable="d" d:DataContext="{Binding Overview, Source={StaticResource ViewModelLocator}}">
     <Page.Resources>
-        <converters:BoolConverter x:Key="TrueToStopSymbolConverter" TrueValue="Stop" FalseValue="Start" />
+        <converters:BoolConverter x:Key="TrueToStopSymbolConverter" TrueValue="Stop" FalseValue="Play" />
 
         <Style x:Key="IconButton" TargetType="Button">
             <Setter Property="Margin" Value="10,0,0,0" />
