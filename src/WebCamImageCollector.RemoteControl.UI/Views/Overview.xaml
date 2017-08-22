@@ -9,7 +9,8 @@
     xmlns:vm="using:WebCamImageCollector.RemoteControl.ViewModels"
     mc:Ignorable="d" d:DataContext="{Binding Overview, Source={StaticResource ViewModelLocator}}">
     <Page.Resources>
-        <converters:BoolConverter x:Key="TrueToStopSymbolConverter" TrueValue="Stop" FalseValue="Play" />
+        <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
+        <converters:BoolConverter x:Key="FalseToVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" NullValue="Collapsed" />
 
         <Style x:Key="IconButton" TargetType="Button">
             <Setter Property="Margin" Value="10,0,0,0" />
@@ -33,8 +34,14 @@
                         <TextBlock Text="{x:Bind Url}" Opacity=".5" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Grid.Column="2">
-                        <Button Style="{StaticResource IconButton}">
-                            <SymbolIcon Symbol="{Binding IsRunning, Converter={StaticResource TrueToStopSymbolConverter}}" />
+                        <Button Style="{StaticResource IconButton}" Visibility="{Binding IsRunning, Converter={StaticResource FalseToVisibleConverter}}">
+                            <SymbolIcon Symbol="Play" />
+                        </Button>
+                        <Button Style="{StaticResource IconButton}" Visibility="{Binding IsRunning, Converter={StaticResource TrueToVisibleConverter}}">
+                            <SymbolIcon Symbol="Stop" />
+                        </Button>
+                        <Button Style="{StaticResource IconButton}" Command="{Binding CheckStatus}" Visibility="{Binding IsRunning, Converter={StaticResource NullToVisibleConverter}}">
+                            <SymbolIcon Symbol="Refresh" />
                         </Button>
                         <Button Command="{Binding Edit}" Style="{StaticResource IconButton}">
                             <SymbolIcon Symbol="Edit" />
@@ -62,7 +69,7 @@
         </Grid>
         <ScrollViewer Grid.Row="1">
             <StackPanel>
-                <ListView ItemsSource="{Binding Remotes}" ItemTemplate="{StaticResource OverviewViewModelTemplate}">
+                <ListView x:Name="Remotes" ItemsSource="{Binding Remotes}" ItemTemplate="{StaticResource OverviewViewModelTemplate}" SelectionChanged="Remotes_SelectionChanged" SelectionMode="Single">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Padding" Value="0" />

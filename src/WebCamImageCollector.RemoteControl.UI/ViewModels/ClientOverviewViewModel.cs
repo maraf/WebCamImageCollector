@@ -13,7 +13,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
 {
     public class ClientOverviewViewModel : ObservableObject
     {
-        private readonly IClient client;
+        public Guid Key { get; private set; }
 
         private string name;
         public string Name
@@ -43,8 +43,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             }
         }
 
-        private bool isRunning;
-        public bool IsRunning
+        private bool? isRunning;
+        public bool? IsRunning
         {
             get { return isRunning; }
             set
@@ -86,11 +86,15 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             CheckStatus = new CheckStatusCommand(client, this);
 
             if (client is RemoteClient remote)
+            {
+                Key = remote.Key;
                 Edit = new NavigateCommand(typeof(RemoteClientEdit), remote.Key);
-            else
+            }
+            else if(client is LocalClient local)
+            {
+                Key = local.Key;
                 Edit = new NavigateCommand(typeof(LocalClientEdit));
-
-            //CheckStatus.Execute(null);
+            }
         }
     }
 }

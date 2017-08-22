@@ -15,18 +15,25 @@ namespace WebCamImageCollector.RemoteControl.Views.Converters
         public bool Test { get; set; } = true;
         public object TrueValue { get; set; }
         public object FalseValue { get; set; }
+        public object NullValue { get; set; }
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            bool? boolValue = value as bool?;
-            if (boolValue == null)
-                boolValue = false;
-
             object result = null;
-            if (Test == boolValue.Value)
-                result = TrueValue;
+            bool? boolValue = value as bool?;
+            if (boolValue == null && NullValue != null)
+            {
+                result = NullValue;
+            }
             else
-                result = FalseValue;
+            {
+                if (boolValue == null)
+                    boolValue = false;
+                if (Test == boolValue.Value)
+                    result = TrueValue;
+                else
+                    result = FalseValue;
+            }
 
             if (targetType != null && result != null)
             {

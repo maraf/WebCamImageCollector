@@ -45,5 +45,14 @@ namespace WebCamImageCollector.RemoteControl.Views
 
             DataContext = viewModel;
         }
+
+        private void Remotes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ClientOverviewViewModel viewModel = e.AddedItems.FirstOrDefault() as ClientOverviewViewModel;
+            if (viewModel != null)
+            {
+                ((Frame)Window.Current.Content).Navigate(typeof(UI.ClientControlPage), viewModel.Key);
+            }
+        }
     }
 }
