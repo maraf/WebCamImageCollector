@@ -40,9 +40,9 @@ namespace WebCamImageCollector.RemoteControl.Services
                     return response;
                 }
             }
-            catch (HttpRequestException e)
+            catch (Exception e)
             {
-                throw e;
+                throw new ClientException(e);
             }
         }
 
