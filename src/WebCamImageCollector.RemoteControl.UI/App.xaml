@@ -13,8 +13,8 @@
 
         <data:BoolToVisiblityConverter x:Key="TrueToVisibleConverter" />
         <data:NullToBoolConverter x:Key="NotNullToBoolConverter" IsInverted="True" />
-        <data:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-        <data:NullToVisibilityConverter x:Key="NotNullToVisibilityConverter" IsInverted="True" />
+        <data:NullToVisibilityConverter x:Key="NullToVisibleConverter" />
+        <data:NullToVisibilityConverter x:Key="NotNullToVisibleConverter" IsInverted="True" />
         <data:NullableBoolToBoolConverter x:Key="NullableBoolToBoolConverter" />
 
         <Style x:Key="HeaderStyle" TargetType="StackPanel">

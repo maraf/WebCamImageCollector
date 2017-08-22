@@ -46,7 +46,7 @@
     </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="OpenLocal" Label="Add local" Command="{Binding EditLocal}" Visibility="{Binding Local, Converter={StaticResource NullToVisibilityConverter}}" />
+            <AppBarButton Icon="OpenLocal" Label="Add local" Command="{Binding EditLocal}" Visibility="{Binding Local, Converter={StaticResource NullToVisibleConverter}}" />
             <AppBarButton Icon="Add" Label="Add remote" Command="{Binding CreateRemote}" />
         </CommandBar>
     </Page.BottomAppBar>
@@ -70,7 +70,7 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
-                <ContentPresenter ContentTemplate="{StaticResource OverviewViewModelTemplate}" Content="{Binding Local}" Visibility="{Binding Local, Converter={StaticResource NotNullToVisibilityConverter}}" 
+                <ContentPresenter ContentTemplate="{StaticResource OverviewViewModelTemplate}" Content="{Binding Local}" Visibility="{Binding Local, Converter={StaticResource NotNullToVisibleConverter}}" 
                  HorizontalAlignment="Stretch" />
             </StackPanel>
         </ScrollViewer>
