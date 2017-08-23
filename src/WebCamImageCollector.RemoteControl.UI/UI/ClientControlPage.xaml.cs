@@ -11,12 +11,14 @@ using WebCamImageCollector.RemoteControl.Views;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
 using Windows.Storage.Streams;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -44,10 +46,23 @@ namespace WebCamImageCollector.RemoteControl.UI
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private Task TryUseStatusBar(Func<StatusBar, Task> handler)
+        {
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+                return handler(statusBar);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             sourcePageType = Frame.BackStack.LastOrDefault().SourcePageType;
+
+            await TryUseStatusBar(async bar => await bar.HideAsync());
 
             client = ServiceProvider.Clients.Find((Guid)e.Parameter);
             if (client == null)
@@ -63,6 +78,13 @@ namespace WebCamImageCollector.RemoteControl.UI
 
             DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += OnDataTransferRequested;
+        }
+
+        protected override async void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            await TryUseStatusBar(async bar => await bar.ShowAsync());
         }
 
         private void OnDataTransferRequested(DataTransferManager sender, DataRequestedEventArgs args)
