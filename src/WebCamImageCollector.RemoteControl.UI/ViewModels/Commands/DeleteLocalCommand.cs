@@ -24,6 +24,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
         {
             ClientRepository repository = new ClientRepository();
             repository.DeleteLocal();
+
+            base.Execute();
         }
     }
 }
