@@ -5,7 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:WebCamImageCollector.RemoteControl.Views"
-    mc:Ignorable="d" d:DataContext="{Binding LocalClientEdit, Source={StaticResource ViewModelLocator}}">
+    mc:Ignorable="d" d:DataContext="{Binding LocalClientEdit, Source={StaticResource ViewModelLocator}}"
+    Loaded="OnLoaded">
     <views:EditPage.Resources>
         <Style x:Key="FormItemStyle" TargetType="StackPanel">
             <Setter Property="Margin" Value="0,0,0,10" />

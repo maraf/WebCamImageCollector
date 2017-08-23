@@ -39,7 +39,10 @@ namespace WebCamImageCollector.RemoteControl.Views
                 DataContext = new RemoteClientEditViewModel(key.Value);
                 IsNewRecord = false;
             }
+        }
 
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
             Name.Focus(FocusState.Keyboard);
             SelectText(Name);
         }

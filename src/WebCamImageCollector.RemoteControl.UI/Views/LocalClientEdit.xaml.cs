@@ -34,7 +34,10 @@ namespace WebCamImageCollector.RemoteControl.Views
 
             IsNewRecord = client == null;
             DataContext = new LocalClientEditViewModel(client);
+        }
 
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
             Port.Focus(FocusState.Keyboard);
             SelectText(Port);
         }
