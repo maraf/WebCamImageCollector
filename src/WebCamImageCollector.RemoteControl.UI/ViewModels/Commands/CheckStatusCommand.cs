@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WebCamImageCollector.RemoteControl.Services;
+using Windows.UI.Popups;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
 {
@@ -30,10 +31,21 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            viewModel.IsStatusLoading = true;
-            ClientRunningInfo response = await client.IsRunningAsync(cancellationToken);
-            viewModel.IsRunning = response.Running;
-            viewModel.IsStatusLoading = false;
+            try
+            {
+                viewModel.IsStatusLoading = true;
+                ClientRunningInfo response = await client.IsRunningAsync(cancellationToken);
+                viewModel.IsRunning = response.Running;
+            }
+            catch (ClientException e)
+            {
+                viewModel.IsRunning = null;
+                throw;
+            }
+            finally
+            {
+                viewModel.IsStatusLoading = false;
+            }
         }
     }
 }

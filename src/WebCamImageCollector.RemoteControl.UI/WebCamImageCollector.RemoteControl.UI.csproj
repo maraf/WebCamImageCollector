@@ -139,6 +139,7 @@
     <Compile Include="Views\Converters\CuttingConverter.cs" />
     <Compile Include="Views\Converters\NullConverter.cs" />
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
+    <Compile Include="Views\IMessagePage.cs" />
     <Compile Include="Views\LocalClientEdit.xaml.cs">
       <DependentUpon>LocalClientEdit.xaml</DependentUpon>
     </Compile>
