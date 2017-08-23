@@ -124,14 +124,20 @@ namespace WebCamImageCollector.RemoteControl
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            string title = "Unhandled exception raised";
+            string content = e.Exception.ToString();
+
+            if (content.Length > 500)
+                content = content.Substring(0, 500) + "...";
+
             IMessagePage messagePage = Window.Current.Content as IMessagePage;
             if (messagePage != null)
             {
-                messagePage.ShowError(e.Exception.ToString());
+                messagePage.ShowError(content);
             }
             else
             {
-                MessageDialog dialog = new MessageDialog(e.Message);
+                MessageDialog dialog = new MessageDialog(content, title);
                 dialog.ShowAsync();
             }
 
