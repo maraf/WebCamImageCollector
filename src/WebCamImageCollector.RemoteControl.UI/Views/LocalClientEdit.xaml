@@ -24,9 +24,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Background="{ThemeResource AppBarBackground}" Padding="8">
+        <Grid Background="{StaticResource HeaderBackgroundBrush}" Padding="8">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Local" Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="Local" Style="{ThemeResource TitleTextBlockStyle}" Foreground="White" />
             </StackPanel>
         </Grid>
         <StackPanel Margin="10" Grid.Row="1">

@@ -35,9 +35,9 @@ namespace WebCamImageCollector.RemoteControl
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
-            this.UnhandledException += OnUnhandledException;
+            InitializeComponent();
+            Suspending += OnSuspending;
+            UnhandledException += OnUnhandledException;
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace WebCamImageCollector.RemoteControl
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
 
@@ -58,6 +58,7 @@ namespace WebCamImageCollector.RemoteControl
             {
                 StatusBar statusBar = StatusBar.GetForCurrentView();
                 statusBar.BackgroundColor = Color.FromArgb(0, 0, 120, 215);
+                statusBar.BackgroundOpacity = 1;
             }
 
             ServiceProvider.Clients = new ClientRepository();

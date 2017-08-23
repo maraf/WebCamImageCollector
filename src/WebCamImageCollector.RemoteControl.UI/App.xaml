@@ -16,6 +16,8 @@
         <data:NullToVisibilityConverter x:Key="NotNullToVisibleConverter" IsInverted="True" />
         <data:NullableBoolToBoolConverter x:Key="NullableBoolToBoolConverter" />
 
+        <SolidColorBrush x:Key="HeaderBackgroundBrush">#0078D7</SolidColorBrush>
+        
         <Style x:Key="HeaderStyle" TargetType="StackPanel">
             <Setter Property="Height" Value="48" />
             <Setter Property="Margin" Value="56,0,0,0" />

@@ -24,11 +24,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Background="{ThemeResource AppBarBackground}" Padding="8">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Remote:" Style="{ThemeResource TitleTextBlockStyle}" Padding="0,0,4,0" Opacity=".5" />
-                <TextBlock Text="{Binding Name}" Style="{ThemeResource TitleTextBlockStyle}" />
-            </StackPanel>
+        <Grid Background="{StaticResource HeaderBackgroundBrush}" Padding="8">
+            <TextBlock Text="Remote" Style="{ThemeResource TitleTextBlockStyle}" Padding="0,0,4,0" Foreground="White" />
+            <TextBlock Text="{Binding Name}" Style="{ThemeResource TitleTextBlockStyle}" Foreground="White" HorizontalAlignment="Right" />
         </Grid>
         <StackPanel Margin="10" Grid.Row="1">
             <StackPanel Style="{StaticResource FormItemStyle}">
