@@ -5,8 +5,7 @@
     xmlns:local="using:WebCamImageCollector.RemoteControl.UI"
     xmlns:data="using:WebCamImageCollector.RemoteControl.UI.Data"
     xmlns:dd="using:WebCamImageCollector.RemoteControl.UI.DesignData"
-    xmlns:ddnew="using:WebCamImageCollector.RemoteControl.Views.DesignData"
-    RequestedTheme="Dark">
+    xmlns:ddnew="using:WebCamImageCollector.RemoteControl.Views.DesignData">
     <Application.Resources>
         <dd:ViewModelLocator x:Key="ViewModel" />
         <ddnew:ViewModelLocator x:Key="ViewModelLocator" />
