@@ -10,11 +10,11 @@ using WebCamImageCollector.RemoteControl.Views;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
 {
-    public class DeleteRemoveCommand : NavigateCommand
+    public class DeleteRemoteCommand : NavigateCommand
     {
         private readonly Guid key;
 
-        public DeleteRemoveCommand(Guid key)
+        public DeleteRemoteCommand(Guid key)
             : base(typeof(Overview))
         {
             this.key = key;
