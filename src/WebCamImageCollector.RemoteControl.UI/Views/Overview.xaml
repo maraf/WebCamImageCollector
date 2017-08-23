@@ -64,12 +64,12 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Background="{ThemeResource AppBarBackground}" Padding="8">
+        <Grid Background="#0078D7" Padding="8">
             <StackPanel Orientation="Horizontal">
                 <Image Source="/UI/Assets/Square44x44Logo.scale-200.png" Height="24" Margin="0,0,8,0" />
-                <TextBlock Text="Clients" Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="Clients" Style="{ThemeResource TitleTextBlockStyle}" Foreground="White" />
             </StackPanel>
-            <TextBlock Text="v2.0.0" HorizontalAlignment="Right" Opacity=".5" />
+            <TextBlock Text="v2.0.0" HorizontalAlignment="Right" Opacity=".5" Foreground="White" />
         </Grid>
         <ListView x:Name="Remotes" ItemsSource="{Binding Clients}" ItemTemplate="{StaticResource OverviewViewModelTemplate}" SelectionChanged="Remotes_SelectionChanged" SelectionMode="Single" Grid.Row="1">
             <ListView.ItemContainerStyle>
