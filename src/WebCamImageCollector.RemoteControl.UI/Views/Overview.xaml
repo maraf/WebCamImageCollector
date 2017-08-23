@@ -67,7 +67,7 @@
         </Grid.RowDefinitions>
         <Grid Background="{StaticResource HeaderBackgroundBrush}" Padding="8">
             <StackPanel Orientation="Horizontal">
-                <Image Source="/UI/Assets/Square44x44Logo.scale-200.png" Height="24" Margin="0,0,8,0" />
+                <Image Source="/UI/Assets/SquareBlue44x44Logo.scale-200.png" Width="24" Height="24" Margin="0,0,8,0" />
                 <TextBlock Text="Clients" Style="{ThemeResource TitleTextBlockStyle}" Foreground="White" />
             </StackPanel>
             <TextBlock Text="v2.0.0" HorizontalAlignment="Right" Opacity=".5" Foreground="White" />

@@ -177,6 +177,7 @@
     <Content Include="UI\Assets\Square150x150Logo.scale-200.png" />
     <Content Include="UI\Assets\Square44x44Logo.scale-200.png" />
     <Content Include="UI\Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="UI\Assets\SquareBlue44x44Logo.scale-200.png" />
     <Content Include="UI\Assets\StoreLogo.png" />
     <Content Include="UI\Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="UI\Assets\Wide310x150Logo.scale-200.png" />

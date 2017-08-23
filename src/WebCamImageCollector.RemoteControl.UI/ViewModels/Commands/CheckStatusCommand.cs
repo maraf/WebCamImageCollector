@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WebCamImageCollector.RemoteControl.Services;
-using Windows.UI.Popups;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
 {

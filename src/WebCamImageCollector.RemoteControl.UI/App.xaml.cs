@@ -48,10 +48,10 @@ namespace WebCamImageCollector.RemoteControl
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                DebugSettings.EnableFrameRateCounter = true;
-            }
+            //if (System.Diagnostics.Debugger.IsAttached)
+            //{
+            //    DebugSettings.EnableFrameRateCounter = true;
+            //}
 #endif
 
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
