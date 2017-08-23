@@ -13,11 +13,14 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
     public class StartCommand : AsyncCommand
     {
         private readonly IClient client;
+        private readonly IClientStatusViewModel viewModel;
 
-        public StartCommand(IClient client)
+        public StartCommand(IClient client, IClientStatusViewModel viewModel)
         {
             Ensure.NotNull(client, "client");
+            Ensure.NotNull(viewModel, "viewModel");
             this.client = client;
+            this.viewModel = viewModel;
         }
 
         protected override bool CanExecuteOverride()
@@ -25,9 +28,9 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
             return true;
         }
 
-        protected override Task ExecuteAsync(CancellationToken cancellationToken)
+        protected async override Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            return client.StartAsync(cancellationToken);
+            viewModel.IsRunning = await client.StartAsync(cancellationToken);
         }
     }
 }

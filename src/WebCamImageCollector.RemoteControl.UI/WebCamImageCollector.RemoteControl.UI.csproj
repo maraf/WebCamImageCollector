@@ -132,6 +132,7 @@
     <Compile Include="ViewModels\Commands\SaveRemoteCommand.cs" />
     <Compile Include="ViewModels\Commands\StartCommand.cs" />
     <Compile Include="ViewModels\Commands\StopCommand.cs" />
+    <Compile Include="ViewModels\IClientStatusViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModel.cs" />
     <Compile Include="ViewModels\LocalClientEditViewModel.cs" />
     <Compile Include="ViewModels\OverviewViewModel.cs" />

@@ -35,11 +35,11 @@
                         <TextBlock Text="{x:Bind Url}" Opacity=".5" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Grid.Column="2">
-                        <Button Style="{StaticResource IconButton}" Visibility="{Binding IsRunning, Converter={StaticResource FalseToVisibleConverter}}" ToolTipService.ToolTip="Start">
+                        <Button Style="{StaticResource IconButton}" Command="{Binding Start}" Visibility="{Binding IsRunning, Converter={StaticResource FalseToVisibleConverter}}" ToolTipService.ToolTip="Start">
                             <SymbolIcon Symbol="Play" />
                         </Button>
-                        <Button Style="{StaticResource IconButton}" Visibility="{Binding IsRunning, Converter={StaticResource TrueToVisibleConverter}}" ToolTipService.ToolTip="Stop">
-                            <SymbolIcon Symbol="Stop" />
+                        <Button Style="{StaticResource IconButton}" Command="{Binding Stop}" Visibility="{Binding IsRunning, Converter={StaticResource TrueToVisibleConverter}}" ToolTipService.ToolTip="Stop">
+                            <SymbolIcon Symbol="Pause" />
                         </Button>
                         <Button Style="{StaticResource IconButton}" Command="{Binding CheckStatus}" Visibility="{Binding IsRunning, Converter={StaticResource NullToVisibleConverter}}" ToolTipService.ToolTip="Reload status">
                             <SymbolIcon Symbol="Refresh" />

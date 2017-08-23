@@ -11,7 +11,7 @@ using WebCamImageCollector.RemoteControl.Views;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels
 {
-    public class ClientOverviewViewModel : ObservableObject
+    public class ClientOverviewViewModel : ObservableObject, IClientStatusViewModel
     {
         public Guid Key { get; private set; }
 
@@ -78,13 +78,19 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         public ICommand CheckStatus { get; private set; }
         public ICommand Edit { get; private set; }
 
+        bool IClientStatusViewModel.IsRunning
+        {
+            get => IsRunning ?? false;
+            set => IsRunning = value;
+        }
+
         public ClientOverviewViewModel(IClient client)
         {
             Name = client.Name;
             Url = client.Url;
 
-            Start = new StartCommand(client);
-            Stop = new StopCommand(client);
+            Start = new StartCommand(client, this);
+            Stop = new StopCommand(client, this);
             CheckStatus = new CheckStatusCommand(client, this);
 
             if (client is RemoteClient remote)
