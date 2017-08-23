@@ -123,6 +123,8 @@ namespace WebCamImageCollector.RemoteControl
                 MessageDialog dialog = new MessageDialog(e.Message);
                 dialog.ShowAsync();
             }
+
+            e.Handled = true;
         }
     }
 }

@@ -63,6 +63,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         public RemoteClientEditViewModel()
         {
             Name = "New";
+            Url = "http://";
             Save = new SaveRemoteCommand(this, null);
             Back = new NavigateCommand(typeof(Overview));
         }

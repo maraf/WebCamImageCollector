@@ -26,8 +26,8 @@
         </Grid.RowDefinitions>
         <Grid Background="{ThemeResource AppBarBackground}" Padding="8">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Remote Client: " Style="{ThemeResource HeaderTextStyle}" />
-                <TextBlock Text="{Binding Name}" Style="{ThemeResource HeaderTextStyle}" />
+                <TextBlock Text="Remote Client: " Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="{Binding Name}" Style="{ThemeResource TitleTextBlockStyle}" />
             </StackPanel>
         </Grid>
         <StackPanel Margin="10" Grid.Row="1">
