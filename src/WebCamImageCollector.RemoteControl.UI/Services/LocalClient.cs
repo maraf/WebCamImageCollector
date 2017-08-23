@@ -52,7 +52,7 @@ namespace WebCamImageCollector.RemoteControl.Services
 
         public string Url
         {
-            get { return "http://localhost"; }
+            get { return $"http://localhost:{Port}"; }
         }
 
         public LocalClient(Guid key, int port, string authenticationToken, int interval, int delay)
