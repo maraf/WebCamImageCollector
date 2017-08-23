@@ -50,7 +50,7 @@ namespace WebCamImageCollector.RemoteControl.Views.DesignData
             {
                 if (localClientEdit == null)
                 {
-                    localClientEdit = new LocalClientEditViewModel();
+                    localClientEdit = new LocalClientEditViewModel(null);
                     localClientEdit.Port = 8000;
                     localClientEdit.AuthenticationToken = "abcdefgh";
                     localClientEdit.Delay = 2;

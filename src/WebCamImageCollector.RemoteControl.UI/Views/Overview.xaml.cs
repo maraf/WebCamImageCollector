@@ -51,7 +51,8 @@ namespace WebCamImageCollector.RemoteControl.Views
             ClientOverviewViewModel viewModel = e.AddedItems.FirstOrDefault() as ClientOverviewViewModel;
             if (viewModel != null)
             {
-                ((Frame)Window.Current.Content).Navigate(typeof(UI.ClientControlPage), viewModel.Key);
+                //((Frame)Window.Current.Content).Navigate(typeof(UI.ClientControlPage), viewModel.Key);
+                ((Frame)Window.Current.Content).Navigate(typeof(Image), viewModel.Key);
             }
         }
     }

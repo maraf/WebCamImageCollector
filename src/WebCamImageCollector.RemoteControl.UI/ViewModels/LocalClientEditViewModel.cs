@@ -73,10 +73,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         public ICommand Delete { get; private set; }
         public ICommand Back { get; private set; }
 
-        public LocalClientEditViewModel()
+        public LocalClientEditViewModel(LocalClient client)
         {
-            ClientRepository repository = new ClientRepository();
-            LocalClient client = repository.FindLocal();
             if (client != null)
             {
                 Port = client.Port;

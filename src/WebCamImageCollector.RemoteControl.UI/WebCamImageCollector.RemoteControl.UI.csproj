@@ -142,6 +142,7 @@
     <Compile Include="Views\Converters\SelectedImageQualityConverter.cs" />
     <Compile Include="Views\Converters\NullConverter.cs" />
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
+    <Compile Include="Views\EditPage.cs" />
     <Compile Include="Views\Image.xaml.cs">
       <DependentUpon>Image.xaml</DependentUpon>
     </Compile>
