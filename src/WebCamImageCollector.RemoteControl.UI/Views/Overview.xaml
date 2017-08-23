@@ -12,6 +12,7 @@
         <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
         <converters:BoolConverter x:Key="FalseToVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" NullValue="Collapsed" />
         <converters:BoolConverter x:Key="TrueToRemoteSymbolConverter" TrueValue="World" FalseValue="Home" />
+        <converters:CuttingConverter x:Key="ZeroToVisibleConverter" EdgeValue="0" GreaterValue="Collapsed" EqualValue="Visible" LowerValue="Visible" />
 
         <Style x:Key="IconButton" TargetType="Button">
             <Setter Property="Margin" Value="10,0,0,0" />
@@ -79,5 +80,13 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Visibility="{Binding Clients.Count, Converter={StaticResource ZeroToVisibleConverter}}" Grid.Row="1">
+            <Grid VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Text="No data to show" Style="{ThemeResource HeaderTextBlockStyle}" HorizontalAlignment="Center" />
+                    <TextBlock Text="Start by creating local or remote client" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

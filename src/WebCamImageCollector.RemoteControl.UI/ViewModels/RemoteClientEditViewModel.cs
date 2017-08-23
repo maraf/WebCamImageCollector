@@ -81,7 +81,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
 
             Save = new SaveRemoteCommand(this, key);
             Back = new NavigateCommand(typeof(Overview));
-            Delete = new DeleteRemoveCommand(key);
+            Delete = new DeleteRemoteCommand(key);
         }
     }
 }
