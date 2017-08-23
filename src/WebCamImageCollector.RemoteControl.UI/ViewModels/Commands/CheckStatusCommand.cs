@@ -37,7 +37,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
                 ClientRunningInfo response = await client.IsRunningAsync(cancellationToken);
                 viewModel.IsRunning = response.Running;
             }
-            catch (ClientException e)
+            catch (ClientException)
             {
                 viewModel.IsRunning = null;
                 throw;
