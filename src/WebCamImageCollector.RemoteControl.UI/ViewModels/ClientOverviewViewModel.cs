@@ -71,6 +71,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             }
         }
 
+        public bool IsRemote { get; private set; }
+
         public ICommand Start { get; private set; }
         public ICommand Stop { get; private set; }
         public ICommand CheckStatus { get; private set; }
@@ -89,6 +91,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             {
                 Key = remote.Key;
                 Edit = new NavigateCommand(typeof(RemoteClientEdit), remote.Key);
+                IsRemote = true;
             }
             else if(client is LocalClient local)
             {

@@ -18,8 +18,8 @@ namespace WebCamImageCollector.RemoteControl.Views.DesignData
                 if (overview == null)
                 {
                     overview = new OverviewViewModel();
-                    overview.Remotes.Add(new ClientOverviewViewModel(new RemoteClient(Guid.NewGuid(), "Home", "http://home:8001", "xxxxx")));
-                    overview.Remotes.Add(new ClientOverviewViewModel(new RemoteClient(Guid.NewGuid(), "Office", "http://office:8001", "zzzzz")));
+                    overview.Clients.Add(new ClientOverviewViewModel(new RemoteClient(Guid.NewGuid(), "Home", "http://home:8001", "xxxxx")));
+                    overview.Clients.Add(new ClientOverviewViewModel(new RemoteClient(Guid.NewGuid(), "Office", "http://office:8001", "zzzzz")));
                 }
 
                 return overview;

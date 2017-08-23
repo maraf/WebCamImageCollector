@@ -11,6 +11,7 @@
     <Page.Resources>
         <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
         <converters:BoolConverter x:Key="FalseToVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" NullValue="Collapsed" />
+        <converters:BoolConverter x:Key="TrueToRemoteSymbolConverter" TrueValue="World" FalseValue="Home" />
 
         <Style x:Key="IconButton" TargetType="Button">
             <Setter Property="Margin" Value="10,0,0,0" />
@@ -27,23 +28,23 @@
                     </Grid.ColumnDefinitions>
 
                     <Border Padding="12,8">
-                        <SymbolIcon Symbol="World" />
+                        <SymbolIcon Symbol="{Binding IsRemote, Converter={StaticResource TrueToRemoteSymbolConverter}}" />
                     </Border>
                     <StackPanel Padding="10,0,0,0" Grid.Column="1">
                         <TextBlock Text="{x:Bind Name}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <TextBlock Text="{x:Bind Url}" Opacity=".5" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Grid.Column="2">
-                        <Button Style="{StaticResource IconButton}" Visibility="{Binding IsRunning, Converter={StaticResource FalseToVisibleConverter}}">
+                        <Button Style="{StaticResource IconButton}" Visibility="{Binding IsRunning, Converter={StaticResource FalseToVisibleConverter}}" ToolTipService.ToolTip="Start">
                             <SymbolIcon Symbol="Play" />
                         </Button>
-                        <Button Style="{StaticResource IconButton}" Visibility="{Binding IsRunning, Converter={StaticResource TrueToVisibleConverter}}">
+                        <Button Style="{StaticResource IconButton}" Visibility="{Binding IsRunning, Converter={StaticResource TrueToVisibleConverter}}" ToolTipService.ToolTip="Stop">
                             <SymbolIcon Symbol="Stop" />
                         </Button>
-                        <Button Style="{StaticResource IconButton}" Command="{Binding CheckStatus}" Visibility="{Binding IsRunning, Converter={StaticResource NullToVisibleConverter}}">
+                        <Button Style="{StaticResource IconButton}" Command="{Binding CheckStatus}" Visibility="{Binding IsRunning, Converter={StaticResource NullToVisibleConverter}}" ToolTipService.ToolTip="Reload status">
                             <SymbolIcon Symbol="Refresh" />
                         </Button>
-                        <Button Command="{Binding Edit}" Style="{StaticResource IconButton}">
+                        <Button Command="{Binding Edit}" Style="{StaticResource IconButton}" ToolTipService.ToolTip="Edit">
                             <SymbolIcon Symbol="Edit" />
                         </Button>
                     </StackPanel>
@@ -67,19 +68,13 @@
             <TextBlock Text="Clients" Style="{ThemeResource TitleTextBlockStyle}" />
             <TextBlock Text="v2.1.0" HorizontalAlignment="Right" />
         </Grid>
-        <ScrollViewer Grid.Row="1">
-            <StackPanel>
-                <ListView x:Name="Remotes" ItemsSource="{Binding Remotes}" ItemTemplate="{StaticResource OverviewViewModelTemplate}" SelectionChanged="Remotes_SelectionChanged" SelectionMode="Single">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Padding" Value="0" />
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
-                <ContentPresenter ContentTemplate="{StaticResource OverviewViewModelTemplate}" Content="{Binding Local}" Visibility="{Binding Local, Converter={StaticResource NotNullToVisibleConverter}}" 
-                 HorizontalAlignment="Stretch" />
-            </StackPanel>
-        </ScrollViewer>
+        <ListView x:Name="Remotes" ItemsSource="{Binding Clients}" ItemTemplate="{StaticResource OverviewViewModelTemplate}" SelectionChanged="Remotes_SelectionChanged" SelectionMode="Single" Grid.Row="1">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
     </Grid>
 </Page>

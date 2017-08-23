@@ -37,11 +37,11 @@ namespace WebCamImageCollector.RemoteControl.Views
 
             ClientRepository repository = new ClientRepository();
             foreach (RemoteClient remote in repository.EnumerateRemote())
-                viewModel.Remotes.Add(new ClientOverviewViewModel(remote));
+                viewModel.Clients.Add(new ClientOverviewViewModel(remote));
 
             LocalClient local = repository.FindLocal();
             if (local != null)
-                viewModel.Local = new ClientOverviewViewModel(local);
+                viewModel.Clients.Add(new ClientOverviewViewModel(local));
 
             DataContext = viewModel;
         }

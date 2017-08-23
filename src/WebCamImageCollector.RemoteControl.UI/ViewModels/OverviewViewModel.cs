@@ -13,28 +13,14 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
 {
     public class OverviewViewModel : ObservableObject
     {
-        private ClientOverviewViewModel local;
-        public ClientOverviewViewModel Local
-        {
-            get { return local; }
-            set
-            {
-                if (local != value)
-                {
-                    local = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        public ObservableCollection<ClientOverviewViewModel> Remotes { get; private set; }
+        public ObservableCollection<ClientOverviewViewModel> Clients { get; private set; }
 
         public ICommand CreateRemote { get; private set; }
         public ICommand EditLocal { get; private set; }
 
         public OverviewViewModel()
         {
-            Remotes = new ObservableCollection<ClientOverviewViewModel>();
+            Clients = new ObservableCollection<ClientOverviewViewModel>();
             CreateRemote = new NavigateCommand(typeof(RemoteClientEdit));
             EditLocal = new NavigateCommand(typeof(LocalClientEdit));
         }
