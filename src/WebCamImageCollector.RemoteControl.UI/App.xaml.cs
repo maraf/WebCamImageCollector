@@ -61,6 +61,10 @@ namespace WebCamImageCollector.RemoteControl
                 statusBar.BackgroundOpacity = 1;
             }
 
+            ApplicationView view = ApplicationView.GetForCurrentView();
+            view.TitleBar.BackgroundColor = Color.FromArgb(0, 0, 120, 215);
+            view.TitleBar.ButtonBackgroundColor = Color.FromArgb(0, 0, 120, 215);
+
             ServiceProvider.Clients = new ClientRepository();
 
             Frame rootFrame = Window.Current.Content as Frame;
