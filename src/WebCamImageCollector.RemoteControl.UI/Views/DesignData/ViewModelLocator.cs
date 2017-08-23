@@ -60,5 +60,19 @@ namespace WebCamImageCollector.RemoteControl.Views.DesignData
                 return localClientEdit;
             }
         }
+
+        private ImageViewModel image;
+        public ImageViewModel Image
+        {
+            get
+            {
+                if (image == null)
+                {
+                    image = new ImageViewModel(new RemoteClient(Guid.NewGuid(), "Home", "http://home:8001", "xxxxx"));
+                }
+
+                return image;
+            }
+        }
     }
 }
