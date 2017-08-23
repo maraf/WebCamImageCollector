@@ -31,6 +31,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         {
             Ensure.NotNull(client, "client");
             this.client = client;
+
+            Quality = ImageQuality.Medium;
         }   
     }
 }
