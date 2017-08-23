@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WebCamImageCollector.RemoteControl.Services;
+using WebCamImageCollector.RemoteControl.Views;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -36,6 +37,7 @@ namespace WebCamImageCollector.RemoteControl.UI
     {
         private IClient client;
         private ImageQuality quality;
+        private Type sourcePageType;
 
         public ClientControlPage()
         {
@@ -45,6 +47,8 @@ namespace WebCamImageCollector.RemoteControl.UI
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            sourcePageType = Frame.BackStack.LastOrDefault().SourcePageType;
+
             client = ServiceProvider.Clients.Find((Guid)e.Parameter);
             if (client == null)
             {
@@ -252,7 +256,10 @@ namespace WebCamImageCollector.RemoteControl.UI
 
         private void btnHome_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MainPage));
+            if (sourcePageType == typeof(Overview))
+                Frame.Navigate(typeof(Overview));
+            else
+                Frame.Navigate(typeof(MainPage));
         }
 
         private async void btnSaveImage_Click(object sender, RoutedEventArgs e)
