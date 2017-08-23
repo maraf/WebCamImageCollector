@@ -50,6 +50,11 @@ namespace WebCamImageCollector.RemoteControl
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+            }
+
             ServiceProvider.Clients = new ClientRepository();
 
             Frame rootFrame = Window.Current.Content as Frame;
