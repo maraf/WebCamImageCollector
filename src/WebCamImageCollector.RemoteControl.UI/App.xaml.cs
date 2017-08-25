@@ -128,14 +128,20 @@ namespace WebCamImageCollector.RemoteControl
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            object page = (Window.Current.Content as Frame)?.Content;
+            if (page is IExceptionPage exceptionPage && exceptionPage.TryProcess(e.Exception))
+            {
+                e.Handled = true;
+                return;
+            }
+
             string title = "Unhandled exception raised";
             string content = e.Exception.ToString();
 
             if (content.Length > 500)
                 content = content.Substring(0, 500) + "...";
 
-            IMessagePage messagePage = Window.Current.Content as IMessagePage;
-            if (messagePage != null)
+            if (page is IMessagePage messagePage)
             {
                 messagePage.ShowError(content);
             }

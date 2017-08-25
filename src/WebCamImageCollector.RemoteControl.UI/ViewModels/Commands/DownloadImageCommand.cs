@@ -10,19 +10,20 @@ using WebCamImageCollector.RemoteControl.Services;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
 {
-    public class DownloadImageCommand : AsyncCommand
+    public partial class DownloadImageCommand : AsyncCommand
     {
         private readonly IClient client;
-        private readonly Func<ImageQuality> qualityGetter;
+        private readonly IViewModel viewModel;
 
         public event Action<ClientImageModel> Completed;
+        public event Action Failed;
 
-        public DownloadImageCommand(IClient client, Func<ImageQuality> qualityGetter)
+        public DownloadImageCommand(IClient client, IViewModel viewModel)
         {
             Ensure.NotNull(client, "client");
-            Ensure.NotNull(qualityGetter, "qualityGetter");
+            Ensure.NotNull(viewModel, "viewModel");
             this.client = client;
-            this.qualityGetter = qualityGetter;
+            this.viewModel = viewModel;
         }
 
         protected override bool CanExecuteOverride()
@@ -32,8 +33,21 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            ClientImageModel image = await client.DownloadLatestAsync(qualityGetter(), cancellationToken);
-            Completed?.Invoke(image);
+            try
+            {
+                viewModel.IsDownloading = true;
+
+                ClientImageModel image = await client.DownloadLatestAsync(viewModel.Quality, cancellationToken);
+                Completed?.Invoke(image);
+            }
+            catch (ClientException)
+            {
+                Failed?.Invoke();
+            }
+            finally
+            {
+                viewModel.IsDownloading = false;
+            }
         }
     }
 }

@@ -12,9 +12,10 @@ using WebCamImageCollector.RemoteControl.ViewModels.Commands;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels
 {
-    public partial class ImageViewModel : ObservableObject, IClientStatusViewModel, CheckStatusCommand.IViewModel
+    public partial class ImageViewModel : ObservableObject, IClientStatusViewModel, CheckStatusCommand.IViewModel, DownloadImageCommand.IViewModel
     {
         private readonly IClient client;
+        private readonly DownloadImageCommand download;
 
         private ImageQuality quality;
         public ImageQuality Quality
@@ -58,10 +59,24 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             }
         }
 
+        private bool isDownlading;
+        public bool IsDownloading
+        {
+            get { return isDownlading; }
+            set
+            {
+                if (isDownlading != value)
+                {
+                    isDownlading = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public ICommand Start { get; private set; }
         public ICommand Stop { get; private set; }
         public ICommand CheckStatus { get; private set; }
-        public ICommand Download { get; private set; }
+        public ICommand Download => download;
 
         bool IClientStatusViewModel.IsRunning
         {
@@ -70,6 +85,12 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         }
 
         public ObservableCollection<ClientImageModel> Images { get; private set; }
+
+        public event Action DownloadFailed
+        {
+            add { download.Failed += value; }
+            remove { download.Failed -= value; }
+        }
 
         public ImageViewModel(IClient client)
         {
@@ -82,9 +103,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             Stop = new StopCommand(client, this);
             CheckStatus = new CheckStatusCommand(client, this);
 
-            DownloadImageCommand download = new DownloadImageCommand(client, () => Quality);
+            download = new DownloadImageCommand(client, this);
             download.Completed += OnImageDownloaded;
-            Download = download;
 
             Images = new ObservableCollection<ClientImageModel>();
         }

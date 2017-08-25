@@ -9,10 +9,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
+using System.Collections.Specialized;
+using System.Globalization;
 
 namespace WebCamImageCollector.RemoteControl.Views
 {
-    public sealed partial class Image : NavigationPage, IMessagePage
+    public sealed partial class Image : NavigationPage, IMessagePage, IExceptionPage
     {
         public ImageViewModel ViewModel
         {
@@ -41,6 +43,8 @@ namespace WebCamImageCollector.RemoteControl.Views
             DataContext = new ImageViewModel(client);
 
             ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+            ViewModel.Images.CollectionChanged += OnViewModelImagesCollectionChanged;
+            ViewModel.DownloadFailed += OnViewModelImageDownloadFailed;
             ViewModel.CheckStatus.Execute(null);
         }
 
@@ -57,6 +61,26 @@ namespace WebCamImageCollector.RemoteControl.Views
                 else
                     ShowStatusMessage();
             }
+            else if (e.PropertyName == nameof(ImageViewModel.IsDownloading))
+            {
+                if (ViewModel.IsDownloading)
+                    ShowInfo("Downlading image...");
+            }
+        }
+
+        private void OnViewModelImagesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                ClientImageModel model = e.NewItems.OfType<ClientImageModel>().FirstOrDefault();
+                if (model != null)
+                    ShowInfo(model.Date.ToString(CultureInfo.CurrentUICulture));
+            }
+        }
+
+        private void OnViewModelImageDownloadFailed()
+        {
+            ShowError("Downloading failed.");
         }
 
         private void ShowStatusMessage()
@@ -95,6 +119,14 @@ namespace WebCamImageCollector.RemoteControl.Views
             InfoMessage.Text = text;
 
             MessagePanel.Visibility = Visibility.Visible;
+        }
+
+        public bool TryProcess(Exception e)
+        {
+            if (e is ClientException)
+                ShowInfo(string.Empty);
+
+            return false;
         }
     }
 }
