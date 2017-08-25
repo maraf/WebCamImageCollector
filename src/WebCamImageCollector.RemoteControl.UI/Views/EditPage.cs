@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace WebCamImageCollector.RemoteControl.Views
 {
-    public class EditPage : Page
+    public class EditPage : NavigationPage
     {
         public bool IsNewRecord { get; protected set; }
 

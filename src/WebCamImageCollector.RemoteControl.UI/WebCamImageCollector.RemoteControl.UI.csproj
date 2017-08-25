@@ -151,6 +151,7 @@
     <Compile Include="Views\LocalClientEdit.xaml.cs">
       <DependentUpon>LocalClientEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NavigationPage.cs" />
     <Compile Include="Views\Overview.xaml.cs">
       <DependentUpon>Overview.xaml</DependentUpon>
     </Compile>

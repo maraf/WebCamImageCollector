@@ -35,7 +35,7 @@ namespace WebCamImageCollector.RemoteControl.UI
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ClientControlPage : Page, IMessagePage
+    public sealed partial class ClientControlPage : NavigationPage, IMessagePage
     {
         private IClient client;
         private ImageQuality quality;
