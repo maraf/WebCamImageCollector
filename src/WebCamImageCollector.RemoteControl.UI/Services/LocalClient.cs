@@ -65,7 +65,7 @@ namespace WebCamImageCollector.RemoteControl.Services
             service = new CaptureService(TimeSpan.FromSeconds(interval), TimeSpan.FromSeconds(delay));
         }
 
-        public async Task<ClientImageModel> DownloadLatest(ImageQuality quality, CancellationToken cancellationToken)
+        public async Task<ClientImageModel> DownloadLatestAsync(ImageQuality quality, CancellationToken cancellationToken)
         {
             FileModel file = await service.FindLatestImageAsync();
             Stream content = file.Content.AsStreamForRead();

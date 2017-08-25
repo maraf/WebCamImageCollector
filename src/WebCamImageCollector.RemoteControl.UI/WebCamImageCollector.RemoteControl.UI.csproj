@@ -127,6 +127,7 @@
     <Compile Include="ViewModels\Commands\CheckStatusCommand.cs" />
     <Compile Include="ViewModels\Commands\DeleteLocalCommand.cs" />
     <Compile Include="ViewModels\Commands\DeleteRemoteCommand.cs" />
+    <Compile Include="ViewModels\Commands\DownloadImageCommand.cs" />
     <Compile Include="ViewModels\Commands\NavigateCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveLocalCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveRemoteCommand.cs" />

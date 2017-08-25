@@ -16,6 +16,6 @@ namespace WebCamImageCollector.RemoteControl.Services
         Task<ClientRunningInfo> IsRunningAsync(CancellationToken cancellationToken = default(CancellationToken));
         Task<bool> StartAsync(CancellationToken cancellationToken = default(CancellationToken));
         Task<bool> StopAsync(CancellationToken cancellationToken = default(CancellationToken));
-        Task<ClientImageModel> DownloadLatest(ImageQuality quality = ImageQuality.Full, CancellationToken cancellationToken = default(CancellationToken));
+        Task<ClientImageModel> DownloadLatestAsync(ImageQuality quality = ImageQuality.Full, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

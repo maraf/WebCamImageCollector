@@ -257,7 +257,7 @@ namespace WebCamImageCollector.RemoteControl.UI
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
         {
             ShowMessage("Downloading image...");
-            await HandleErrorAsync(() => client.DownloadLatest(quality), model =>
+            await HandleErrorAsync(() => client.DownloadLatestAsync(quality), model =>
             {
                 downloadModel = model;
                 imgBackground.Source = model.Image;

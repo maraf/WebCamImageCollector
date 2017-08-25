@@ -1,5 +1,6 @@
 ﻿using Neptuo;
 using Neptuo.Observables;
+using Neptuo.Observables.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,12 +61,15 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         public ICommand Start { get; private set; }
         public ICommand Stop { get; private set; }
         public ICommand CheckStatus { get; private set; }
+        public ICommand Download { get; private set; }
 
         bool IClientStatusViewModel.IsRunning
         {
             get => IsRunning ?? false;
             set => IsRunning = value;
         }
+
+        public ObservableCollection<ClientImageModel> Images { get; private set; }
 
         public ImageViewModel(IClient client)
         {
@@ -77,6 +81,17 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             Start = new StartCommand(client, this);
             Stop = new StopCommand(client, this);
             CheckStatus = new CheckStatusCommand(client, this);
+
+            DownloadImageCommand download = new DownloadImageCommand(client, () => Quality);
+            download.Completed += OnImageDownloaded;
+            Download = download;
+
+            Images = new ObservableCollection<ClientImageModel>();
+        }
+
+        private void OnImageDownloaded(ClientImageModel model)
+        {
+            Images.Add(model);
         }
     }
 }

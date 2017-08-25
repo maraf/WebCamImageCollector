@@ -17,7 +17,7 @@
         <CommandBar>
             <AppBarButton Label="Start" Icon="Play" Command="{Binding Start}" Visibility="{Binding IsRunning, Converter={StaticResource FalseToVisibleConverter}}" />
             <AppBarButton Label="Stop" Icon="Pause" Command="{Binding Stop}" Visibility="{Binding IsRunning, Converter={StaticResource TrueToVisibleConverter}}" />
-            <AppBarButton Label="Download" Icon="Download" ToolTipService.ToolTip="Download latest image" />
+            <AppBarButton Label="Download" Icon="Download" IsEnabled="{Binding IsRunning}" Command="{Binding Download}" ToolTipService.ToolTip="Download latest image" />
             <AppBarButton Label="Quality">
                 <AppBarButton.Icon>
                     <SymbolIcon Symbol="{Binding Quality, Converter={StaticResource ImageQualityToSymbolConverter}}" />
@@ -38,6 +38,15 @@
          HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center">
             <Image x:Name="MainImage" />
         </ScrollViewer>
+
+        <!--<TextBlock Text="{Binding Images.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" />-->
+        <FlipView ItemsSource="{Binding Images}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <FlipView.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding Image}" />
+                </DataTemplate>
+            </FlipView.ItemTemplate>
+        </FlipView>
 
         <Grid x:Name="MessagePanel" VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity=".5" />

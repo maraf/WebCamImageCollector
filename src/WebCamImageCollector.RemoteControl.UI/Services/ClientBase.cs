@@ -75,7 +75,7 @@ namespace WebCamImageCollector.RemoteControl.Services
         private string latestETag;
         private ClientImageModel latestImage;
 
-        public async Task<ClientImageModel> DownloadLatest(ImageQuality quality, CancellationToken cancellationToken)
+        public async Task<ClientImageModel> DownloadLatestAsync(ImageQuality quality, CancellationToken cancellationToken)
         {
             string url = "/latest";
             switch (quality)
