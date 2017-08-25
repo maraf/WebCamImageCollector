@@ -95,7 +95,8 @@ namespace WebCamImageCollector.RemoteControl.Views
 
         private void ContentPanel_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            MessagePanel.Visibility = MessagePanel.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            if (e.OriginalSource == ContentPanel || e.OriginalSource is Windows.UI.Xaml.Controls.Image)
+                MessagePanel.Visibility = MessagePanel.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public void ShowDate(DateTime dateTime)
