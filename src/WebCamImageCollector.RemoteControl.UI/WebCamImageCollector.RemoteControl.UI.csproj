@@ -134,7 +134,6 @@
     <Compile Include="ViewModels\Commands\StopCommand.cs" />
     <Compile Include="ViewModels\IClientStatusViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModel.cs" />
-    <Compile Include="ViewModels\ImageViewModel.IMessageService.cs" />
     <Compile Include="ViewModels\LocalClientEditViewModel.cs" />
     <Compile Include="ViewModels\OverviewViewModel.cs" />
     <Compile Include="ViewModels\RemoteClientEditViewModel.cs" />
@@ -143,7 +142,6 @@
     <Compile Include="Views\Converters\ImageQualityToSymbolConverter.cs" />
     <Compile Include="Views\Converters\SelectedImageQualityConverter.cs" />
     <Compile Include="Views\Converters\NullConverter.cs" />
-    <Compile Include="Views\DesignData\ImageMessageService.cs" />
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
     <Compile Include="Views\EditPage.cs" />
     <Compile Include="Views\Image.xaml.cs">

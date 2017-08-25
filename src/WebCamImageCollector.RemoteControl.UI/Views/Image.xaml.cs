@@ -3,31 +3,25 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using WebCamImageCollector.RemoteControl.Services;
 using WebCamImageCollector.RemoteControl.ViewModels;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+using System.ComponentModel;
 
 namespace WebCamImageCollector.RemoteControl.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class Image : NavigationPage, ImageViewModel.IMessageService, IMessagePage
+    public sealed partial class Image : NavigationPage, IMessagePage
     {
+        public ImageViewModel ViewModel
+        {
+            get { return (ImageViewModel)DataContext; }
+        }
+
         public Image()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -44,7 +38,35 @@ namespace WebCamImageCollector.RemoteControl.Views
             if (client == null)
                 throw Ensure.Exception.ArgumentOutOfRange("parameter", "Unnable to find a client with key '{0}'.", key);
 
-            DataContext = new ImageViewModel(client, this);
+            DataContext = new ImageViewModel(client);
+
+            ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+            ViewModel.CheckStatus.Execute(null);
+        }
+
+        private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ImageViewModel.IsRunning))
+            {
+                ShowStatusMessage();
+            }
+            else if (e.PropertyName == nameof(ImageViewModel.IsStatusLoading))
+            {
+                if (ViewModel.IsStatusLoading)
+                    ShowInfo("Loading status...");
+                else
+                    ShowStatusMessage();
+            }
+        }
+
+        private void ShowStatusMessage()
+        {
+            if (ViewModel.IsRunning == null)
+                ShowError("Client is not responding");
+            else if (ViewModel.IsRunning.Value)
+                ShowInfo("Client is running");
+            else
+                ShowInfo("Client is not running");
         }
 
         private void ContentPanel_Tapped(object sender, TappedRoutedEventArgs e)
@@ -62,6 +84,8 @@ namespace WebCamImageCollector.RemoteControl.Views
             InfoMessage.Visibility = Visibility.Collapsed;
             ErrorMessage.Visibility = Visibility.Visible;
             ErrorMessage.Text = text;
+
+            MessagePanel.Visibility = Visibility.Visible;
         }
 
         public void ShowInfo(string text)
@@ -69,6 +93,8 @@ namespace WebCamImageCollector.RemoteControl.Views
             ErrorMessage.Visibility = Visibility.Collapsed;
             InfoMessage.Visibility = Visibility.Visible;
             InfoMessage.Text = text;
+
+            MessagePanel.Visibility = Visibility.Visible;
         }
     }
 }

@@ -14,7 +14,6 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
     public partial class ImageViewModel : ObservableObject, IClientStatusViewModel, CheckStatusCommand.IViewModel
     {
         private readonly IClient client;
-        private readonly IMessageService messages;
 
         private ImageQuality quality;
         public ImageQuality Quality
@@ -41,13 +40,6 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
                     isRunning = value;
                     RaisePropertyChanged();
                 }
-
-                if (value == null)
-                    messages.ShowError("Client is not responding");
-                else if (value.Value)
-                    messages.ShowInfo("Client is running");
-                else
-                    messages.ShowInfo("Client is not running");
             }
         }
 
@@ -61,9 +53,6 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
                 {
                     isStatusLoading = value;
                     RaisePropertyChanged();
-
-                    if (value)
-                        messages.ShowInfo("Loading status...");
                 }
             }
         }
@@ -78,20 +67,16 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             set => IsRunning = value;
         }
 
-        public ImageViewModel(IClient client, IMessageService messages)
+        public ImageViewModel(IClient client)
         {
             Ensure.NotNull(client, "client");
-            Ensure.NotNull(messages, "messages");
             this.client = client;
-            this.messages = messages;
 
             Quality = ImageQuality.Medium;
 
             Start = new StartCommand(client, this);
             Stop = new StopCommand(client, this);
             CheckStatus = new CheckStatusCommand(client, this);
-
-            CheckStatus.Execute(null);
         }
     }
 }
