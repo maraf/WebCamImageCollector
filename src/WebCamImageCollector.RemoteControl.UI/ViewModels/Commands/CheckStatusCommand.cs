@@ -12,10 +12,16 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
 {
     public class CheckStatusCommand : AsyncCommand
     {
-        private readonly IClient client;
-        private readonly ClientOverviewViewModel viewModel;
+        public interface IViewModel
+        {
+            bool? IsRunning { get; set; }
+            bool IsStatusLoading { get; set; }
+        }
 
-        public CheckStatusCommand(IClient client, ClientOverviewViewModel viewModel)
+        private readonly IClient client;
+        private readonly IViewModel viewModel;
+
+        public CheckStatusCommand(IClient client, IViewModel viewModel)
         {
             Ensure.NotNull(client, "client");
             Ensure.NotNull(viewModel, "viewModel");
@@ -35,6 +41,10 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
                 viewModel.IsStatusLoading = true;
                 ClientRunningInfo response = await client.IsRunningAsync(cancellationToken);
                 viewModel.IsRunning = response.Running;
+            }
+            catch (ClientNotAvailableException)
+            {
+                viewModel.IsRunning = null;
             }
             catch (ClientException)
             {

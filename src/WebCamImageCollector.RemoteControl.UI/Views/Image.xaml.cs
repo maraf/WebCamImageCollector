@@ -23,7 +23,7 @@ namespace WebCamImageCollector.RemoteControl.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Image : Page
+    public sealed partial class Image : NavigationPage, ImageViewModel.IMessageService, IMessagePage
     {
         public Image()
         {
@@ -44,7 +44,31 @@ namespace WebCamImageCollector.RemoteControl.Views
             if (client == null)
                 throw Ensure.Exception.ArgumentOutOfRange("parameter", "Unnable to find a client with key '{0}'.", key);
 
-            DataContext = new ImageViewModel(client);
+            DataContext = new ImageViewModel(client, this);
+        }
+
+        private void ContentPanel_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            MessagePanel.Visibility = MessagePanel.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        public void ShowDate(DateTime dateTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShowError(string text)
+        {
+            InfoMessage.Visibility = Visibility.Collapsed;
+            ErrorMessage.Visibility = Visibility.Visible;
+            ErrorMessage.Text = text;
+        }
+
+        public void ShowInfo(string text)
+        {
+            ErrorMessage.Visibility = Visibility.Collapsed;
+            InfoMessage.Visibility = Visibility.Visible;
+            InfoMessage.Text = text;
         }
     }
 }

@@ -68,7 +68,7 @@ namespace WebCamImageCollector.RemoteControl.Views.DesignData
             {
                 if (image == null)
                 {
-                    image = new ImageViewModel(new RemoteClient(Guid.NewGuid(), "Home", "http://home:8001", "xxxxx"));
+                    image = new ImageViewModel(new RemoteClient(Guid.NewGuid(), "Home", "http://home:8001", "xxxxx"), new ImageMessageService());
                 }
 
                 return image;

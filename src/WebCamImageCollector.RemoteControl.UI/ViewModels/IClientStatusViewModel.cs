@@ -9,5 +9,6 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
     public interface IClientStatusViewModel
     {
         bool IsRunning { get; set; }
+        bool IsStatusLoading { get; set; }
     }
 }

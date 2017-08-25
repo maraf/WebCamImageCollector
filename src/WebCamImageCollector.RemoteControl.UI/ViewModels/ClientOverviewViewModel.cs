@@ -11,7 +11,7 @@ using WebCamImageCollector.RemoteControl.Views;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels
 {
-    public class ClientOverviewViewModel : ObservableObject, IClientStatusViewModel
+    public class ClientOverviewViewModel : ObservableObject, IClientStatusViewModel, CheckStatusCommand.IViewModel
     {
         public Guid Key { get; private set; }
 
