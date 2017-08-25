@@ -17,7 +17,7 @@
         <CommandBar>
             <AppBarButton Label="Start" Icon="Play" Command="{Binding Start}" Visibility="{Binding IsRunning, Converter={StaticResource FalseToVisibleConverter}}" />
             <AppBarButton Label="Stop" Icon="Pause" Command="{Binding Stop}" Visibility="{Binding IsRunning, Converter={StaticResource TrueToVisibleConverter}}" />
-            <AppBarButton Label="Download" Icon="Download" IsEnabled="{Binding IsRunning}" Command="{Binding Download}" ToolTipService.ToolTip="Download latest image" />
+            <AppBarButton Label="Download" Icon="Download" Command="{Binding Download}" ToolTipService.ToolTip="Download latest image" />
             <AppBarButton Label="Quality">
                 <AppBarButton.Icon>
                     <SymbolIcon Symbol="{Binding Quality, Converter={StaticResource ImageQualityToSymbolConverter}}" />
@@ -32,18 +32,15 @@
             </AppBarButton>
         </CommandBar>
     </views:NavigationPage.BottomAppBar>
-    
-    <Grid x:Name="ContentPanel" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tapped="ContentPanel_Tapped">
-        <ScrollViewer ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" Visibility="{x:Bind MainImage.Source, Converter={StaticResource NotNullToVisibleConverter}, Mode=OneWay}"
-         HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center">
-            <Image x:Name="MainImage" />
-        </ScrollViewer>
 
-        <!--<TextBlock Text="{Binding Images.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" />-->
+    <Grid x:Name="ContentPanel" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tapped="ContentPanel_Tapped">
         <FlipView ItemsSource="{Binding Images}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <FlipView.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding Image}" />
+                    <ScrollViewer ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" HorizontalAlignment="Stretch"
+                     HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <Image Source="{Binding Image}" HorizontalAlignment="Center" />
+                    </ScrollViewer>
                 </DataTemplate>
             </FlipView.ItemTemplate>
         </FlipView>
