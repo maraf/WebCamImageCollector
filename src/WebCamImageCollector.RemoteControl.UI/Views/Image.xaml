@@ -12,6 +12,7 @@
         <converters:ImageQualityToSymbolConverter x:Key="ImageQualityToSymbolConverter" />
         <converters:BoolConverter x:Key="StatusToSymbolConverter" TrueValue="Pause" FalseValue="Play" NullValue="Refresh" />
         <converters:BoolConverter x:Key="StatusToLabelConverter" TrueValue="Stop" FalseValue="Start" NullValue="Refresh" />
+        <converters:CuttingConverter x:Key="ZeroToFalseConverter" EdgeValue="0" GreaterValue="True" LowerValue="False" EqualValue="False" />
     </views:NavigationPage.Resources>
     <views:NavigationPage.BottomAppBar>
         <CommandBar>
@@ -30,11 +31,19 @@
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
+            
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Refresh status" Icon="Refresh" Command="{Binding CheckStatus}" />
+                <AppBarSeparator />
+                <AppBarButton Label="Clear downloaded" Icon="Clear" Command="{Binding ClearDownloaded}" />
+                <AppBarButton Label="Save" Icon="Save" Command="{Binding Save}" CommandParameter="{Binding SelectedItem, ElementName=ImageList}" IsEnabled="{Binding Images.Count, Converter={StaticResource ZeroToFalseConverter}}" />
+                <AppBarButton Label="Share" Icon="ReShare" IsEnabled="{Binding Images.Count, Converter={StaticResource ZeroToFalseConverter}}" />
+            </CommandBar.SecondaryCommands>
         </CommandBar>
     </views:NavigationPage.BottomAppBar>
 
     <Grid x:Name="ContentPanel" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tapped="ContentPanel_Tapped">
-        <FlipView ItemsSource="{Binding Images}" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <FlipView x:Name="ImageList" ItemsSource="{Binding Images}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <FlipView.ItemTemplate>
                 <DataTemplate>
                     <ScrollViewer ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" HorizontalAlignment="Stretch"
@@ -47,6 +56,8 @@
 
         <Grid x:Name="MessagePanel" VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity=".5" />
+            <TextBlock Text="{Binding SelectedItem.Date, ElementName=ImageList}" HorizontalAlignment="Left" Padding="5,15" />
+
             <TextBlock x:Name="InfoMessage" TextWrapping="Wrap" HorizontalAlignment="Center" Padding="5,15" />
             <TextBlock x:Name="ErrorMessage" TextWrapping="Wrap" HorizontalAlignment="Center" Padding="5,15" Foreground="Red" />
         </Grid>

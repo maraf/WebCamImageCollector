@@ -1,6 +1,7 @@
 ﻿using Neptuo;
 using Neptuo.Observables;
 using Neptuo.Observables.Collections;
+using Neptuo.Observables.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
     {
         private readonly IClient client;
         private readonly DownloadImageCommand download;
+        private readonly SaveImageCommand save;
 
         private ImageQuality quality;
         public ImageQuality Quality
@@ -77,6 +79,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         public ICommand Stop { get; private set; }
         public ICommand CheckStatus { get; private set; }
         public ICommand Download => download;
+        public ICommand ClearDownloaded { get; private set; }
+        public ICommand Save => save;
 
         bool IClientStatusViewModel.IsRunning
         {
@@ -92,12 +96,31 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             remove { download.Failed -= value; }
         }
 
+        public event Action<ClientImageModel> DownloadCompleted
+        {
+            add { download.Completed += value; }
+            remove { download.Completed -= value; }
+        }
+
+        public event Action SaveCompleted
+        {
+            add { save.Completed += value; }
+            remove { save.Completed -= value; }
+        }
+
+        public event Action SaveFailed
+        {
+            add { save.Failed += value; }
+            remove { save.Failed -= value; }
+        }
+
         public ImageViewModel(IClient client)
         {
             Ensure.NotNull(client, "client");
             this.client = client;
 
             Quality = ImageQuality.Medium;
+            Images = new ObservableCollection<ClientImageModel>();
 
             Start = new StartCommand(client, this);
             Stop = new StopCommand(client, this);
@@ -106,7 +129,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             download = new DownloadImageCommand(client, this);
             download.Completed += OnImageDownloaded;
 
-            Images = new ObservableCollection<ClientImageModel>();
+            ClearDownloaded = new DelegateCommand(Images.Clear);
+            save = new SaveImageCommand();
         }
 
         private void OnImageDownloaded(ClientImageModel model)

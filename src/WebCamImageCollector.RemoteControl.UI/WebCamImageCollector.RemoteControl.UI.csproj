@@ -130,6 +130,7 @@
     <Compile Include="ViewModels\Commands\DownloadImageCommand.cs" />
     <Compile Include="ViewModels\Commands\DownloadImageCommand.IViewModel.cs" />
     <Compile Include="ViewModels\Commands\NavigateCommand.cs" />
+    <Compile Include="ViewModels\Commands\SaveImageCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveLocalCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveRemoteCommand.cs" />
     <Compile Include="ViewModels\Commands\StartCommand.cs" />

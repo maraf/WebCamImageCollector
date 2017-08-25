@@ -43,8 +43,14 @@ namespace WebCamImageCollector.RemoteControl.Views
             DataContext = new ImageViewModel(client);
 
             ViewModel.PropertyChanged += OnViewModelPropertyChanged;
-            ViewModel.Images.CollectionChanged += OnViewModelImagesCollectionChanged;
-            ViewModel.DownloadFailed += OnViewModelImageDownloadFailed;
+            ViewModel.DownloadCompleted += m =>
+            {
+                ShowError(string.Empty);
+                ImageList.SelectedIndex = ViewModel.Images.Count - 1;
+            };
+            ViewModel.DownloadFailed += () => ShowError("Downloading failed.");
+            ViewModel.SaveCompleted += () => ShowInfo("Saved.");
+            ViewModel.SaveFailed += () => ShowError("Something went wrong saving the image.");
             ViewModel.CheckStatus.Execute(null);
         }
 
@@ -66,21 +72,6 @@ namespace WebCamImageCollector.RemoteControl.Views
                 if (ViewModel.IsDownloading)
                     ShowInfo("Downlading image...");
             }
-        }
-
-        private void OnViewModelImagesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                ClientImageModel model = e.NewItems.OfType<ClientImageModel>().FirstOrDefault();
-                if (model != null)
-                    ShowInfo(model.Date.ToString(CultureInfo.CurrentUICulture));
-            }
-        }
-
-        private void OnViewModelImageDownloadFailed()
-        {
-            ShowError("Downloading failed.");
         }
 
         private void ShowStatusMessage()
