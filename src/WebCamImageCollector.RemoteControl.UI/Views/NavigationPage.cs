@@ -19,25 +19,13 @@ namespace WebCamImageCollector.RemoteControl.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            navigationManager = SystemNavigationManager.GetForCurrentView();
-            navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            navigationManager.BackRequested += OnBackRequested;
-
-            PointerPressed += OnPointerPressed;
+            EnableNavigation();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-
-            if (navigationManager != null)
-            {
-                navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-                navigationManager.BackRequested -= OnBackRequested;
-            }
-
-            PointerPressed -= OnPointerPressed;
+            DisableNavigation();
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
@@ -55,6 +43,30 @@ namespace WebCamImageCollector.RemoteControl.Views
                 PointerPoint point = e.GetCurrentPoint(this);
                 if (point.Properties.IsXButton1Pressed && Frame.BackStackDepth > 0)
                     Frame.GoBack();
+            }
+        }
+
+        public void EnableNavigation()
+        {
+            if (navigationManager == null)
+            {
+                navigationManager = SystemNavigationManager.GetForCurrentView();
+                navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                navigationManager.BackRequested += OnBackRequested;
+
+                PointerPressed += OnPointerPressed;
+            }
+        }
+
+        public void DisableNavigation()
+        {
+            if (navigationManager != null)
+            {
+                navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                navigationManager.BackRequested -= OnBackRequested;
+                PointerPressed -= OnPointerPressed;
+
+                navigationManager = null;
             }
         }
     }
