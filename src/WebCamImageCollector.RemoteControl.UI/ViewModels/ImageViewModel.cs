@@ -15,6 +15,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
 {
     public partial class ImageViewModel : ObservableObject, IClientStatusViewModel, CheckStatusCommand.IViewModel, DownloadImageCommand.IViewModel
     {
+        public const int ImageMaxCount = 20;
+
         private readonly IClient client;
         private readonly DownloadImageCommand download;
         private readonly SaveImageCommand save;
@@ -154,6 +156,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             ClientImageModel existing = Images.FirstOrDefault(i => i.Date == model.Date);
             if (existing != null)
                 Images.Remove(existing);
+            else if (Images.Count >= ImageMaxCount)
+                Images.RemoveAt(0);
 
             Images.Add(model);
         }
