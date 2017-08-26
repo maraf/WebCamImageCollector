@@ -141,6 +141,9 @@
     <Compile Include="ViewModels\LocalClientEditViewModel.cs" />
     <Compile Include="ViewModels\OverviewViewModel.cs" />
     <Compile Include="ViewModels\RemoteClientEditViewModel.cs" />
+    <Compile Include="Views\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Converters\BoolConverter.cs" />
     <Compile Include="Views\Converters\CuttingConverter.cs" />
     <Compile Include="Views\Converters\ImageQualityToSymbolConverter.cs" />
@@ -204,6 +207,10 @@
     <Page Include="UI\Resources\EditForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Image.xaml">
       <SubType>Designer</SubType>

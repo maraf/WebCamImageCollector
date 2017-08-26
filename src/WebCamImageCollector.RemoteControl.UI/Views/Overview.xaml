@@ -70,7 +70,8 @@
                 </Border>
                 <TextBlock Text="Clients" Style="{ThemeResource TitleTextBlockStyle}" Foreground="White" />
             </StackPanel>
-            <TextBlock Text="v2.0.0" HorizontalAlignment="Right" Opacity=".5" Foreground="White" />
+
+            <SymbolIcon x:Name="AboutIcon" Symbol="ContactInfo" Foreground="White" HorizontalAlignment="Right" Tapped="AboutIcon_Tapped" ToolTipService.ToolTip="About..." />
         </Grid>
         <ListView x:Name="Remotes" ItemsSource="{Binding Clients}" ItemTemplate="{StaticResource OverviewViewModelTemplate}" SelectionChanged="Remotes_SelectionChanged" SelectionMode="Single" Grid.Row="1">
             <ListView.ItemContainerStyle>
