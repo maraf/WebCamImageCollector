@@ -13,6 +13,7 @@
         <converters:BoolConverter x:Key="StatusToSymbolConverter" TrueValue="Pause" FalseValue="Play" NullValue="Refresh" />
         <converters:BoolConverter x:Key="StatusToLabelConverter" TrueValue="Stop" FalseValue="Start" NullValue="Refresh" />
         <converters:CuttingConverter x:Key="ZeroToFalseConverter" EdgeValue="0" GreaterValue="True" LowerValue="False" EqualValue="False" />
+        <converters:ShortDateTimeToStringConverter x:Key="ShortDateTimeToStringConverter" />
     </views:NavigationPage.Resources>
     <views:NavigationPage.BottomAppBar>
         <CommandBar>
@@ -56,7 +57,7 @@
 
         <Grid x:Name="MessagePanel" VerticalAlignment="Top" HorizontalAlignment="Stretch">
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity=".5" />
-            <TextBlock Text="{Binding SelectedItem.Date, ElementName=ImageList}" HorizontalAlignment="Left" Padding="5,15" />
+            <TextBlock Text="{Binding SelectedItem.Date, ElementName=ImageList, Converter={StaticResource ShortDateTimeToStringConverter}}" HorizontalAlignment="Left" Padding="5,15" />
 
             <TextBlock x:Name="InfoMessage" TextWrapping="Wrap" HorizontalAlignment="Center" Padding="5,15" />
             <TextBlock x:Name="ErrorMessage" TextWrapping="Wrap" HorizontalAlignment="Center" Padding="5,15" Foreground="Red" />

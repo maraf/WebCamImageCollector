@@ -149,6 +149,7 @@
     <Compile Include="Views\Converters\ImageQualityToSymbolConverter.cs" />
     <Compile Include="Views\Converters\SelectedImageQualityConverter.cs" />
     <Compile Include="Views\Converters\NullConverter.cs" />
+    <Compile Include="Views\Converters\ShortDateTimeToStringConverter.cs" />
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
     <Compile Include="Views\EditPage.cs" />
     <Compile Include="Views\IExceptionPage.cs" />
