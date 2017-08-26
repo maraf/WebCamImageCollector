@@ -151,6 +151,10 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
 
         private void OnImageDownloaded(ClientImageModel model)
         {
+            ClientImageModel existing = Images.FirstOrDefault(i => i.Date == model.Date);
+            if (existing != null)
+                Images.Remove(existing);
+
             Images.Add(model);
         }
     }
