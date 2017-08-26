@@ -1,11 +1,11 @@
-﻿using Neptuo.Observables.Commands;
+﻿using Neptuo;
+using Neptuo.Observables.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using Neptuo;
 using WebCamImageCollector.RemoteControl.Services;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
