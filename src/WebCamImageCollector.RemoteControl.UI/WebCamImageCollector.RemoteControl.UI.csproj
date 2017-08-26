@@ -133,6 +133,7 @@
     <Compile Include="ViewModels\Commands\SaveImageCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveLocalCommand.cs" />
     <Compile Include="ViewModels\Commands\SaveRemoteCommand.cs" />
+    <Compile Include="ViewModels\Commands\ShareImageCommand.cs" />
     <Compile Include="ViewModels\Commands\StartCommand.cs" />
     <Compile Include="ViewModels\Commands\StopCommand.cs" />
     <Compile Include="ViewModels\IClientStatusViewModel.cs" />

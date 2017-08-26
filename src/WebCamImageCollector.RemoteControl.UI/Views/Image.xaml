@@ -36,14 +36,14 @@
                 <AppBarButton Label="Refresh status" Icon="Refresh" Command="{Binding CheckStatus}" />
                 <AppBarSeparator />
                 <AppBarButton Label="Clear downloaded" Icon="Clear" Command="{Binding ClearDownloaded}" />
-                <AppBarButton Label="Save" Icon="Save" Command="{Binding Save}" CommandParameter="{Binding SelectedItem, ElementName=ImageList}" IsEnabled="{Binding Images.Count, Converter={StaticResource ZeroToFalseConverter}}" />
-                <AppBarButton Label="Share" Icon="ReShare" IsEnabled="{Binding Images.Count, Converter={StaticResource ZeroToFalseConverter}}" />
+                <AppBarButton Label="Save" Icon="Save" Command="{Binding Save}" CommandParameter="{Binding SelectedImage}" IsEnabled="{Binding Images.Count, Converter={StaticResource ZeroToFalseConverter}}" />
+                <AppBarButton Label="Share" Icon="ReShare" Command="{Binding Share}" CommandParameter="{Binding SelectedImage}" IsEnabled="{Binding Images.Count, Converter={StaticResource ZeroToFalseConverter}}" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </views:NavigationPage.BottomAppBar>
 
     <Grid x:Name="ContentPanel" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Tapped="ContentPanel_Tapped">
-        <FlipView x:Name="ImageList" ItemsSource="{Binding Images}" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <FlipView x:Name="ImageList" ItemsSource="{Binding Images}" SelectedItem="{Binding SelectedImage, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <FlipView.ItemTemplate>
                 <DataTemplate>
                     <ScrollViewer ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" HorizontalAlignment="Stretch"
