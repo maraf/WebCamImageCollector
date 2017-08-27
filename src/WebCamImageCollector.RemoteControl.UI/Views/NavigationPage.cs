@@ -34,6 +34,8 @@ namespace WebCamImageCollector.RemoteControl.Views
                 Frame.GoBack();
             else
                 Frame.Navigate(typeof(Overview));
+
+            e.Handled = true;
         }
 
         private void OnPointerPressed(object sender, PointerRoutedEventArgs e)
