@@ -45,24 +45,13 @@ namespace WebCamImageCollector.RemoteControl.UI
         {
             InitializeComponent();
         }
-
-        private Task TryUseStatusBar(Func<StatusBar, Task> handler)
-        {
-            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-            {
-                StatusBar statusBar = StatusBar.GetForCurrentView();
-                return handler(statusBar);
-            }
-
-            return Task.CompletedTask;
-        }
-
+        
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             sourcePageType = Frame.BackStack.LastOrDefault().SourcePageType;
 
-            await TryUseStatusBar(async bar => await bar.HideAsync());
+            await StatusBarProvider.TryExecuteAsync(async statusBar => await statusBar.HideAsync());
 
             client = ServiceProvider.Clients.Find((Guid)e.Parameter);
             if (client == null)
@@ -84,7 +73,7 @@ namespace WebCamImageCollector.RemoteControl.UI
         {
             base.OnNavigatedFrom(e);
 
-            await TryUseStatusBar(async bar => await bar.ShowAsync());
+            await StatusBarProvider.TryExecuteAsync(async statusBar => await statusBar.ShowAsync());
         }
 
         private void OnDataTransferRequested(DataTransferManager sender, DataRequestedEventArgs args)

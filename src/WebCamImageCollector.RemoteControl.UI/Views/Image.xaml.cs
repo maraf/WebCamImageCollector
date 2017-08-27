@@ -26,9 +26,11 @@ namespace WebCamImageCollector.RemoteControl.Views
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            await StatusBarProvider.TryExecuteAsync(async statusBar => await statusBar.HideAsync());
 
             Guid key = (Guid)e.Parameter;
 
@@ -52,6 +54,13 @@ namespace WebCamImageCollector.RemoteControl.Views
             ViewModel.SaveCompleted += () => ShowInfo("Saved.");
             ViewModel.SaveFailed += () => ShowError("Something went wrong saving the image.");
             ViewModel.CheckStatus.Execute(null);
+        }
+
+        protected override async void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            await StatusBarProvider.TryExecuteAsync(async statusBar => await statusBar.ShowAsync());
         }
 
         private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)

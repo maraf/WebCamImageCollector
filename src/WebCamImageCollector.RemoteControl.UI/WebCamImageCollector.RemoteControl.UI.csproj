@@ -167,6 +167,7 @@
     <Compile Include="Views\RemoteClientEdit.xaml.cs">
       <DependentUpon>RemoteClientEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\StatusBarProvider.cs" />
     <Compile Include="_Capturing\CaptureService.cs" />
     <Compile Include="_Capturing\FileModel.cs" />
     <Compile Include="_Capturing\_StorageFolderExtensions.cs" />

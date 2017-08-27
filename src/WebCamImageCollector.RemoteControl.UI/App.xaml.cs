@@ -54,12 +54,11 @@ namespace WebCamImageCollector.RemoteControl
             //}
 #endif
 
-            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            StatusBarProvider.TryExecute(statusBar =>
             {
-                StatusBar statusBar = StatusBar.GetForCurrentView();
                 statusBar.BackgroundColor = Color.FromArgb(0, 0, 120, 215);
                 statusBar.BackgroundOpacity = 1;
-            }
+            });
 
             ApplicationView view = ApplicationView.GetForCurrentView();
             view.TitleBar.BackgroundColor = Color.FromArgb(0, 0, 120, 215);
