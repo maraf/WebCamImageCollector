@@ -42,7 +42,10 @@ namespace WebCamImageCollector.RemoteControl.Views
             {
                 PointerPoint point = e.GetCurrentPoint(this);
                 if (point.Properties.IsXButton1Pressed && Frame.BackStackDepth > 0)
+                {
                     Frame.GoBack();
+                    e.Handled = true;
+                }
             }
         }
 
