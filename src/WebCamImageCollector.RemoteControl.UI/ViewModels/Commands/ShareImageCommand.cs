@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using WebCamImageCollector.RemoteControl.Services;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.Storage.Provider;
 using Windows.Storage.Streams;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
@@ -26,25 +28,36 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
             dataTransferManager.DataRequested += OnDataTransferRequested;
         }
 
-        private void OnDataTransferRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        private async void OnDataTransferRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             if (parameter == null)
                 return;
 
             DataRequest request = args.Request;
             DataRequestDeferral deferral = request.GetDeferral();
+            StorageFile file = null;
+
             try
             {
+                file = await ApplicationData.Current.LocalCacheFolder.CreateFileAsync($"SharedImage.jpg", CreationCollisionOption.GenerateUniqueName);
+
+                CachedFileManager.DeferUpdates(file);
+
                 using (MemoryStream buffer = new MemoryStream())
                 {
                     parameter.Stream.Position = 0;
                     parameter.Stream.CopyTo(buffer);
-                    buffer.Position = 0;
 
+                    await FileIO.WriteBytesAsync(file, buffer.ToArray());
+                }
+
+                FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+                if (status == FileUpdateStatus.Complete)
+                {
                     request.Data.Properties.Title = parameter.Date.ToString("yyyy-MM-dd HH:mm:ss");
                     request.Data.Properties.Description = client.Name;
-                    request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromStream(buffer.AsRandomAccessStream());
-                    request.Data.SetBitmap(RandomAccessStreamReference.CreateFromStream(buffer.AsRandomAccessStream()));
+                    request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromFile(file);
+                    request.Data.SetBitmap(RandomAccessStreamReference.CreateFromFile(file));
                 }
             }
             finally
