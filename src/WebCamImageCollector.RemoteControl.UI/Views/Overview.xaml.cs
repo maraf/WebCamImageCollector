@@ -44,7 +44,7 @@ namespace WebCamImageCollector.RemoteControl.Views
             if (viewModel != null)
             {
                 //Frame.Navigate(typeof(UI.ClientControlPage), viewModel.Key);
-                Frame.Navigate(typeof(Image), viewModel.Key);
+                Detail.Navigate(typeof(Image), viewModel.Key);
             }
         }
 
