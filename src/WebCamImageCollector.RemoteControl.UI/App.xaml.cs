@@ -12,6 +12,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -53,16 +54,7 @@ namespace WebCamImageCollector.RemoteControl
             //    DebugSettings.EnableFrameRateCounter = true;
             //}
 #endif
-
-            StatusBarProvider.TryExecute(statusBar =>
-            {
-                statusBar.BackgroundColor = Color.FromArgb(0, 0, 120, 215);
-                statusBar.BackgroundOpacity = 1;
-            });
-
-            ApplicationView view = ApplicationView.GetForCurrentView();
-            view.TitleBar.BackgroundColor = Color.FromArgb(0, 0, 120, 215);
-            view.TitleBar.ButtonBackgroundColor = Color.FromArgb(0, 0, 120, 215);
+            SetBackground();
 
             ServiceProvider.Clients = new ClientRepository();
 
@@ -96,6 +88,7 @@ namespace WebCamImageCollector.RemoteControl
                     //rootFrame.Navigate(typeof(MainPage), e.Arguments);
                     rootFrame.Navigate(typeof(Overview), e.Arguments);
                 }
+
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
@@ -151,6 +144,21 @@ namespace WebCamImageCollector.RemoteControl
             }
 
             e.Handled = true;
+        }
+
+        private void SetBackground()
+        {
+            Color backgroundColor = ((SolidColorBrush)Resources["HeaderBackgroundBrush"]).Color;
+
+            StatusBarProvider.TryExecute(statusBar =>
+            {
+                statusBar.BackgroundColor = backgroundColor;
+                statusBar.BackgroundOpacity = 1;
+            });
+
+            ApplicationView view = ApplicationView.GetForCurrentView();
+            view.TitleBar.BackgroundColor = backgroundColor;
+            view.TitleBar.ButtonBackgroundColor = backgroundColor;
         }
     }
 }

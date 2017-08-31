@@ -19,7 +19,7 @@
         <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
         <converters:BoolConverter x:Key="FalseToVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" NullValue="Collapsed" />
 
-        <SolidColorBrush x:Key="HeaderBackgroundBrush">#0078D7</SolidColorBrush>
+        <SolidColorBrush x:Key="HeaderBackgroundBrush">#3683D3</SolidColorBrush>
         
         <Style x:Key="HeaderStyle" TargetType="StackPanel">
             <Setter Property="Height" Value="48" />
