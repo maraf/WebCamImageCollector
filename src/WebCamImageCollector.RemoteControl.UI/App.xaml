@@ -12,10 +12,9 @@
         <ddnew:ViewModelLocator x:Key="ViewModelLocator" />
 
         <data:NullToBoolConverter x:Key="NotNullToBoolConverter" IsInverted="True" />
-        <data:NullToVisibilityConverter x:Key="NullToVisibleConverter" />
-        <data:NullToVisibilityConverter x:Key="NullToCollapsedConverter" IsInverted="True" />
-        <data:NullableBoolToBoolConverter x:Key="NullableBoolToBoolConverter" />
-
+        
+        <converters:NullToVisibilityConverter x:Key="NullToVisibleConverter" />
+        <converters:NullToVisibilityConverter x:Key="NullToCollapsedConverter" IsInverted="True" />
         <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />
         <converters:BoolConverter x:Key="FalseToVisibleConverter" TrueValue="Collapsed" FalseValue="Visible" NullValue="Collapsed" />
 

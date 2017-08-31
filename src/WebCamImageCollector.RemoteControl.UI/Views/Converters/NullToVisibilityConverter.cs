@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace WebCamImageCollector.RemoteControl.UI.Data
+namespace WebCamImageCollector.RemoteControl.Views.Converters
 {
     public class NullToVisibilityConverter : IValueConverter
     {
