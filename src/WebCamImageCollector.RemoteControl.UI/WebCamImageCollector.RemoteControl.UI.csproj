@@ -157,6 +157,7 @@
     <Compile Include="Views\Image.xaml.cs">
       <DependentUpon>Image.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ImageZoom.cs" />
     <Compile Include="Views\IMessagePage.cs" />
     <Compile Include="Views\LocalClientEdit.xaml.cs">
       <DependentUpon>LocalClientEdit.xaml</DependentUpon>

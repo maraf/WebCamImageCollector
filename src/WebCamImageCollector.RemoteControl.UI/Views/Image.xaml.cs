@@ -1,6 +1,9 @@
 ﻿using Neptuo;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using WebCamImageCollector.RemoteControl.Services;
@@ -8,18 +11,13 @@ using WebCamImageCollector.RemoteControl.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using System.ComponentModel;
-using System.Collections.Specialized;
-using System.Globalization;
 using Windows.UI.Xaml.Controls;
 
 namespace WebCamImageCollector.RemoteControl.Views
 {
     public sealed partial class Image : NavigationPage, IMessagePage, IExceptionPage
     {
-        private float? zoomFactor;
-        private int? width;
-        private int? height;
+        private readonly ImageZoom zoom = new ImageZoom();
 
         public ImageViewModel ViewModel
         {
@@ -93,19 +91,7 @@ namespace WebCamImageCollector.RemoteControl.Views
                     FlipViewItem item = (FlipViewItem)ImageList.ContainerFromItem(ViewModel.SelectedImage);
                     ScrollViewer itemView = (ScrollViewer)item.ContentTemplateRoot;
 
-                    if (zoomFactor != null)
-                    {
-                        if (width != null && width != ViewModel.SelectedImage.Width)
-                        {
-                            float ratio = (float)width / ViewModel.SelectedImage.Width;
-                            zoomFactor = Math.Abs(zoomFactor.Value * ratio);
-                        }
-
-                        itemView.ChangeView(null, null, zoomFactor);
-                    }
-
-                    width = ViewModel.SelectedImage.Width;
-                    height = ViewModel.SelectedImage.Height;
+                    zoom.Apply(itemView, ViewModel.SelectedImage);
                 }
             }
         }
@@ -160,7 +146,7 @@ namespace WebCamImageCollector.RemoteControl.Views
         private void ImageScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
             ScrollViewer view = (ScrollViewer)sender;
-            zoomFactor = view.ZoomFactor;
+            zoom.Save(view);
         }
     }
 }
