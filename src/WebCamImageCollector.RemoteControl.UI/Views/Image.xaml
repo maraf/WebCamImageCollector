@@ -50,7 +50,7 @@
             <FlipView.ItemTemplate>
                 <DataTemplate>
                     <ScrollViewer x:Name="ImageScrollViewer" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" HorizontalAlignment="Stretch" ViewChanged="ImageScrollViewer_ViewChanged"
-                     HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                     HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <Image Source="{Binding Image}" HorizontalAlignment="Center" />
                     </ScrollViewer>
                 </DataTemplate>
