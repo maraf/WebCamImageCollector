@@ -9,7 +9,7 @@
     Loaded="OnLoaded" KeyDown="OnKeyDown">
     <views:EditPage.Resources>
         <Style x:Key="FormItemStyle" TargetType="StackPanel">
-            <Setter Property="Margin" Value="0,0,0,10" />
+            <Setter Property="Margin" Value="0,0,0,8" />
         </Style>
     </views:EditPage.Resources>
     <views:EditPage.BottomAppBar>
@@ -28,19 +28,21 @@
             <TextBlock Text="Remote" Style="{ThemeResource TitleTextBlockStyle}" Padding="0,0,4,0" Foreground="White" />
             <TextBlock Text="{Binding Name}" Style="{ThemeResource TitleTextBlockStyle}" Foreground="White" HorizontalAlignment="Right" />
         </Grid>
-        <StackPanel Margin="10" Grid.Row="1">
-            <StackPanel Style="{StaticResource FormItemStyle}">
-                <TextBlock Text="Name:" />
-                <TextBox x:Name="Name" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyUp="OnTextBoxKeyUp" />
+        <ScrollViewer Padding="8" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <StackPanel>
+                <StackPanel Style="{StaticResource FormItemStyle}">
+                    <TextBlock Text="Name:" />
+                    <TextBox x:Name="Name" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyUp="OnTextBoxKeyUp" />
+                </StackPanel>
+                <StackPanel Style="{StaticResource FormItemStyle}">
+                    <TextBlock Text="Url:" />
+                    <TextBox x:Name="Url" Text="{Binding Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Url" KeyUp="OnTextBoxKeyUp" />
+                </StackPanel>
+                <StackPanel Style="{StaticResource FormItemStyle}">
+                    <TextBlock Text="Authentication token:" />
+                    <TextBox x:Name="AuthenticationToken" Text="{Binding AuthenticationToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyUp="OnTextBoxKeyUp" />
+                </StackPanel>
             </StackPanel>
-            <StackPanel Style="{StaticResource FormItemStyle}">
-                <TextBlock Text="Url:" />
-                <TextBox x:Name="Url" Text="{Binding Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Url" KeyUp="OnTextBoxKeyUp" />
-            </StackPanel>
-            <StackPanel Style="{StaticResource FormItemStyle}">
-                <TextBlock Text="Authentication token:" />
-                <TextBox x:Name="AuthenticationToken" Text="{Binding AuthenticationToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyUp="OnTextBoxKeyUp" />
-            </StackPanel>
-        </StackPanel>
+        </ScrollViewer>
     </Grid>
 </views:EditPage>

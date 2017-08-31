@@ -9,7 +9,7 @@
     Loaded="OnLoaded" KeyDown="OnKeyDown">
     <views:EditPage.Resources>
         <Style x:Key="FormItemStyle" TargetType="StackPanel">
-            <Setter Property="Margin" Value="0,0,0,10" />
+            <Setter Property="Margin" Value="0,0,0,8" />
         </Style>
     </views:EditPage.Resources>
     <views:EditPage.BottomAppBar>
@@ -29,23 +29,25 @@
                 <TextBlock Text="Local" Style="{ThemeResource TitleTextBlockStyle}" Foreground="White" />
             </StackPanel>
         </Grid>
-        <StackPanel Margin="10" Grid.Row="1">
-            <StackPanel Style="{StaticResource FormItemStyle}">
-                <TextBlock Text="Port:" />
-                <TextBox Name="Port" Text="{Binding Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Number" KeyUp="OnTextBoxKeyUp" />
+        <ScrollViewer Padding="8" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <StackPanel>
+                <StackPanel Style="{StaticResource FormItemStyle}">
+                    <TextBlock Text="Port:" />
+                    <TextBox Name="Port" Text="{Binding Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Number" KeyUp="OnTextBoxKeyUp" />
+                </StackPanel>
+                <StackPanel Style="{StaticResource FormItemStyle}">
+                    <TextBlock Text="Authentication token:" />
+                    <TextBox Name="AuthenticationToken" Text="{Binding AuthenticationToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyUp="OnTextBoxKeyUp" />
+                </StackPanel>
+                <StackPanel Style="{StaticResource FormItemStyle}">
+                    <TextBlock Text="Interval between captures (in secconds):" />
+                    <TextBox Name="Interval" Text="{Binding Interval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Number" KeyUp="OnTextBoxKeyUp" />
+                </StackPanel>
+                <StackPanel Style="{StaticResource FormItemStyle}">
+                    <TextBlock Text="Delay after starting camera (in secconds):" />
+                    <TextBox Name="Delay" Text="{Binding Delay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Number" KeyUp="OnTextBoxKeyUp" />
+                </StackPanel>
             </StackPanel>
-            <StackPanel Style="{StaticResource FormItemStyle}">
-                <TextBlock Text="Authentication token:" />
-                <TextBox Name="AuthenticationToken" Text="{Binding AuthenticationToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyUp="OnTextBoxKeyUp" />
-            </StackPanel>
-            <StackPanel Style="{StaticResource FormItemStyle}">
-                <TextBlock Text="Interval between captures (in secconds):" />
-                <TextBox Name="Interval" Text="{Binding Interval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Number" KeyUp="OnTextBoxKeyUp" />
-            </StackPanel>
-            <StackPanel Style="{StaticResource FormItemStyle}">
-                <TextBlock Text="Delay after starting camera (in secconds):" />
-                <TextBox Name="Delay" Text="{Binding Delay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Number" KeyUp="OnTextBoxKeyUp" />
-            </StackPanel>
-        </StackPanel>
+        </ScrollViewer>
     </Grid>
 </views:EditPage>
