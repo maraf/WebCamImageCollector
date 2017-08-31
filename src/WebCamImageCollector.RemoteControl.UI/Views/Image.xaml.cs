@@ -11,11 +11,16 @@ using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
 using System.Collections.Specialized;
 using System.Globalization;
+using Windows.UI.Xaml.Controls;
 
 namespace WebCamImageCollector.RemoteControl.Views
 {
     public sealed partial class Image : NavigationPage, IMessagePage, IExceptionPage
     {
+        private float? zoomFactor;
+        private int? width;
+        private int? height;
+
         public ImageViewModel ViewModel
         {
             get { return (ImageViewModel)DataContext; }
@@ -50,9 +55,9 @@ namespace WebCamImageCollector.RemoteControl.Views
                 ShowError(string.Empty);
                 ImageList.SelectedIndex = ViewModel.Images.Count - 1;
             };
-            ViewModel.DownloadFailed += () => ShowError("Downloading failed.");
-            ViewModel.SaveCompleted += () => ShowInfo("Saved.");
-            ViewModel.SaveFailed += () => ShowError("Something went wrong saving the image.");
+            ViewModel.DownloadFailed += () => ShowError("Downloading failed");
+            ViewModel.SaveCompleted += () => ShowInfo("Saved");
+            ViewModel.SaveFailed += () => ShowError("Something went wrong saving the image");
             ViewModel.CheckStatus.Execute(null);
         }
 
@@ -65,21 +70,43 @@ namespace WebCamImageCollector.RemoteControl.Views
 
         private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(ImageViewModel.IsRunning))
+            if (e.PropertyName == nameof(ViewModel.IsRunning))
             {
                 ShowStatusMessage();
             }
-            else if (e.PropertyName == nameof(ImageViewModel.IsStatusLoading))
+            else if (e.PropertyName == nameof(ViewModel.IsStatusLoading))
             {
                 if (ViewModel.IsStatusLoading)
                     ShowInfo("Loading status...");
                 else
                     ShowStatusMessage();
             }
-            else if (e.PropertyName == nameof(ImageViewModel.IsDownloading))
+            else if (e.PropertyName == nameof(ViewModel.IsDownloading))
             {
                 if (ViewModel.IsDownloading)
-                    ShowInfo("Downlading image...");
+                    ShowInfo("Downloading image...");
+            }
+            else if (e.PropertyName == nameof(ViewModel.SelectedImage))
+            {
+                if (ViewModel.SelectedImage != null)
+                {
+                    FlipViewItem item = (FlipViewItem)ImageList.ContainerFromItem(ViewModel.SelectedImage);
+                    ScrollViewer itemView = (ScrollViewer)item.ContentTemplateRoot;
+
+                    if (zoomFactor != null)
+                    {
+                        if (width != null && width != ViewModel.SelectedImage.Width)
+                        {
+                            float ratio = (float)width / ViewModel.SelectedImage.Width;
+                            zoomFactor = Math.Abs(zoomFactor.Value * ratio);
+                        }
+
+                        itemView.ChangeView(null, null, zoomFactor);
+                    }
+
+                    width = ViewModel.SelectedImage.Width;
+                    height = ViewModel.SelectedImage.Height;
+                }
             }
         }
 
@@ -128,6 +155,12 @@ namespace WebCamImageCollector.RemoteControl.Views
                 ShowInfo(string.Empty);
 
             return false;
+        }
+
+        private void ImageScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            ScrollViewer view = (ScrollViewer)sender;
+            zoomFactor = view.ZoomFactor;
         }
     }
 }

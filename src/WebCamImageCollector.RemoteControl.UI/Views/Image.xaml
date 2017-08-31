@@ -47,7 +47,7 @@
         <FlipView x:Name="ImageList" ItemsSource="{Binding Images}" SelectedItem="{Binding SelectedImage, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <FlipView.ItemTemplate>
                 <DataTemplate>
-                    <ScrollViewer ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" HorizontalAlignment="Stretch"
+                    <ScrollViewer x:Name="ImageScrollViewer" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" HorizontalAlignment="Stretch" ViewChanged="ImageScrollViewer_ViewChanged"
                      HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <Image Source="{Binding Image}" HorizontalAlignment="Center" />
                     </ScrollViewer>

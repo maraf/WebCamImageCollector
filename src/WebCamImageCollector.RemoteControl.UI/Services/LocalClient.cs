@@ -65,12 +65,7 @@ namespace WebCamImageCollector.RemoteControl.Services
 
             BitmapImage image = new BitmapImage();
             await image.SetSourceAsync(content.AsRandomAccessStream());
-            return new ClientImageModel()
-            {
-                Image = image,
-                Stream = content,
-                Date = file.CreatedAt
-            };
+            return new ClientImageModel(image, content, file.CreatedAt);
         }
 
         private async Task<Stream> ResizeImage(Stream imageData, int desiredWidth, int desiredHeight)

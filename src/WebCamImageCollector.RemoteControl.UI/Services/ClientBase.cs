@@ -99,12 +99,8 @@ namespace WebCamImageCollector.RemoteControl.Services
             await image.SetSourceAsync(imageStream.AsRandomAccessStream());
 
             latestETag = response.Headers.GetValues("ETag").FirstOrDefault();
-            latestImage = new ClientImageModel()
-            {
-                Image = image,
-                Stream = imageStream,
-                Date = response.Headers.Date?.DateTime ?? DateTime.Now
-            };
+            latestImage = new ClientImageModel(image, imageStream, response.Headers.Date?.DateTime ?? DateTime.Now);
+
             return latestImage;
         }
     }
