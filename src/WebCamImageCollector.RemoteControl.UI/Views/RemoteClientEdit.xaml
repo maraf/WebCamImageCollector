@@ -14,7 +14,7 @@
     </views:EditPage.Resources>
     <views:EditPage.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Save" Label="Save" Command="{Binding Save}" AutomationProperties.AcceleratorKey="Control S" />
+            <AppBarButton Icon="Save" Label="Save" Command="{Binding Save}" />
             <AppBarButton Icon="Delete" Label="Delete" Command="{Binding Delete}" Visibility="{Binding Delete, Converter={StaticResource NullToCollapsedConverter}}" />
         </CommandBar>
     </views:EditPage.BottomAppBar>
