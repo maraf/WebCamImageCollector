@@ -5,6 +5,7 @@ using System.Linq;
 using WebCamImageCollector.RemoteControl.Services;
 using WebCamImageCollector.RemoteControl.ViewModels;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -34,6 +35,18 @@ namespace WebCamImageCollector.RemoteControl.Views
         {
             Port.Focus(FocusState.Keyboard);
             SelectText(Port);
+        }
+
+        private void OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            CoreVirtualKeyStates ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
+            {
+                if (e.OriginalKey == VirtualKey.S)
+                    Save.Command?.Execute(null);
+                else if (e.OriginalKey == VirtualKey.D)
+                    Delete.Command?.Execute(null);
+            }
         }
 
         private void OnTextBoxKeyUp(object sender, KeyRoutedEventArgs e)

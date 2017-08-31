@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:WebCamImageCollector.RemoteControl.Views"
     mc:Ignorable="d" d:DataContext="{Binding RemoteClientEdit, Source={StaticResource ViewModelLocator}}"
-    Loaded="OnLoaded">
+    Loaded="OnLoaded" KeyDown="OnKeyDown">
     <views:EditPage.Resources>
         <Style x:Key="FormItemStyle" TargetType="StackPanel">
             <Setter Property="Margin" Value="0,0,0,10" />
@@ -14,8 +14,8 @@
     </views:EditPage.Resources>
     <views:EditPage.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="Save" Icon="Save" Label="Save" Command="{Binding Save}" />
-            <AppBarButton Icon="Delete" Label="Delete" Command="{Binding Delete}" Visibility="{Binding Delete, Converter={StaticResource NotNullToVisibleConverter}}" />
+            <AppBarButton x:Name="Save" Icon="Save" Label="Save" Command="{Binding Save}" AutomationProperties.AcceleratorKey="Control S" />
+            <AppBarButton x:Name="Delete" Icon="Delete" Label="Delete" Command="{Binding Delete}" Visibility="{Binding Delete, Converter={StaticResource NotNullToVisibleConverter}}" />
         </CommandBar>
     </views:EditPage.BottomAppBar>
 
