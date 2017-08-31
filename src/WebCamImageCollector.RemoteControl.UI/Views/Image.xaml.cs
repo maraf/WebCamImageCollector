@@ -12,6 +12,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Controls;
+using WebCamImageCollector.RemoteControl.ViewModels.Commands;
+using System.Diagnostics;
 
 namespace WebCamImageCollector.RemoteControl.Views
 {
@@ -53,7 +55,22 @@ namespace WebCamImageCollector.RemoteControl.Views
                 ShowError(string.Empty);
                 ImageList.SelectedIndex = ViewModel.Images.Count - 1;
             };
-            ViewModel.DownloadFailed += () => ShowError("Downloading failed");
+            ViewModel.DownloadFailed += type =>
+            {
+                switch (type)
+                {
+                    case DownloadImageCommand.FailType.ClientError:
+                        ShowError("Downloading failed");
+                        break;
+                    case DownloadImageCommand.FailType.Cancelled:
+                        ShowError("Downloading cancelled");
+                        break;
+                    default:
+                        ShowError("Unknown error while downloading the image");
+                        Debug.Fail($"Missing switch for {type}.");
+                        break;
+                }
+            };
             ViewModel.SaveCompleted += () => ShowInfo("Saved");
             ViewModel.SaveFailed += () => ShowError("Something went wrong saving the image");
             ViewModel.CheckStatus.Execute(null);

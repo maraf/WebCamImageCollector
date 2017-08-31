@@ -45,6 +45,8 @@ namespace WebCamImageCollector.RemoteControl.Services
         public async Task<ClientImageModel> DownloadLatestAsync(ImageQuality quality, CancellationToken cancellationToken)
         {
             FileModel file = await service.FindLatestImageAsync();
+            cancellationToken.ThrowIfCancellationRequested();
+
             Stream content = file.Content.AsStreamForRead();
 
             switch (quality)
@@ -53,11 +55,11 @@ namespace WebCamImageCollector.RemoteControl.Services
                     break;
                 case ImageQuality.Medium:
                     int width = 600;
-                    content = await ResizeImage(content, width, 0);
+                    content = await ResizeImage(content, width, 0, cancellationToken);
                     break;
                 case ImageQuality.Thumbnail:
                     width = 200;
-                    content = await ResizeImage(content, width, 0);
+                    content = await ResizeImage(content, width, 0, cancellationToken);
                     break;
                 default:
                     throw new NotSupportedException(quality.ToString());
@@ -65,13 +67,16 @@ namespace WebCamImageCollector.RemoteControl.Services
 
             BitmapImage image = new BitmapImage();
             await image.SetSourceAsync(content.AsRandomAccessStream());
+            cancellationToken.ThrowIfCancellationRequested();
+
             return new ClientImageModel(image, content, file.CreatedAt);
         }
 
-        private async Task<Stream> ResizeImage(Stream imageData, int desiredWidth, int desiredHeight)
+        private async Task<Stream> ResizeImage(Stream imageData, int desiredWidth, int desiredHeight, CancellationToken cancellationToken)
         {
             IRandomAccessStream imageStream = imageData.AsRandomAccessStream();
             BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);
+            cancellationToken.ThrowIfCancellationRequested();
 
             if (decoder.PixelWidth > desiredWidth || decoder.PixelHeight > desiredHeight)
             {
@@ -81,6 +86,8 @@ namespace WebCamImageCollector.RemoteControl.Services
                     InMemoryRandomAccessStream resizedStream = new InMemoryRandomAccessStream();
 
                     BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync(resizedStream, decoder);
+                    cancellationToken.ThrowIfCancellationRequested();
+
                     double widthRatio = (double)desiredWidth / decoder.PixelWidth;
                     double heightRatio = (double)desiredHeight / decoder.PixelHeight;
 
@@ -101,10 +108,13 @@ namespace WebCamImageCollector.RemoteControl.Services
                     encoder.BitmapTransform.ScaledWidth = aspectWidth;
 
                     await encoder.FlushAsync();
+                    cancellationToken.ThrowIfCancellationRequested();
+
                     resizedStream.Seek(0);
                     return resizedStream.AsStreamForRead();
                 }
             }
+
             return imageData;
         }
 

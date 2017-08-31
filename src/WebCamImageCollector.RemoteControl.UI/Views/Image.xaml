@@ -56,11 +56,20 @@
         </FlipView>
 
         <Grid x:Name="MessagePanel" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity=".5" />
-            <TextBlock Text="{Binding SelectedItem.Date, ElementName=ImageList, Converter={StaticResource ShortDateTimeToStringConverter}}" HorizontalAlignment="Left" Padding="5,15" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity=".5" Grid.ColumnSpan="3" />
+            
+            <TextBlock Text="{Binding SelectedItem.Date, ElementName=ImageList, Converter={StaticResource ShortDateTimeToStringConverter}}" HorizontalAlignment="Left" Padding="4,12" Grid.Column="0" />
 
-            <TextBlock x:Name="InfoMessage" TextWrapping="Wrap" HorizontalAlignment="Center" Padding="5,15" />
-            <TextBlock x:Name="ErrorMessage" TextWrapping="Wrap" HorizontalAlignment="Center" Padding="5,15" Foreground="Red" />
+            <TextBlock x:Name="InfoMessage" TextWrapping="Wrap" HorizontalAlignment="Center" Padding="4,12" Grid.Column="1" />
+            <TextBlock x:Name="ErrorMessage" TextWrapping="Wrap" HorizontalAlignment="Center" Padding="4,12" Foreground="Red" Grid.Column="1" />
+
+            <Button Command="{Binding CancelDownload}" Content="Cancel" Visibility="{Binding IsDownloading, Converter={StaticResource TrueToVisibleConverter}}" Margin="4" Grid.Column="2" />
         </Grid>
     </Grid>
 </views:NavigationPage>

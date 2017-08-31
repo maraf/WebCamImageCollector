@@ -16,7 +16,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
         private readonly IViewModel viewModel;
 
         public event Action<ClientImageModel> Completed;
-        public event Action Failed;
+        public event Action<FailType> Failed;
 
         public DownloadImageCommand(IClient client, IViewModel viewModel)
         {
@@ -42,7 +42,11 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
             }
             catch (ClientException)
             {
-                Failed?.Invoke();
+                Failed?.Invoke(FailType.ClientError);
+            }
+            catch (OperationCanceledException)
+            {
+                Failed?.Invoke(FailType.Cancelled);
             }
             finally
             {

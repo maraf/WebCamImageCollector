@@ -81,6 +81,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         public ICommand Stop { get; private set; }
         public ICommand CheckStatus { get; private set; }
         public ICommand Download => download;
+        public ICommand CancelDownload { get; private set; }
         public ICommand ClearDownloaded { get; private set; }
         public ICommand Save => save;
         public ICommand Share { get; private set; }
@@ -107,7 +108,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             }
         }
 
-        public event Action DownloadFailed
+        public event Action<DownloadImageCommand.FailType> DownloadFailed
         {
             add { download.Failed += value; }
             remove { download.Failed -= value; }
@@ -145,6 +146,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
 
             download = new DownloadImageCommand(client, this);
             download.Completed += OnImageDownloaded;
+            CancelDownload = new CancelCommand(download);
 
             ClearDownloaded = new DelegateCommand(Images.Clear);
             save = new SaveImageCommand();
