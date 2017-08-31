@@ -37,6 +37,8 @@
                 <AppBarButton Label="Refresh status" Icon="Refresh" Command="{Binding CheckStatus}" />
                 <AppBarSeparator />
                 <AppBarButton Label="Clear downloaded" Icon="Clear" Command="{Binding ClearDownloaded}" />
+                <AppBarButton Label="Remove current" Icon="Remove" Command="{Binding RemoveCurrent}" />
+                <AppBarSeparator />
                 <AppBarButton Label="Save" Icon="Save" Command="{Binding Save}" CommandParameter="{Binding SelectedImage}" IsEnabled="{Binding Images.Count, Converter={StaticResource ZeroToFalseConverter}}" />
                 <AppBarButton Label="Share" Icon="ReShare" Command="{Binding Share}" CommandParameter="{Binding SelectedImage}" IsEnabled="{Binding Images.Count, Converter={StaticResource ZeroToFalseConverter}}" />
             </CommandBar.SecondaryCommands>

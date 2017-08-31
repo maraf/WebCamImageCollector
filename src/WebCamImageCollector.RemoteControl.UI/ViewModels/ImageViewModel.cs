@@ -20,6 +20,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         private readonly IClient client;
         private readonly DownloadImageCommand download;
         private readonly SaveImageCommand save;
+        private readonly DelegateCommand clearDownloaded;
+        private readonly DelegateCommand removeCurrent;
 
         private ImageQuality quality;
         public ImageQuality Quality
@@ -82,7 +84,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
         public ICommand CheckStatus { get; private set; }
         public ICommand Download => download;
         public ICommand CancelDownload { get; private set; }
-        public ICommand ClearDownloaded { get; private set; }
+        public ICommand ClearDownloaded => clearDownloaded;
+        public ICommand RemoveCurrent => removeCurrent;
         public ICommand Save => save;
         public ICommand Share { get; private set; }
 
@@ -104,6 +107,8 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
                 {
                     selectedImage = value;
                     RaisePropertyChanged();
+                    clearDownloaded.RaiseCanExecuteChanged();
+                    removeCurrent.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -148,9 +153,21 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             download.Completed += OnImageDownloaded;
             CancelDownload = new CancelCommand(download);
 
-            ClearDownloaded = new DelegateCommand(Images.Clear);
+            clearDownloaded = new DelegateCommand(Images.Clear, CanRemoveCurrent);
+            removeCurrent = new DelegateCommand(OnRemoveCurrent, CanRemoveCurrent);
             save = new SaveImageCommand();
             Share = new ShareImageCommand(client);
+        }
+
+        private bool CanRemoveCurrent()
+        {
+            return SelectedImage != null;
+        }
+
+        private void OnRemoveCurrent()
+        {
+            if (SelectedImage != null)
+                Images.Remove(SelectedImage);
         }
 
         private void OnImageDownloaded(ClientImageModel model)

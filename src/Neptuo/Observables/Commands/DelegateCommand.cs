@@ -33,6 +33,11 @@ namespace Neptuo.Observables.Commands
         {
             execute();
         }
+
+        public new void RaiseCanExecuteChanged()
+        {
+            base.RaiseCanExecuteChanged();
+        }
     }
 
     public class DelegateCommand<T> : Command<T>
@@ -60,6 +65,11 @@ namespace Neptuo.Observables.Commands
         public override void Execute(T parameter)
         {
             execute(parameter);
+        }
+
+        public new void RaiseCanExecuteChanged()
+        {
+            base.RaiseCanExecuteChanged();
         }
     }
 }
