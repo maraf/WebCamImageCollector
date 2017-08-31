@@ -14,6 +14,11 @@ namespace WebCamImageCollector.RemoteControl.Views
 {
     public sealed partial class RemoteClientEdit : EditPage
     {
+        public RemoteClientEditViewModel ViewModel
+        {
+            get { return (RemoteClientEditViewModel)DataContext; }
+        }
+
         public RemoteClientEdit()
         {
             InitializeComponent();
@@ -48,9 +53,9 @@ namespace WebCamImageCollector.RemoteControl.Views
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             {
                 if (e.OriginalKey == VirtualKey.S)
-                    Save.Command?.Execute(null);
+                    ViewModel.Save.Execute(null);
                 else if (e.OriginalKey == VirtualKey.D)
-                    Delete.Command?.Execute(null);
+                    ViewModel.Delete.Execute(null);
             }
         }
 
@@ -58,6 +63,7 @@ namespace WebCamImageCollector.RemoteControl.Views
         {
             if (IsTouchMode && e.Key == VirtualKey.Enter)
             {
+                //FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
                 TextBox target = null;
 
                 if (sender == Name)
@@ -72,7 +78,7 @@ namespace WebCamImageCollector.RemoteControl.Views
                 }
                 else
                 {
-                    Save.Command?.Execute(null);
+                    ViewModel.Save.Execute(null);
                 }
             }
         }

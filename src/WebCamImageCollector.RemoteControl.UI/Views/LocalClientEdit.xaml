@@ -14,8 +14,8 @@
     </views:EditPage.Resources>
     <views:EditPage.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="Save" Icon="Save" Label="Save" Command="{Binding Save}" />
-            <AppBarButton x:Name="Delete" Icon="Delete" Label="Delete" Command="{Binding Delete}" Visibility="{Binding Delete, Converter={StaticResource NullToCollapsedConverter}}" />
+            <AppBarButton Icon="Save" Label="Save" Command="{Binding Save}" />
+            <AppBarButton Icon="Delete" Label="Delete" Command="{Binding Delete}" Visibility="{Binding Delete, Converter={StaticResource NullToCollapsedConverter}}" />
         </CommandBar>
     </views:EditPage.BottomAppBar>
 
