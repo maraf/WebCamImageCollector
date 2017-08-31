@@ -2,7 +2,6 @@
     x:Class="WebCamImageCollector.RemoteControl.Views.Overview"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:WebCamImageCollector.RemoteControl.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:WebCamImageCollector.RemoteControl.Views.Converters"
@@ -11,6 +10,7 @@
     <Page.Resources>
         <converters:BoolConverter x:Key="TrueToRemoteSymbolConverter" TrueValue="World" FalseValue="Home" />
         <converters:CuttingConverter x:Key="ZeroToVisibleConverter" EdgeValue="0" GreaterValue="Collapsed" EqualValue="Visible" LowerValue="Visible" />
+        <converters:ContainsLocalToHiddenConverter x:Key="ContainsLocalToHiddenConverter" />
 
         <Style x:Key="IconButton" TargetType="Button">
             <Setter Property="Margin" Value="10,0,0,0" />
@@ -53,7 +53,7 @@
     </Page.Resources>
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="OpenLocal" Label="Add local" Command="{Binding EditLocal}" Visibility="{Binding Local, Converter={StaticResource NullToVisibleConverter}}" />
+            <AppBarButton Icon="OpenLocal" Label="Add local" Command="{Binding EditLocal}" Visibility="{Binding Clients, Converter={StaticResource ContainsLocalToHiddenConverter}}" />
             <AppBarButton Icon="Add" Label="Add remote" Command="{Binding CreateRemote}" />
         </CommandBar>
     </Page.BottomAppBar>

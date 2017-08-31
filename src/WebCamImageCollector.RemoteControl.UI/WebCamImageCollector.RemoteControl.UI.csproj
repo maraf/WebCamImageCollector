@@ -136,6 +136,7 @@
     <Compile Include="ViewModels\Commands\ShareImageCommand.cs" />
     <Compile Include="ViewModels\Commands\StartCommand.cs" />
     <Compile Include="ViewModels\Commands\StopCommand.cs" />
+    <Compile Include="Views\Converters\ContainsLocalToHiddenConverter.cs" />
     <Compile Include="ViewModels\IClientStatusViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModel.cs" />
     <Compile Include="ViewModels\LocalClientEditViewModel.cs" />
