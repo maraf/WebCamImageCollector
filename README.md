@@ -1,4 +1,7 @@
 # WebCamImageCollector
+
+![Desktop preview](assets/RemoteControl-desktop.png)
+
 Simple periodic webcam image collector for IoT and UWP. It consists of two projects:
 
 **Background** is a IoT headless application with background task. It implements simple web server throught wich capturing images in defined interval can be started or stopped. This web server is secured using authentication token. This project is also included in the RemoteControl.
