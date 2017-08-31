@@ -5,7 +5,7 @@
   <Properties>
     <DisplayName>WebCam Remote Control</DisplayName>
     <PublisherDisplayName>Maraf</PublisherDisplayName>
-    <Logo>UI\Assets\StoreLogo.png</Logo>
+    <Logo>Views\Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
@@ -15,11 +15,16 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="WebCamImageCollector.RemoteControl.UI.App">
-      <uap:VisualElements DisplayName="WebCam Remote Control" Square150x150Logo="UI\Assets\Square150x150Logo.png" Square44x44Logo="UI\Assets\Square44x44Logo.png" Description="Client application for remotely controlling WebCamImageCollector." BackgroundColor="#ffffff">
-        <uap:LockScreen Notification="badge" BadgeLogo="UI\Assets\BadgeLogo.png" />
-        <uap:DefaultTile Wide310x150Logo="UI\Assets\Wide310x150Logo.png" ShortName="Remote Control">
+      <uap:VisualElements DisplayName="WebCam Remote Control" Square150x150Logo="Views\Assets\Square150x150Logo.png" Square44x44Logo="Views\Assets\Square44x44Logo.png" Description="Client application for remotely controlling WebCamImageCollector." BackgroundColor="#ffffff">
+        <uap:LockScreen Notification="badge" BadgeLogo="Views\Assets\BadgeLogo.png" />
+        <uap:DefaultTile Wide310x150Logo="Views\Assets\Wide310x150Logo.png" ShortName="Remote Control" Square310x310Logo="Views\Assets\LargeTile.png" Square71x71Logo="Views\Assets\SmallTile.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo" />
+            <uap:ShowOn Tile="wide310x150Logo" />
+            <uap:ShowOn Tile="square310x310Logo" />
+          </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="UI\Assets\SplashScreen.png" BackgroundColor="#ffffff" />
+        <uap:SplashScreen Image="Views\Assets\SplashScreen.png" BackgroundColor="#ffffff" />
         <uap:InitialRotationPreference>
           <uap:Rotation Preference="portrait" />
           <uap:Rotation Preference="landscape" />
