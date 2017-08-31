@@ -58,14 +58,12 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
 
         public ICommand Save { get; private set; }
         public ICommand Delete { get; private set; }
-        public ICommand Back { get; private set; }
 
         public RemoteClientEditViewModel()
         {
             Name = "New";
             Url = "http://";
             Save = new SaveRemoteCommand(this, null);
-            Back = new NavigateCommand(typeof(Overview));
         }
 
         public RemoteClientEditViewModel(Guid key)
@@ -80,7 +78,6 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             }
 
             Save = new SaveRemoteCommand(this, key);
-            Back = new NavigateCommand(typeof(Overview));
             Delete = new DeleteRemoteCommand(key);
         }
     }

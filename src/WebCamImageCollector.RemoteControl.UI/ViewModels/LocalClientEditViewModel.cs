@@ -71,7 +71,6 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
 
         public ICommand Save { get; private set; }
         public ICommand Delete { get; private set; }
-        public ICommand Back { get; private set; }
 
         public LocalClientEditViewModel(LocalClient client)
         {
@@ -86,7 +85,6 @@ namespace WebCamImageCollector.RemoteControl.ViewModels
             }
 
             Save = new SaveLocalCommand(this);
-            Back = new NavigateCommand(typeof(Overview));
         }
     }
 }

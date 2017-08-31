@@ -125,6 +125,7 @@
     <Compile Include="UI\ServiceProvider.cs" />
     <Compile Include="ViewModels\ClientOverviewViewModel.cs" />
     <Compile Include="ViewModels\Commands\CheckStatusCommand.cs" />
+    <Compile Include="ViewModels\Commands\DeleteCommandBase.cs" />
     <Compile Include="ViewModels\Commands\DeleteLocalCommand.cs" />
     <Compile Include="ViewModels\Commands\DeleteRemoteCommand.cs" />
     <Compile Include="ViewModels\Commands\DownloadImageCommand.cs" />

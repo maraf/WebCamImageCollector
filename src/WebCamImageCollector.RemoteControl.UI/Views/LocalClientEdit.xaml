@@ -16,7 +16,6 @@
         <CommandBar>
             <AppBarButton Name="Save" Icon="Save" Label="Save" Command="{Binding Save}" />
             <AppBarButton Icon="Delete" Label="Delete" Command="{Binding Delete}" Visibility="{Binding Delete, Converter={StaticResource NotNullToVisibleConverter}}" />
-            <AppBarButton Icon="Cancel" Label="Back" Command="{Binding Back}" />
         </CommandBar>
     </views:EditPage.BottomAppBar>
 

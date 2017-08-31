@@ -9,10 +9,10 @@ using WebCamImageCollector.RemoteControl.Views;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
 {
-    public class DeleteLocalCommand : NavigateCommand
+    public class DeleteLocalCommand : DeleteCommandBase
     {
         public DeleteLocalCommand()
-            :  base(typeof(Overview))
+            :  base(typeof(Overview), "Do you really want to delete local client?")
         { }
 
         public override bool CanExecute()
@@ -20,12 +20,12 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
             return true;
         }
 
-        public override void Execute()
+        protected override bool ExecuteOverride()
         {
             ClientRepository repository = new ClientRepository();
             repository.DeleteLocal();
 
-            base.Execute();
+            return true;
         }
     }
 }

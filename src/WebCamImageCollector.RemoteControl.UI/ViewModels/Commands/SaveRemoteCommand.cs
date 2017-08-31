@@ -7,15 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using WebCamImageCollector.RemoteControl.Services;
 using System.ComponentModel;
+using WebCamImageCollector.RemoteControl.Views;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
 {
-    public class SaveRemoteCommand : Command
+    public class SaveRemoteCommand : NavigateCommand
     {
         private readonly RemoteClientEditViewModel viewModel;
         private readonly Guid? key;
 
         public SaveRemoteCommand(RemoteClientEditViewModel viewModel, Guid? key)
+            : base(typeof(Overview))
         {
             Ensure.NotNull(viewModel, "viewModel");
             this.viewModel = viewModel;
@@ -26,7 +28,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(RemoteClientEditViewModel.Name) || e.PropertyName == nameof(RemoteClientEditViewModel.Url) || e.PropertyName == nameof(RemoteClientEditViewModel.AuthenticationToken))
+            if (e.PropertyName == nameof(viewModel.Name) || e.PropertyName == nameof(viewModel.Url) || e.PropertyName == nameof(viewModel.AuthenticationToken))
                 RaiseCanExecuteChanged();
         }
 
@@ -44,7 +46,7 @@ namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
             else
                 repository.TryUpdateRemote(key.Value, viewModel.Name, viewModel.Url, viewModel.AuthenticationToken);
 
-            viewModel.Back.Execute(null);
+            base.Execute();
         }
     }
 }

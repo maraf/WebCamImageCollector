@@ -7,25 +7,26 @@ using System.Text;
 using System.Threading.Tasks;
 using WebCamImageCollector.RemoteControl.Services;
 using WebCamImageCollector.RemoteControl.Views;
+using Windows.UI.Popups;
 
 namespace WebCamImageCollector.RemoteControl.ViewModels.Commands
 {
-    public class DeleteRemoteCommand : NavigateCommand
+    public class DeleteRemoteCommand : DeleteCommandBase
     {
         private readonly Guid key;
 
         public DeleteRemoteCommand(Guid key)
-            : base(typeof(Overview))
+            : base(typeof(Overview), "Do you really want to delete remote client?")
         {
             this.key = key;
         }
 
-        public override void Execute()
+        protected override bool ExecuteOverride()
         {
             ClientRepository repository = new ClientRepository();
             repository.DeleteRemote(key);
 
-            base.Execute();
+            return true;
         }
     }
 }
