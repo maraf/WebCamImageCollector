@@ -63,7 +63,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <Border BorderThickness="1" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" Margin="10" Padding="10" Visibility="{Binding LocalClient, Converter={StaticResource NotNullToVisibleConverter}}">
+            <Border BorderThickness="1" BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" Margin="10" Padding="10" Visibility="{Binding LocalClient, Converter={StaticResource NullToCollapsedConverter}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -91,7 +91,7 @@
             </Border>
         </StackPanel>
 
-        <Grid x:Name="gridRemoteEdit" Visibility="{Binding RemoteClientEdit, Converter={StaticResource NotNullToVisibleConverter}}">
+        <Grid x:Name="gridRemoteEdit" Visibility="{Binding RemoteClientEdit, Converter={StaticResource NullToCollapsedConverter}}">
             <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Opacity=".7" />
             <Border DataContext="{Binding RemoteClientEdit}"
              Background="{StaticResource ApplicationPageBackgroundThemeBrush}" 
@@ -134,7 +134,7 @@
                 </StackPanel>
             </Border>
         </Grid>
-        <Grid x:Name="gridLocalEdit" Visibility="{Binding LocalClientEdit, Converter={StaticResource NotNullToVisibleConverter}}">
+        <Grid x:Name="gridLocalEdit" Visibility="{Binding LocalClientEdit, Converter={StaticResource NullToCollapsedConverter}}">
             <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Opacity=".7" />
             <Border DataContext="{Binding LocalClientEdit}"
              Background="{StaticResource ApplicationPageBackgroundThemeBrush}" 

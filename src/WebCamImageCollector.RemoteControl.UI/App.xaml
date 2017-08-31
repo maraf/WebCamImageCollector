@@ -13,7 +13,7 @@
 
         <data:NullToBoolConverter x:Key="NotNullToBoolConverter" IsInverted="True" />
         <data:NullToVisibilityConverter x:Key="NullToVisibleConverter" />
-        <data:NullToVisibilityConverter x:Key="NotNullToVisibleConverter" IsInverted="True" />
+        <data:NullToVisibilityConverter x:Key="NullToCollapsedConverter" IsInverted="True" />
         <data:NullableBoolToBoolConverter x:Key="NullableBoolToBoolConverter" />
 
         <converters:BoolConverter x:Key="TrueToVisibleConverter" TrueValue="Visible" FalseValue="Collapsed" />

@@ -43,7 +43,7 @@
     </views:NavigationPage.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer x:Name="Scrollster" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" Visibility="{x:Bind imgBackground.Source, Converter={StaticResource NotNullToVisibleConverter}, Mode=OneWay}"
+        <ScrollViewer x:Name="Scrollster" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" Visibility="{x:Bind imgBackground.Source, Converter={StaticResource NullToCollapsedConverter}, Mode=OneWay}"
          HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" 
          HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
          HorizontalAlignment="Center">
